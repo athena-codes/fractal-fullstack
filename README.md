@@ -1,6 +1,32 @@
-# Flask React Project
+# Fractal
 
-This is the starter for the Flask React project.
+Fractal is an innovative application that seamlessly intertwines daily to-do planning and long-term goal progress. It empowers users to efficiently manage their tasks while actively working towards their broader objectives.
+
+## Features
+
+- **Intuitive Task Management:** Fractal provides a user-friendly interface to create, organize, and prioritize daily tasks effortlessly.
+- **Long-Term Goal Tracking:** Set and track your long-term goals, and seamlessly integrate them with your daily tasks.
+- **Progress Monitoring:** Easily visualize your progress towards achieving your long-term goals through insightful charts and metrics.
+- **Flexible Task Scheduling:** Schedule tasks according to your preferred time slots, deadlines, and reminders.
+- **Collaboration and Sharing:** Share tasks and goals with others, enabling effective collaboration and accountability.
+
+## Documentation
+
+- [API Documentation](api-docs.md): Comprehensive documentation for the Fractal API, providing details on endpoints, parameters, and response formats.
+- [Database Schema](database-schema.md): An overview of the Fractal database schema, outlining the structure and relationships of its entities.
+- [User Stories](user-stories.md): A collection of user stories that capture the needs and expectations of Fractal's target users.
+- [MVP List](mvp-list.md): The Minimum Viable Product (MVP) feature set and prioritization for Fractal.
+- [Wireframes](wireframes.md): Visual representations of the app's user interface, showcasing the layout and design of key screens.
+
+## Contributing
+
+Contributions to Fractal are welcome! If you would like to contribute to the project, please refer to the [Contribution Guidelines](CONTRIBUTING.md).
+
+## License
+
+Fractal is released under the [MIT License](LICENSE).
+
+
 
 ## Getting started
 1. Clone this repository (only this branch)
