@@ -8,15 +8,14 @@ Fractal is an innovative application that seamlessly intertwines daily to-do pla
 - **Long-Term Goal Tracking:** Set and track your long-term goals, and seamlessly integrate them with your daily tasks.
 - **Progress Monitoring:** Easily visualize your progress towards achieving your long-term goals through insightful charts and metrics.
 - **Flexible Task Scheduling:** Schedule tasks according to your preferred time slots, deadlines, and reminders.
-- **Collaboration and Sharing:** Share tasks and goals with others, enabling effective collaboration and accountability.
 
 ## Documentation
 
-- [API Documentation](api-docs.md): Comprehensive documentation for the Fractal API, providing details on endpoints, parameters, and response formats.
-- [Database Schema](database-schema.md): An overview of the Fractal database schema, outlining the structure and relationships of its entities.
-- [User Stories](user-stories.md): A collection of user stories that capture the needs and expectations of Fractal's target users.
-- [MVP List](mvp-list.md): The Minimum Viable Product (MVP) feature set and prioritization for Fractal.
-- [Wireframes](wireframes.md): Visual representations of the app's user interface, showcasing the layout and design of key screens.
+- [API Documentation]([api-docs.md](https://github.com/athena-codes/fractal-fullstack/wiki/API-Documentation)): Comprehensive documentation for the Fractal API, providing details on endpoints, parameters, and response formats.
+- [Database Schema]([database-schema.md](https://github.com/athena-codes/fractal-fullstack/wiki/Database-Schema)): An overview of the Fractal database schema, outlining the structure and relationships of its entities.
+- [User Stories]([user-stories.md](https://github.com/athena-codes/fractal-fullstack/wiki/User-Stories)): A collection of user stories that capture the needs and expectations of Fractal's target users.
+- [MVP List]([mvp-list.md](https://github.com/athena-codes/fractal-fullstack/wiki/MVP-List)): The Minimum Viable Product (MVP) feature set and prioritization for Fractal.
+- [Wireframes]([wireframes.md](https://github.com/athena-codes/fractal-fullstack/wiki/Wireframe)): Visual representations of the app's user interface, showcasing the layout and design of key screens.
 
 ## Contributing
 
