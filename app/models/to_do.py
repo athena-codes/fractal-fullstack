@@ -22,7 +22,7 @@ class Todo(db.Model):
     # Relationships
     goal = db.relationship('Goal', back_populates='todos')
     reminders = db.relationship('Reminder', back_populates='todo')
-    daily_planner_slots = db.relationship(
+    time_slots = db.relationship(
         'DailyPlannerSlot', back_populates='todo')
 
     def __init__(self, name, priority=None, description=None, notes=None, reminder=False, completed=False):
@@ -47,5 +47,5 @@ class Todo(db.Model):
             'updated_at': self.updated_at,
             'goal': self.goal.to_dict() if self.goal else None,
             'reminders': [reminder.to_dict() for reminder in self.reminders],
-            'daily_planner_slots': [slot.to_dict() for slot in self.daily_planner_slots]
+            'time_slots': [slot.to_dict() for slot in self.time_slots]
         }
