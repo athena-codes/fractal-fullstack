@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 from flask_login import UserMixin
 import os
 
@@ -16,8 +17,8 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable=False)
     profile_picture_url = db.Column(db.String(255))
     dark_mode_enabled = db.Column(db.Boolean)
-    created_at = db.Column(db.DateTime)
-    updated_at = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __init__(self, full_name, username, email, password, profile_picture_url=None, dark_mode_enabled=False):
             self.full_name = full_name
