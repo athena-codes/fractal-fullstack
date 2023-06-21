@@ -21,37 +21,42 @@ function LoginFormPage() {
     }
   };
 
-  return (
-    <>
-      <h1>Log In</h1>
-      <form onSubmit={handleSubmit}>
-        <ul>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
-          ))}
-        </ul>
-        <label>
-          Username/Email
-          <input
-            type="text"
-            value={credential}
-            onChange={(e) => setCredential(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </label>
-        <button type="submit">Log In</button>
-      </form>
-    </>
-  );
+ return (
+  <>
+    <h1 className='login-form'>Log In</h1>
+    <form className='login-form' onSubmit={handleSubmit}>
+      <ul className='login-form'>
+        {errors.map((error, idx) => (
+          <li key={idx}>{error}</li>
+        ))}
+      </ul>
+      <label className='login-form'>
+        Username/Email
+        <input
+          className='login-form'
+          type='text'
+          value={credential}
+          onChange={e => setCredential(e.target.value)}
+          required
+        />
+      </label>
+      <label className='login-form'>
+        Password
+        <input
+          className='login-form'
+          type='password'
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          required
+        />
+      </label>
+      <button className='login-form' type='submit'>
+        Log In
+      </button>
+    </form>
+  </>
+)
+
 }
 
 export default LoginFormPage;
