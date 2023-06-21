@@ -16,16 +16,16 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(255), nullable=False)
     profile_picture_url = db.Column(db.String(255))
     dark_mode_enabled = db.Column(db.Boolean)
-    created_at = db.Column(db.DateTime, nullable=False)
-    updated_at = db.Column(db.DateTime, nullable=False)
+    created_at = db.Column(db.DateTime)
+    updated_at = db.Column(db.DateTime)
 
-    def __init__(self, username, email, password, profile_picture_url=None, dark_mode_enabled=False):
-        self.username = username
-        self.email = email
-        self.password = generate_password_hash(password)
-        self.profile_picture_url = profile_picture_url or os.path.join(
-            'assets/images', 'user.png')
-        self.dark_mode_enabled = dark_mode_enabled
+    def __init__(self, full_name, username, email, password, profile_picture_url=None, dark_mode_enabled=False):
+            self.full_name = full_name
+            self.username = username
+            self.email = email
+            self.password = generate_password_hash(password)
+            self.profile_picture_url = profile_picture_url or os.path.join('assets/images', 'user.png')
+            self.dark_mode_enabled = dark_mode_enabled
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
@@ -33,6 +33,7 @@ class User(db.Model, UserMixin):
     def to_dict(self):
         return {
             'id': self.id,
+            'full_name': self.full_name,
             'username': self.username,
             'email': self.email,
             'profile_picture_url': self.profile_picture_url,
