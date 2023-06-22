@@ -15,7 +15,7 @@ class DailyPlanner(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relationships
-    user = db.relationship('User', back_populates='daily_panners')
+    user = db.relationship('User', back_populates='daily_planners')
     time_slots = db.relationship('DailyPlannerSlot', back_populates='daily_planner')
 
     def __init__(self, user_id, date):
