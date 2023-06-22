@@ -22,7 +22,7 @@ class Reminder(db.Model):
 
 
     def __init__(self, user_id, todo_id):
-        self.user_id = user_id,
+        self.user_id = user_id
         self.todo_id = todo_id
 
     def to_dict(self):

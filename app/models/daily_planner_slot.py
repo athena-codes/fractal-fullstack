@@ -1,7 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
 
-
 class DailyPlannerSlot(db.Model):
     __tablename__ = 'daily_planner_slots'
 
@@ -16,7 +15,7 @@ class DailyPlannerSlot(db.Model):
     daily_planner_id = db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('daily_planner.id')), nullable=False)
     todo_id = db.Column(db.Integer, db.ForeignKey(
-        add_prefix_for_prod('todos.id')), nullable=False)
+        add_prefix_for_prod('todos.id')))
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -26,7 +25,7 @@ class DailyPlannerSlot(db.Model):
         'DailyPlanner', back_populates='time_slots')
     todo = db.relationship('Todo', back_populates='time_slots')
 
-    def __init__(self, user_id, start_time, end_time, daily_planner, todo):
+    def __init__(self, user_id, start_time, end_time, daily_planner, todo=None): 
         self.user_id = user_id
         self.start_time = start_time
         self.end_time = end_time

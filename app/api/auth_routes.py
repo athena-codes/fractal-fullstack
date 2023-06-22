@@ -2,6 +2,8 @@ from flask import Blueprint, jsonify, session, request
 from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
+from datetime import datetime
+from ..utils import generate_monthly_daily_planners
 from flask_login import current_user, login_user, logout_user, login_required
 
 auth_routes = Blueprint('auth', __name__)
@@ -70,7 +72,13 @@ def sign_up():
         )
         db.session.add(user)
         db.session.commit()
+
         login_user(user)
+
+        # Generate daily planners and slots for the current month
+        current_date = datetime.utcnow().date()
+        generate_monthly_daily_planners(user, current_date)
+
         return user.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 

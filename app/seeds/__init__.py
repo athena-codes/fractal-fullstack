@@ -1,5 +1,10 @@
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
+from .goals import seed_goals, undo_goals
+from .to_dos import seed_todos, undo_todos
+from .reminders import seed_reminders, undo_reminders
+from .daily_planners import seed_daily_planners, undo_daily_planners
+from .daily_planner_slots import seed_daily_planner_slots, undo_daily_planner_slots
 
 from app.models.db import db, environment, SCHEMA
 
@@ -12,17 +17,25 @@ seed_commands = AppGroup('seed')
 @seed_commands.command('all')
 def seed():
     if environment == 'production':
-        # Before seeding in production, you want to run the seed undo 
-        # command, which will  truncate all tables prefixed with 
-        # the schema name (see comment in users.py undo_users function).
-        # Make sure to add all your other model's undo functions below
         undo_users()
+        undo_goals()
+        undo_todos()
+        undo_reminders()
+        undo_daily_planners()
+        undo_daily_planner_slots()
     seed_users()
-    # Add other seed functions here
+    seed_goals()
+    seed_todos()
+    seed_reminders()
+    seed_daily_planners()
+    seed_daily_planner_slots()
 
 
-# Creates the `flask seed undo` command
 @seed_commands.command('undo')
 def undo():
     undo_users()
-    # Add other undo functions here
+    undo_goals()
+    undo_todos()
+    undo_reminders()
+    undo_daily_planners()
+    undo_daily_planner_slots()
