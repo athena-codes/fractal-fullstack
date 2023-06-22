@@ -20,6 +20,15 @@ class User(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # Relationships
+    goals = db.relationship('Goal', back_populates='user', lazy=True)
+    todos = db.relationship('Todo', back_populates='user', lazy=True)
+    reminders = db.relationship('Reminder', back_populates='user', lazy=True)
+    daily_planners = db.relationship('DailyPlanner', back_populates='user', lazy=True)
+    daily_planner_slots = db.relationship(
+        'DailyPlannerSlot', back_populates='user', lazy=True)
+
+
     def __init__(self, full_name, username, email, password, profile_picture_url=None, dark_mode_enabled=False):
             self.full_name = full_name
             self.username = username
@@ -40,5 +49,10 @@ class User(db.Model, UserMixin):
             'profile_picture_url': self.profile_picture_url,
             'dark_mode_enabled': self.dark_mode_enabled,
             'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'updated_at': self.updated_at,
+            'goals': [goal.to_dict() for goal in self.goals],
+            'todos': [todo.to_dict() for todo in self.todos],
+            'reminders': [reminder.to_dict() for reminder in self.reminders],
+            'daily_planners': [planner.to_dict() for planner in self.daily_planners],
+            'daily_planner_slots': [slot.to_dict() for slot in self.daily_planner_slots]
         }

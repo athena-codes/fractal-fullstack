@@ -1,6 +1,7 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
 
+
 class Goal(db.Model):
     __tablename__ = 'goals'
 
@@ -8,6 +9,8 @@ class Goal(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(
+        add_prefix_for_prod('users.id')), nullable=False)
     title = db.Column(db.String, nullable=False)
     end_date = db.Column(db.Date)
     timeframe = db.Column(db.Integer, nullable=False)
@@ -18,9 +21,11 @@ class Goal(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relationships
+    user = db.relationship('User', back_populates='goals')
     todos = db.relationship('Todo', back_populates='goal', lazy=True)
 
-    def __init__(self, title, timeframe, description=None, end_date=None, comments=None):
+    def __init__(self, user_id, title, timeframe, description=None, end_date=None, comments=None):
+        self.user_id = user_id
         self.title = title
         self.timeframe = timeframe
         self.description = description
@@ -30,6 +35,7 @@ class Goal(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
+            'user_id': self.user_id,
             'title': self.title,
             'end_date': self.end_date,
             'timeframe': self.timeframe,

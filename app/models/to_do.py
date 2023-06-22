@@ -9,33 +9,39 @@ class Todo(db.Model):
         __table_args__ = {'schema': SCHEMA}
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String, nullable=False)
-    priority = db.Column(db.Integer)
-    description = db.Column(db.String)
-    notes = db.Column(db.String)
-    reminder = db.Column(db.Boolean)
-    completed = db.Column(db.Boolean)
-    goal_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('goals.id')))
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey(
+        add_prefix_for_prod('users.id')), nullable=False)
+    name=db.Column(db.String, nullable=False)
+    priority=db.Column(db.Integer)
+    description=db.Column(db.String)
+    notes=db.Column(db.String)
+    reminder=db.Column(db.Boolean)
+    completed=db.Column(db.Boolean)
+    goal_id=db.Column(db.Integer, db.ForeignKey(
+        add_prefix_for_prod('goals.id')))
+    created_at=db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at=db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relationships
-    goal = db.relationship('Goal', back_populates='todos')
-    reminders = db.relationship('Reminder', back_populates='todo')
-    time_slots = db.relationship(
+    user=db.relationship('User', back_populates='todos')
+    goal=db.relationship('Goal', back_populates='todos')
+    reminders=db.relationship('Reminder', back_populates='todo')
+    time_slots=db.relationship(
         'DailyPlannerSlot', back_populates='todo')
 
-    def __init__(self, name, priority=None, description=None, notes=None, reminder=False, completed=False):
-        self.name = name
-        self.priority = priority
-        self.description = description
-        self.notes = notes
-        self.reminder = reminder
-        self.completed = completed
+    def __init__(self, user_id, name, priority=None, description=None, notes=None, reminder=False, completed=False):
+        self.user_id = user_id
+        self.name=name
+        self.priority=priority
+        self.description=description
+        self.notes=notes
+        self.reminder=reminder
+        self.completed=completed
 
     def to_dict(self):
         return {
             'id': self.id,
+            'user_id': self.user_id,
             'name': self.name,
             'priority': self.priority,
             'description': self.description,
