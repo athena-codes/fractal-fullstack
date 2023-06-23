@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, session, request, redirect, url_for
 from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
-from datetime import datetime
+from datetime import datetime, date
 from threading import Semaphore
 from flask import g
 from ..utils import generate_monthly_daily_planners, generate_daily_planner_slots_for_user
@@ -80,8 +80,10 @@ def sign_up():
 
         login_user(user)
 
+        current_date = date.today()
+
         # Generate daily planners for the user
-        generate_monthly_daily_planners(user, datetime.utcnow().date())
+        generate_monthly_daily_planners(user, current_date)
 
         # Redirect the user to generate the daily planner slots
         return redirect(url_for('auth.generate_daily_planner_slots', user_id=user.id))
