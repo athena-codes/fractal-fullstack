@@ -1,24 +1,8 @@
 from datetime import datetime, time, timedelta
 from app.models import db, DailyPlannerSlot, DailyPlanner, environment, SCHEMA
 from sqlalchemy.sql import text
+from ..utils import generate_time_slots
 import os
-
-
-def generate_time_slots():
-    start_time = time(0, 0)
-    end_time = time(0, 0)
-
-    time_slots = []
-
-    current_time = start_time
-    while current_time != end_time:
-        next_time = (datetime.combine(
-            datetime.min, current_time) + timedelta(hours=1)).time()
-        time_slots.append((current_time.strftime(
-            '%H:%M'), next_time.strftime('%H:%M')))
-        current_time = next_time
-
-    return time_slots
 
 
 def seed_daily_planner_slots():

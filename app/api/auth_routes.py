@@ -1,12 +1,17 @@
-from flask import Blueprint, jsonify, session, request
+from flask import Blueprint, jsonify, session, request, redirect, url_for
 from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from datetime import datetime
-from ..utils import generate_monthly_daily_planners
+from threading import Semaphore
+from flask import g
+from ..utils import generate_monthly_daily_planners, generate_daily_planner_slots_for_user
 from flask_login import current_user, login_user, logout_user, login_required
 
 auth_routes = Blueprint('auth', __name__)
+
+# Create a semaphore with an initial count of 1
+lock = Semaphore(1)
 
 
 def validation_errors_to_error_messages(validation_errors):
@@ -75,12 +80,27 @@ def sign_up():
 
         login_user(user)
 
-        # Generate daily planners and slots for the current month
-        current_date = datetime.utcnow().date()
-        generate_monthly_daily_planners(user, current_date)
+        # Generate daily planners for the user
+        generate_monthly_daily_planners(user, datetime.utcnow().date())
 
-        return user.to_dict()
+        # Redirect the user to generate the daily planner slots
+        return redirect(url_for('auth.generate_daily_planner_slots', user_id=user.id))
+
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+
+
+@auth_routes.route('/generate_daily_planner_slots/<int:user_id>', methods=['GET'])
+def generate_daily_planner_slots(user_id):
+    user = User.query.get(user_id)
+
+    if user is not None:
+        generate_daily_planner_slots_for_user(
+            user_id)  # Pass the user_id instead of user
+
+        return redirect(url_for('auth.authenticate'))
+
+    return {'message': 'User not found.'}, 404
+
 
 
 @auth_routes.route('/unauthorized')
