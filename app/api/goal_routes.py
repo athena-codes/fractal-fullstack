@@ -67,3 +67,21 @@ def update_goal(goal_id):
     db.session.commit()
 
     return jsonify(goal.to_dict()), 200
+
+
+# Delete a Goal
+@goal_routes.route('/<goal_id>', methods=['DELETE'])
+def delete_goal(goal_id):
+    goal = Goal.query.get(goal_id)
+
+    if goal:
+        if goal.user_id != current_user.id:
+            return jsonify({'message': 'Unauthorized'}), 401
+
+    if not goal:
+        return jsonify({'message': 'Goal not found'}), 404
+
+    db.session.delete(goal)
+    db.session.commit()
+
+    return jsonify({'message': 'Goal deleted successfully'}), 200
