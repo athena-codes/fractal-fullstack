@@ -20,11 +20,10 @@ def create_todo():
     reminder = data.get('reminder')
     completed = data.get('completed')
     goal_id = data.get('goal_id')
-    time_slot_id = data.get('time_slot_id')
     # daily_planner_slot_id = data.get('daily_planner_slot_id')
 
 
-    todo = Todo(user_id=current_user.id, goal_id=goal_id, time_slot_id=time_slot_id, name=name, priority=priority,
+    todo = Todo(user_id=current_user.id, goal_id=goal_id, name=name, priority=priority,
                 description=description, notes=notes, reminder=reminder, completed=completed)
 
     db.session.add(todo)

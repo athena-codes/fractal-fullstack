@@ -73,11 +73,9 @@ def upgrade():
                     sa.Column('reminder', sa.Boolean(), nullable=True),
                     sa.Column('completed', sa.Boolean(), nullable=True),
                     sa.Column('goal_id', sa.Integer(), nullable=True),
-                    sa.Column('time_slot_id', sa.Integer(), nullable=True),
                     sa.Column('created_at', sa.DateTime(), nullable=True),
                     sa.Column('updated_at', sa.DateTime(), nullable=True),
                     sa.ForeignKeyConstraint(['goal_id'], ['goals.id']),
-                    sa.ForeignKeyConstraint(['time_slot_id'], ['daily_planner_slot.id']),
                     sa.PrimaryKeyConstraint('id')
                     )
     op.create_table('reminders',

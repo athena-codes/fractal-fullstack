@@ -24,9 +24,7 @@ class DailyPlannerSlot(db.Model):
     user = db.relationship('User', back_populates='daily_planner_slots')
     daily_planner = db.relationship(
         'DailyPlanner', back_populates='time_slots', foreign_keys=[daily_planner_id])
-    todo = db.relationship(
-        'Todo', back_populates='time_slots', foreign_keys=[Todo.time_slot_id])
-
+  
     def __init__(self, user_id, todo_id, start_time, end_time, daily_planner):
         self.user_id = user_id
         self.todo_id = todo_id
@@ -50,4 +48,3 @@ class DailyPlannerSlot(db.Model):
             slot_dict['todo'] = self.todo.to_dict()
 
         return slot_dict
-
