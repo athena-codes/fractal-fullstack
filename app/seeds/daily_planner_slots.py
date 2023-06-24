@@ -27,10 +27,10 @@ def seed_daily_planner_slots():
 
             daily_planner_slot = DailyPlannerSlot(
                 user_id=1,
+                todo_id=None,
                 start_time=current_time,
                 end_time=next_time,
                 daily_planner=daily_planner,
-                todo=None
             )
             db.session.add(daily_planner_slot)
             # Add the time slot to the daily planner's time_slots relationship

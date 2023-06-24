@@ -13,6 +13,7 @@ def seed_todos():
         reminder=True,
         completed=False,
         goal_id=1,
+        time_slot_id=None,
     )
 
     todo2 = Todo(
@@ -24,6 +25,7 @@ def seed_todos():
         reminder=False,
         completed=False,
         goal_id=2,
+        time_slot_id=None,
     )
 
     todo3 = Todo(
@@ -35,6 +37,7 @@ def seed_todos():
         reminder=True,
         completed=False,
         goal_id=3,
+        time_slot_id=None,
     )
 
     todo4 = Todo(
@@ -46,6 +49,7 @@ def seed_todos():
         reminder=True,
         completed=False,
         goal_id=4,
+        time_slot_id=None,
     )
 
     todo5 = Todo(
@@ -57,6 +61,7 @@ def seed_todos():
         reminder=False,
         completed=False,
         goal_id=5,
+        time_slot_id=None,
     )
 
     db.session.add(todo1)
