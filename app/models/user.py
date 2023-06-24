@@ -21,7 +21,7 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relationships
-    goals = db.relationship('Goal', back_populates='user', lazy=True)
+    goals = db.relationship('Goal', back_populates='user', lazy=True, foreign_keys='Goal.user_id')
     todos = db.relationship('Todo', back_populates='user', lazy=True)
     reminders = db.relationship('Reminder', back_populates='user', lazy=True)
     daily_planners = db.relationship('DailyPlanner', back_populates='user', lazy=True)

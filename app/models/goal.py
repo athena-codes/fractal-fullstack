@@ -21,7 +21,8 @@ class Goal(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relationships
-    user = db.relationship('User', back_populates='goals')
+    user = db.relationship('User', back_populates='goals',
+                           lazy=True, foreign_keys='Goal.user_id')
     todos = db.relationship('Todo', back_populates='goal', lazy=True)
 
     def __init__(self, user_id, title, timeframe, description=None, end_date=None, comments=None):
