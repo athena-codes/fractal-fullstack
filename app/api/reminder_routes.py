@@ -6,4 +6,4 @@ from flask_login import login_required
 from app.models import Reminder, db
 
 
-reminder_routes = Blueprint('todos', __name__)
+reminder_routes = Blueprint('reminders', __name__)
