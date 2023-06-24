@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
+from .to_do import Todo
 
 class DailyPlannerSlot(db.Model):
     __tablename__ = 'daily_planner_slots'
@@ -22,18 +23,19 @@ class DailyPlannerSlot(db.Model):
     # Relationships
     user = db.relationship('User', back_populates='daily_planner_slots')
     daily_planner = db.relationship(
-        'DailyPlanner', back_populates='time_slots')
-    todo = db.relationship('Todo', back_populates='time_slots')
+        'DailyPlanner', back_populates='time_slots', foreign_keys=[daily_planner_id])
+    todo = db.relationship(
+        'Todo', back_populates='time_slots', foreign_keys=[Todo.time_slot_id])
 
-    def __init__(self, user_id, start_time, end_time, daily_planner, todo=None): 
+    def __init__(self, user_id, todo_id, start_time, end_time, daily_planner):
         self.user_id = user_id
+        self.todo_id = todo_id
         self.start_time = start_time
         self.end_time = end_time
         self.daily_planner = daily_planner
-        self.todo = todo
 
-    def to_dict(self):
-        return {
+    def to_dict(self, include_todo=False):
+        slot_dict =  {
             'id': self.id,
             'user_id': self.user_id,
             'start_time': self.start_time.strftime('%H:%M') if self.start_time else None,
@@ -43,3 +45,9 @@ class DailyPlannerSlot(db.Model):
             'created_at': self.created_at,
             'updated_at': self.updated_at
         }
+
+        if include_todo and self.todo:
+            slot_dict['todo'] = self.todo.to_dict()
+
+        return slot_dict
+

@@ -61,10 +61,10 @@ def generate_daily_planner_slots_for_user(user_id):
 
             daily_planner_slot = DailyPlannerSlot(
                 user_id=user_id,
+                todo_id= None,
                 start_time=current_time,
                 end_time=next_time,
                 daily_planner=daily_planner,
-                todo=None
             )
             db.session.add(daily_planner_slot)
             daily_planner.time_slots.append(daily_planner_slot)

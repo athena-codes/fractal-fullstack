@@ -3,7 +3,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import current_user
 from datetime import datetime
 from flask_login import login_required
-from app.models import Reminder, db
+from app.models import Reminder, Todo, db
 
 
 reminder_routes = Blueprint('reminders', __name__)
@@ -14,6 +14,11 @@ reminder_routes = Blueprint('reminders', __name__)
 def create_reminder():
     data = request.get_json()
     todo_id = data.get('todo_id')
+
+    todo = Todo.query.filter_by(id=todo_id, user_id=current_user.id).first()
+
+    if not todo:
+        return jsonify({'message': 'To-do not found'}), 404
 
     reminder = Reminder(user_id=current_user.id, todo_id=todo_id)
 

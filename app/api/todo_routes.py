@@ -20,10 +20,11 @@ def create_todo():
     reminder = data.get('reminder')
     completed = data.get('completed')
     goal_id = data.get('goal_id')
+    time_slot_id = data.get('time_slot_id')
     # daily_planner_slot_id = data.get('daily_planner_slot_id')
 
 
-    todo = Todo(user_id=current_user.id, goal_id=goal_id, name=name, priority=priority,
+    todo = Todo(user_id=current_user.id, goal_id=goal_id, time_slot_id=time_slot_id, name=name, priority=priority,
                 description=description, notes=notes, reminder=reminder, completed=completed)
 
     db.session.add(todo)
@@ -53,6 +54,9 @@ def update_todo_details(todo_id):
     if not todo:
         return jsonify({'message': 'To-do not found'}), 404
 
+    if todo.user_id != current_user.id:
+        return jsonify({'message': 'Unauthorized'}), 401
+
     data = request.get_json()
 
     todo.name = data.get('name', todo.name)
@@ -74,8 +78,10 @@ def update_todo_details(todo_id):
 @todo_routes.route('/<int:todo_id>', methods=['DELETE'])
 @login_required
 def delete_todo(todo_id):
-    # Find the ToDo by its ID
     todo = Todo.query.get(todo_id)
+
+    if todo.user_id != current_user.id:
+        return jsonify({'message': 'Unauthorized'}), 401
 
     if not todo:
         return jsonify({'message': 'To-do not found'}), 404

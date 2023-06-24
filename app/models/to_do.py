@@ -1,7 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
 
-
 class Todo(db.Model):
     __tablename__ = 'todos'
 
@@ -19,6 +18,8 @@ class Todo(db.Model):
     completed=db.Column(db.Boolean)
     goal_id=db.Column(db.Integer, db.ForeignKey(
         add_prefix_for_prod('goals.id')))
+    time_slot_id = db.Column(db.Integer, db.ForeignKey(
+        add_prefix_for_prod('daily_planner_slots.id')))
     created_at=db.Column(db.DateTime, default=datetime.utcnow)
     updated_at=db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -27,9 +28,10 @@ class Todo(db.Model):
     goal=db.relationship('Goal', back_populates='todos')
     reminders=db.relationship('Reminder', back_populates='todo')
     time_slots=db.relationship(
-        'DailyPlannerSlot', back_populates='todo')
+        'DailyPlannerSlot', back_populates='todo', foreign_keys=[time_slot_id])
 
-    def __init__(self, user_id, goal_id,name, priority=None, description=None, notes=None, reminder=False, completed=False):
+
+    def __init__(self, user_id, goal_id, time_slot_id, name, priority=None, description=None, notes=None, reminder=False, completed=False):
         self.user_id = user_id
         self.name=name
         self.priority=priority
@@ -38,6 +40,7 @@ class Todo(db.Model):
         self.reminder=reminder
         self.completed=completed
         self.goal_id = goal_id
+
 
     def to_dict(self):
         return {
@@ -50,8 +53,8 @@ class Todo(db.Model):
             'reminder': self.reminder,
             'completed': self.completed,
             'goal_id': self.goal_id,
+            'time_slot_id': self.time_slot_id,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
-            'goal': self.goal.to_dict() if self.goal else None,
-            'time_slots': [slot.to_dict() for slot in self.time_slots]
+            'goal': self.goal.to_dict() if self.goal else None
         }

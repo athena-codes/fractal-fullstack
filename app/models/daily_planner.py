@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
+from .daily_planner_slot import DailyPlannerSlot
 
 
 class DailyPlanner(db.Model):
@@ -18,7 +19,7 @@ class DailyPlanner(db.Model):
     # Relationships
     user = db.relationship('User', back_populates='daily_planners')
     time_slots = db.relationship(
-        'DailyPlannerSlot', back_populates='daily_planner')
+        'DailyPlannerSlot', back_populates='daily_planner', foreign_keys=[DailyPlannerSlot.daily_planner_id])
 
     def __init__(self, user_id, date):
         self.user_id = user_id
