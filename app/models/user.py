@@ -52,7 +52,5 @@ class User(db.Model, UserMixin):
             'updated_at': self.updated_at,
             'goals': [goal.to_dict() for goal in self.goals],
             'todos': [todo.to_dict() for todo in self.todos],
-            'reminders': [reminder.to_dict() for reminder in self.reminders],
-            'daily_planners': [planner.to_dict() for planner in self.daily_planners],
-            'daily_planner_slots': [slot.to_dict() for slot in self.daily_planner_slots]
+            'reminders': [reminder.to_dict() for reminder in self.reminders]
         }
