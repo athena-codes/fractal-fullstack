@@ -2,6 +2,7 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from flask_login import UserMixin
+from .goal import Goal
 import os
 
 class User(db.Model, UserMixin):
@@ -21,7 +22,7 @@ class User(db.Model, UserMixin):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Relationships
-    goals = db.relationship('Goal', back_populates='user', lazy=True, foreign_keys='Goal.user_id')
+    goals = db.relationship('Goal', back_populates='user', lazy=True, foreign_keys=[Goal.user_id])
     todos = db.relationship('Todo', back_populates='user', lazy=True)
     reminders = db.relationship('Reminder', back_populates='user', lazy=True)
     daily_planners = db.relationship('DailyPlanner', back_populates='user', lazy=True)

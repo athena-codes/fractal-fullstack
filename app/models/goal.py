@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from datetime import datetime
+from .user import User
 
 
 class Goal(db.Model):
@@ -22,7 +23,7 @@ class Goal(db.Model):
 
     # Relationships
     user = db.relationship('User', back_populates='goals',
-                           lazy=True, foreign_keys='Goal.user_id')
+                           lazy=True, foreign_keys=[user_id])
     todos = db.relationship('Todo', back_populates='goal', lazy=True)
 
     def __init__(self, user_id, title, timeframe, description=None, end_date=None, comments=None):
