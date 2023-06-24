@@ -1,10 +1,25 @@
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
+
 .navigation-container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
+  flex-direction: column;
   list-style-type: none;
   padding: 0;
-  position: relative;
+  /* background-color: #8c4dff; */
+  width: 30px;
+}
+
+.left-side-bar {
+  background-color: #8c4dff;
+  width: 30px;
+  height: 1000px;
 }
 
 .btn {
@@ -14,6 +29,7 @@
 
 .navigation-item {
   margin-right: 10px;
+  text-decoration: none;
 }
 
 .navigation-link {
@@ -22,7 +38,8 @@
 }
 
 .profile-dropdown {
-  position: absolute;
+  display: flex;
+  flex-direction: column;
   top: calc(100% + 10px);
   right: 0;
   width: 200px;
@@ -41,6 +58,16 @@
 .profile-icon {
   background-color: transparent;
   border: none;
+  cursor: pointer;
+}
+
+.profile-right-nav  {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-column {
+  flex-direction: row-reverse;
 }
 
 .profile-picture {
@@ -49,8 +76,12 @@
   border-radius: 50%;
 }
 
+.welcome-msg {
+  font-size: 12px;
+  padding-right: 10px;
+}
+
 .profile-dropdown li {
-  margin-bottom: 10px;
   list-style-type: none;
 }
 
@@ -61,7 +92,7 @@
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  background-color:#8c4dff;
+  background-color: #8c4dff;
   color: #fff;
   font-weight: bold;
   text-align: center;
@@ -71,4 +102,10 @@
 .profile-dropdown button:hover {
   background-color: #6b23f0ef;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.4);
+}
+
+.navigation-items-logged-in {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
