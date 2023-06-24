@@ -46,6 +46,22 @@ def upgrade():
                     sa.Column('updated_at', sa.DateTime(), nullable=True),
                     sa.PrimaryKeyConstraint('id'),
                     )
+    op.create_table('daily_planner_slots',
+                    sa.Column('id', sa.Integer(), nullable=False),
+                    sa.Column('user_id', sa.Integer(), sa.ForeignKey(
+                        'users.id'), nullable=False),
+                    sa.Column('start_time', sa.Time(), nullable=True),
+                    sa.Column('end_time', sa.Time(), nullable=True),
+                    sa.Column('daily_planner_id',
+                              sa.Integer(), nullable=False),
+                    sa.Column('todo_id', sa.Integer(), nullable=True),
+                    sa.Column('created_at', sa.DateTime(), nullable=True),
+                    sa.Column('updated_at', sa.DateTime(), nullable=True),
+                    sa.ForeignKeyConstraint(['daily_planner_id'], [
+                                            'daily_planner.id']),
+                    sa.ForeignKeyConstraint(['todo_id'], ['todos.id']),
+                    sa.PrimaryKeyConstraint('id')
+                    )
     op.create_table('todos',
                     sa.Column('id', sa.Integer(), nullable=False),
                     sa.Column('user_id', sa.Integer(), sa.ForeignKey(
@@ -62,22 +78,6 @@ def upgrade():
                     sa.Column('updated_at', sa.DateTime(), nullable=True),
                     sa.ForeignKeyConstraint(['goal_id'], ['goals.id']),
                     sa.ForeignKeyConstraint(['time_slot_id'], ['daily_planner_slot.id']),
-                    sa.PrimaryKeyConstraint('id')
-                    )
-    op.create_table('daily_planner_slots',
-                    sa.Column('id', sa.Integer(), nullable=False),
-                    sa.Column('user_id', sa.Integer(), sa.ForeignKey(
-                        'users.id'), nullable=False),
-                    sa.Column('start_time', sa.Time(), nullable=True),
-                    sa.Column('end_time', sa.Time(), nullable=True),
-                    sa.Column('daily_planner_id',
-                              sa.Integer(), nullable=False),
-                    sa.Column('todo_id', sa.Integer(), nullable=True),
-                    sa.Column('created_at', sa.DateTime(), nullable=True),
-                    sa.Column('updated_at', sa.DateTime(), nullable=True),
-                    sa.ForeignKeyConstraint(['daily_planner_id'], [
-                                            'daily_planner.id']),
-                    sa.ForeignKeyConstraint(['todo_id'], ['todos.id']),
                     sa.PrimaryKeyConstraint('id')
                     )
     op.create_table('reminders',
