@@ -4,10 +4,10 @@ Fractal is an innovative application that seamlessly intertwines daily to-do pla
 
 ## Features
 
-- **Intuitive Task Management:** Fractal provides a user-friendly interface to create, organize, and prioritize daily tasks effortlessly.
-- **Long-Term Goal Tracking:** Set and track your long-term goals, and seamlessly integrate them with your daily tasks.
-- **Progress Monitoring:** Easily visualize your progress towards achieving your long-term goals through insightful charts and metrics.
-- **Flexible Task Scheduling:** Schedule tasks according to your preferred time slots, deadlines, and reminders.
+- **Intuitive Daily Task Management:** Fractal provides a user-friendly interface to create, organize, and prioritize daily to-do's effortlessly with the Daily Planner feature.
+- **Goal Tracking:** Set and track your long or short term goals, and seamlessly integrate them with your daily to-do's need be. 
+- **Progress Monitoring:** Easily and effortlessly visualize progress towards achieving your long-term goals through insightful charts and metrics from the Daily Overview page. 
+- **Flexible Scheduling:** Schedule daily to-do's according to your preferred time slots and set reminders.  Interactively view and organize daily schedule from the Daily Planner. 
 
 ## Documentation
 
