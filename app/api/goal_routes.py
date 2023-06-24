@@ -11,9 +11,6 @@ goal_routes = Blueprint('goals', __name__)
 @goal_routes.route('/', methods=['POST'])
 @login_required
 def create_goal():
-    if not current_user.is_authenticated:
-        return jsonify(error='User not authenticated'), 401
-
     data = request.get_json()
     title = data.get('title')
     description = data.get('description')
