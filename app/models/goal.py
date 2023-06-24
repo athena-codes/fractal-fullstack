@@ -10,7 +10,7 @@ class Goal(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(
-        'users.id'), nullable=False)
+        add_prefix_for_prod('users.id')), nullable=False)
     title = db.Column(db.String, nullable=False)
     end_date = db.Column(db.Date)
     timeframe = db.Column(db.Integer, nullable=False)
