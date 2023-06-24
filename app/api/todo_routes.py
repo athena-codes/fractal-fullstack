@@ -84,3 +84,18 @@ def delete_todo(todo_id):
     db.session.commit()
 
     return jsonify({'message': f'To-Do with ID {todo_id} has been deleted successfully.'}), 200
+
+
+
+# Get all Current User Todo's
+@todo_routes.route('/', methods=['GET'])
+@login_required
+def get_all_todos_for_user():
+    user_id = current_user.id
+    todos = Todo.query.filter_by(user_id=user_id).all()
+    todos_data = [todo.to_dict() for todo in todos]
+
+    if not todos:
+        return jsonify({'message': 'No to-do items found for the user'}), 404
+
+    return jsonify(todos_data), 200

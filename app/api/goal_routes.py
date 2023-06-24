@@ -2,8 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_login import current_user
 from datetime import datetime
 from flask_login import login_required
-from app.models import Goal, db
-
+from app.models import Goal, Todo,  db
 goal_routes = Blueprint('goals', __name__)
 
 
@@ -97,3 +96,18 @@ def get_all_goals():
         return jsonify({'message': 'No goals found'}), 404
 
     return jsonify(goals_data), 200
+
+
+# Get All To-Dos for a Specific Goal
+@goal_routes.route('<int:goal_id>/todos', methods=['GET'])
+@login_required
+def get_todos_for_goal(goal_id):
+    todos = Todo.query.filter_by(goal_id=goal_id).all()
+
+    if not todos:
+        return jsonify({'message': 'No to-do items found for the goal'}), 404
+
+    todos_list = [todo.to_dict() for todo in todos]
+    response_body = {'goal_id': goal_id, 'todos': todos_list}
+
+    return jsonify(response_body), 200
