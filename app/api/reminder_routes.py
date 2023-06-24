@@ -20,6 +20,9 @@ def create_reminder():
     if not todo:
         return jsonify({'message': 'To-do not found'}), 404
 
+    if todo.user_id != current_user.id:
+       return jsonify({'message': 'Unauthorized'}), 401
+
     reminder = Reminder(user_id=current_user.id, todo_id=todo_id)
 
     db.session.add(reminder)
@@ -37,6 +40,9 @@ def get_reminder_details(reminder_id):
     if not reminder:
         return jsonify({'message': 'Reminder not found'}), 404
 
+    if reminder.user_id != current_user.id:
+       return jsonify({'message': 'Unauthorized'}), 401
+
     return jsonify(reminder.to_dict()), 200
 
 
@@ -48,6 +54,9 @@ def update_reminder_details(reminder_id):
 
     if not reminder:
         return jsonify({'message': 'Reminder not found'}), 404
+
+    if reminder.user_id != current_user.id:
+       return jsonify({'message': 'Unauthorized'}), 401
 
     data = request.get_json()
     todo_id = data.get('todo_id')
@@ -68,6 +77,9 @@ def delete_reminder(reminder_id):
 
     if not reminder:
         return jsonify({'message': 'Reminder not found'}), 404
+
+    if reminder.user_id != current_user.id:
+       return jsonify({'message': 'Unauthorized'}), 401
 
     db.session.delete(reminder)
     db.session.commit()

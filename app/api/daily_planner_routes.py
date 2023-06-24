@@ -70,4 +70,4 @@ def assign_todo_to_slot(date, slot_id):
     daily_planner_slot.todo_id = todo.id
     db.session.commit()
 
-    return jsonify( daily_planner_slot.to_dict()), 200
+    return jsonify({"time_slot": daily_planner_slot.to_dict()}), 200

@@ -41,6 +41,9 @@ def get_todo_details(todo_id):
     if not todo:
         return jsonify({'message': 'To-do not found'}), 404
 
+    if todo.user_id != current_user.id:
+       return jsonify({'message': 'Unauthorized'}), 401
+
     return jsonify(todo.to_dict()), 200
 
 
@@ -99,7 +102,7 @@ def get_all_todos_for_user():
     user_id = current_user.id
     todos = Todo.query.filter_by(user_id=user_id).all()
     todos_data = [todo.to_dict() for todo in todos]
-
+    
     if not todos:
         return jsonify({'message': 'No to-do items found for the user'}), 404
 
