@@ -53,6 +53,5 @@ class Todo(db.Model):
             'created_at': self.created_at,
             'updated_at': self.updated_at,
             'goal': self.goal.to_dict() if self.goal else None,
-            'reminders': [reminder.to_dict() for reminder in self.reminders],
             'time_slots': [slot.to_dict() for slot in self.time_slots]
         }
