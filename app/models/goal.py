@@ -10,7 +10,7 @@ class Goal(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey(
-        add_prefix_for_prod('users.id')), nullable=False)
+        'users.id'), nullable=False)
     title = db.Column(db.String, nullable=False)
     end_date = db.Column(db.Date)
     timeframe = db.Column(db.Integer, nullable=False)
@@ -43,6 +43,5 @@ class Goal(db.Model):
             'comments': self.comments,
             'progress': self.progress,
             'created_at': self.created_at,
-            'updated_at': self.updated_at,
-            'todos': [todo.to_dict() for todo in self.todos]
+            'updated_at': self.updated_at
         }
