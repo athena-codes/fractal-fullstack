@@ -59,7 +59,7 @@ function Navigation ({ isLoaded, user }) {
                 />
               </li>
               <li className='navigation-item'>
-                <NavLink exact to='/' className='navigation-link'>
+                <NavLink exact to='/goals' className='navigation-link'>
                   <FontAwesomeIcon icon={faList} />{' '}
                 </NavLink>
               </li>

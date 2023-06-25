@@ -1,1 +1,10 @@
-/* TODO Add site wide styles */
+.App {
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: 30px auto;
+}
+
+.Content {
+   grid-column: 1;
+   margin-left: 100px;
+}

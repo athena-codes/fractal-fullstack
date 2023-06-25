@@ -26,9 +26,6 @@ const CreateGoalModal = () => {
       end_date: formattedEndDate,
       timeframe: formattedTimeframe
     }
-    console.log('GOAL DATA --->', goalData)
-    console.log(typeof formattedEndDate)
-    console.log(typeof formattedTimeframe)
 
     dispatch(createNewGoal(goalData))
     closeModal()

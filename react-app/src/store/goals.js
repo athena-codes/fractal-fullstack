@@ -151,14 +151,18 @@ export const fetchTodosForGoal = goalId => async dispatch => {
 }
 
 // Reducer
-const initialState = {}
+const initialState = {
+  goals: [],
+  goal: null,
+  todos: []
+}
 
 const goalsReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_GOAL:
       return {
         ...state,
-         [action.payload.id]: action.payload
+        goals: [...state.goals, action.payload]
       }
     case GET_GOAL:
       return {
