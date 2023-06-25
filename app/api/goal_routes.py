@@ -3,6 +3,7 @@ from flask_login import current_user
 from datetime import datetime
 from flask_login import login_required
 from app.models import Goal, Todo,  db
+from app.forms import GoalForm
 goal_routes = Blueprint('goals', __name__)
 
 
@@ -10,21 +11,36 @@ goal_routes = Blueprint('goals', __name__)
 @goal_routes.route('/', methods=['POST'])
 @login_required
 def create_goal():
-    data = request.get_json()
-    title = data.get('title')
-    description = data.get('description')
-    end_date = datetime.strptime(data.get('end_date'), '%Y-%m-%d')
-    timeframe = data.get('timeframe')
+    form = GoalForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
 
-    user_id = current_user.id
+    if form.validate_on_submit():
+        end_date =  form.end_date.data
+        title = form.title.data
+        timeframe = form.timeframe.data
+        description = form.description.data
+        print('FORM DATA -------->', form.data)
+        print('TIMEFRAME -------->', timeframe)
 
-    goal = Goal(user_id=user_id, title=title, description=description,
-                end_date=end_date, timeframe=timeframe)
+        user_id = current_user.id
 
-    db.session.add(goal)
-    db.session.commit()
+    # Automatically calculate timeframe value
+        # today = datetime.now().date()
 
-    return jsonify(goal.to_dict()), 200
+        # timeframe = (end_date - today).days
+        # timeframe_str = f"{timeframe} days"
+
+        goal = Goal(user_id=user_id, title=title, description=description,
+                    end_date=end_date, timeframe=timeframe)
+
+        db.session.add(goal)
+        db.session.commit()
+
+        return jsonify(goal.to_dict()), 200
+    else:
+        # Form validation failed
+        errors = form.errors
+        return jsonify(errors), 400
 
 
 # Get details of specific goal
