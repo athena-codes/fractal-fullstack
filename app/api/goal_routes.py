@@ -19,16 +19,8 @@ def create_goal():
         title = form.title.data
         timeframe = form.timeframe.data
         description = form.description.data
-        print('FORM DATA -------->', form.data)
-        print('TIMEFRAME -------->', timeframe)
 
         user_id = current_user.id
-
-    # Automatically calculate timeframe value
-        # today = datetime.now().date()
-
-        # timeframe = (end_date - today).days
-        # timeframe_str = f"{timeframe} days"
 
         goal = Goal(user_id=user_id, title=title, description=description,
                     end_date=end_date, timeframe=timeframe)

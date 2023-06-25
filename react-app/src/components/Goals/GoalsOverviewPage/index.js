@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchAllGoals } from '../../../store/goals'
+import { fetchAllGoals, deleteExistingGoal } from '../../../store/goals'
 
 const GoalsOverview = () => {
   const dispatch = useDispatch()
@@ -9,6 +9,16 @@ const GoalsOverview = () => {
   useEffect(() => {
     dispatch(fetchAllGoals())
   }, [dispatch])
+
+  const handleDeleteGoal = async goalId => {
+    try {
+      await dispatch(deleteExistingGoal(goalId))
+      // Optionally show a success message here
+    } catch (error) {
+      console.error(error)
+      // Handle error as needed
+    }
+  }
 
   return (
     <div>
@@ -20,9 +30,10 @@ const GoalsOverview = () => {
           {goals.map(goal => (
             <li key={goal.id}>
               <h3>{goal.title}</h3>
-              <p>{goal.description}</p>
+              <p>Description: {goal.description}</p>
               <p>End Date: {goal.end_date}</p>
-              <p>Timeframe: {goal.timeframe}</p>
+              <p>Timeframe: {goal.timeframe} days</p>
+              <button onClick={() => handleDeleteGoal(goal.id)}>Delete</button>
             </li>
           ))}
         </ul>

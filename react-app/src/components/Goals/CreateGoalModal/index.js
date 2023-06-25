@@ -18,18 +18,30 @@ const CreateGoalModal = () => {
 
     const formattedEndDate = new Date(endDate).toISOString().split('T')[0]
 
-    const formattedTimeframe = parseInt(timeframe)
-
     const goalData = {
       title,
       description,
       end_date: formattedEndDate,
-      timeframe: formattedTimeframe
+      timeframe: parseInt(timeframe)
     }
 
     dispatch(createNewGoal(goalData))
     closeModal()
     history.push('/goals')
+  }
+
+  const handleEndDateChange = e => {
+    const selectedEndDate = e.target.value
+    setEndDate(selectedEndDate)
+
+    const today = new Date().setHours(0, 0, 0, 0)
+    const selectedDate = new Date(selectedEndDate).setHours(0, 0, 0, 0)
+    const differenceInTime = selectedDate - today
+    const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24))
+
+    if (differenceInDays >= 0) {
+      setTimeframe(differenceInDays.toString() + ' days')
+    }
   }
 
   return (
@@ -62,7 +74,7 @@ const CreateGoalModal = () => {
           name='end_date'
           type='date'
           value={endDate}
-          onChange={e => setEndDate(e.target.value)}
+          onChange={handleEndDateChange}
           required
         />
       </div>
@@ -73,7 +85,7 @@ const CreateGoalModal = () => {
           name='timeframe'
           type='text'
           value={timeframe}
-          onChange={e => setTimeframe(e.target.value)}
+          readOnly
           required
         />
       </div>

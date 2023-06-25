@@ -8,7 +8,8 @@ import {
   faArrowRightFromBracket,
   faSquarePlus,
   faList,
-  faGear
+  faGear,
+  faBullseye
 } from '@fortawesome/free-solid-svg-icons'
 import { logout } from '../../store/session'
 import { useModal } from '../../context/Modal'
@@ -60,11 +61,17 @@ function Navigation ({ isLoaded, user }) {
               </li>
               <li className='navigation-item'>
                 <NavLink exact to='/goals' className='navigation-link'>
+                  <FontAwesomeIcon icon={faBullseye} />{' '}
+                </NavLink>
+              </li>
+
+              <li className='navigation-item'>
+                <NavLink exact to='/' className='navigation-link'>
                   <FontAwesomeIcon icon={faList} />{' '}
                 </NavLink>
               </li>
               <li className='navigation-item'>
-                <button className='profile-icon' onClick={handleLogout}>
+                <button className='profile-icon'>
                   <FontAwesomeIcon icon={faGear} />{' '}
                 </button>
               </li>
