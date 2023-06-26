@@ -2,10 +2,13 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import session from './session'
 import goals from './goals'
+import daily_planner from './daily_planner'
+
 
 const rootReducer = combineReducers({
   session,
-  goals
+  goals,
+  daily_planner
 });
 
 
