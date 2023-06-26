@@ -14,19 +14,18 @@ const UpdateGoalModal = ({
   const { closeModal } = useModal()
   const [updatedTitle, setUpdatedTitle] = useState(title)
   const [updatedDescription, setUpdatedDescription] = useState(description)
-  const [updatedEndDate, setUpdatedEndDate] = useState(endDate)
+  const [updatedEndDate, setUpdatedEndDate] = useState(
+    new Date(endDate).toISOString().split('T')[0]
+  )
   const [updatedTimeframe, setUpdatedTimeframe] = useState(timeframe)
 
   const handleFormSubmit = async e => {
     e.preventDefault()
 
-    const formattedEndDate = new Date(updatedEndDate).toISOString().split('T')[0]
-
-
     const updatedGoalData = {
       title: updatedTitle,
       description: updatedDescription,
-      end_date: formattedEndDate,
+      end_date: updatedEndDate,
       timeframe: parseInt(updatedTimeframe)
     }
 
@@ -36,6 +35,20 @@ const UpdateGoalModal = ({
     } catch (error) {
       console.error(error)
       // Handle error as needed
+    }
+  }
+
+  const handleEndDateChange = e => {
+    const selectedEndDate = e.target.value
+    setUpdatedEndDate(selectedEndDate)
+
+    const today = new Date().setHours(0, 0, 0, 0)
+    const selectedDate = new Date(selectedEndDate).setHours(0, 0, 0, 0)
+    const differenceInTime = selectedDate - today
+    const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24))
+
+    if (differenceInDays >= 0) {
+      setUpdatedTimeframe(differenceInDays.toString() + ' days')
     }
   }
 
@@ -63,16 +76,11 @@ const UpdateGoalModal = ({
           type='date'
           id='endDate'
           value={updatedEndDate}
-          onChange={e => setUpdatedEndDate(e.target.value)}
+          onChange={handleEndDateChange}
         />
 
         <label htmlFor='timeframe'>Timeframe (days)</label>
-        <input
-          type='number'
-          id='timeframe'
-          value={updatedTimeframe}
-          onChange={e => setUpdatedTimeframe(e.target.value)}
-        />
+        <input type='text' id='timeframe' value={updatedTimeframe} readOnly />
 
         <button type='submit'>Save</button>
         <button type='button' onClick={closeModal}>
@@ -83,4 +91,5 @@ const UpdateGoalModal = ({
   )
 }
 
-export default UpdateGoalModal
+
+export default UpdateGoalModal; 
