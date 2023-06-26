@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 import SignupFormPage from './components/SignupFormPage'
 import LoginFormPage from './components/LoginFormPage'
 import GoalsOverview from './components/Goals/GoalsOverviewPage'
+import DailyPlanner from './components/DailyPlanner'
 import { authenticate } from './store/session'
 import Navigation from './components/Navigation'
 
@@ -31,6 +32,9 @@ function App () {
               </Route>
               <Route path='/goals'>
                 <GoalsOverview />
+              </Route>
+              <Route path='/daily-planner'>
+               <DailyPlanner />
               </Route>
             </Switch>
           </div>

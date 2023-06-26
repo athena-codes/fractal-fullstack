@@ -7,6 +7,16 @@ from app.models import DailyPlanner, DailyPlannerSlot, Todo, db
 
 daily_planner_routes = Blueprint('daily_planners', __name__)
 
+# Get all Daily Planners for current user
+@daily_planner_routes.route('/', methods=['GET'])
+def get_daily_planners():
+    user_id = current_user.id  # Assuming you have a way to access the current user's ID
+    daily_planners = DailyPlanner.query.filter_by(user_id=user_id).all()
+    daily_planner_slots = DailyPlannerSlot.query.filter_by(user_id=user_id).all()
+    daily_planners_data = [daily_planner.to_dict() for daily_planner in daily_planners]
+    return jsonify(daily_planners_data), 200
+
+
 # Get Daily Planner for a specific date
 @daily_planner_routes.route('/<date>', methods=['GET'])
 @login_required

@@ -66,7 +66,7 @@ function Navigation ({ isLoaded, user }) {
               </li>
 
               <li className='navigation-item'>
-                <NavLink exact to='/' className='navigation-link'>
+                <NavLink exact to='/daily-planner' className='navigation-link'>
                   <FontAwesomeIcon icon={faList} />{' '}
                 </NavLink>
               </li>
