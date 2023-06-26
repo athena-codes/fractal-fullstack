@@ -16,7 +16,12 @@ function DailyPlanner () {
     dispatch(fetchDailyPlannersThunk())
   }, [dispatch])
 
-  //  - Slide functionality
+  useEffect(() => {
+    if (dailyPlanners && dailyPlanners.length > 0) {
+      dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
+    }
+  }, [dailyPlanners, currentSlide, dispatch])
+
   const goToPreviousSlide = () => {
     setCurrentSlide(prevSlide =>
       prevSlide === 0 ? dailyPlanners.length - 1 : prevSlide - 1
@@ -34,29 +39,37 @@ function DailyPlanner () {
   }
 
   const currentDailyPlanner = dailyPlanners[currentSlide]
-  console.log('CURRENT DAILY PLANNER --->', currentDailyPlanner)
+  const dailyPlannerSlots = currentDailyPlanner.time_slots
 
-  const dailyPlannerSlots = dailyPlanners[currentSlide].time_slots
-  // console.log('CURRENT DAILY PLANNER SLOTS --->', dailyPlannerSlots)
-
-
+  const formatTime = timeString => {
+    const date = new Date(`2000-01-01T${timeString}`)
+    return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+  }
 
   return (
     <div>
-      <h1>Daily Planner Page</h1>
-      <div className='slideshow-controls'>
-        <button onClick={goToPreviousSlide}>&lt;</button>
-        <button onClick={goToNextSlide}>&gt;</button>
+      <h1>Daily Planner</h1>
+      <div className='subheading'>
+        <p>To Do | {currentDailyPlanner.date}</p>
+        <div className='slideshow-controls'>
+          <button onClick={goToPreviousSlide}>&lt;</button>
+          <button onClick={goToNextSlide}>&gt;</button>
+        </div>
       </div>
       <div className='slideshow-container'>
         <div className='slide active'>
-          <h2>Date: {currentDailyPlanner.date}</h2>
           <div className='time-slots'>
             {dailyPlannerSlots &&
               dailyPlannerSlots.map(slot => (
-                <div key={slot.id}>
-                  <p>Start Time: {slot.start_time}</p>
-                  <p>End Time: {slot.end_time}</p>
+                <div className='time-slots-start-end' key={slot.id}>
+                  <div className='time-slot'>
+                    <p>Start: {formatTime(slot.start_time)} </p>
+                    <input type='text' readOnly />
+                  </div>
+                  <div className='time-slot'>
+                    <p>End: {formatTime(slot.end_time)} </p>
+                    <input type='text' readOnly />
+                  </div>
                 </div>
               ))}
           </div>
