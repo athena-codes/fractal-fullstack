@@ -36,24 +36,17 @@ function Navigation ({ isLoaded, user }) {
             <ProfileButton user={sessionUser} />
           </li>
         )}
-        {user && (
-          <li className='navigation-item'>
-            <NavLink exact to='/' className='navigation-link'>
-              <FontAwesomeIcon icon={faHome} />{' '}
-            </NavLink>
-          </li>
-        )}
       </ul>
       <div className='left-side-bar'>
         <ul className='navigation-container'>
+          {isLoaded && sessionUser && (
+            <ul className='navigation-items-logged-in'>
           <li className='navigation-item'>
             <NavLink exact to='/' className='navigation-link'>
               <FontAwesomeIcon icon={faHome} />{' '}
             </NavLink>
           </li>
-          {isLoaded && sessionUser && (
-            <ul className='navigation-items-logged-in'>
-              <li className='navigation-item'>
+              <li className='navigation-item modal-btn'>
                 <OpenModalButton
                   buttonText={<FontAwesomeIcon icon={faSquarePlus} />}
                   modalComponent={<CreateGoalModal />}
