@@ -5,6 +5,7 @@ import SignupFormPage from './components/SignupFormPage'
 import LoginFormPage from './components/LoginFormPage'
 import GoalsOverview from './components/Goals/GoalsOverviewPage'
 import DailyPlanner from './components/DailyPlanner'
+import DailyOverview from './components/DailyOverview'
 import { authenticate } from './store/session'
 import Navigation from './components/Navigation'
 
@@ -24,6 +25,10 @@ function App () {
           <Navigation isLoaded={isLoaded} />
           <div className='Content'>
             <Switch>
+              <Route exact path='/'>
+                <DailyOverview />
+              </Route>
+
               <Route path='/login'>
                 <LoginFormPage />
               </Route>
@@ -34,7 +39,7 @@ function App () {
                 <GoalsOverview />
               </Route>
               <Route path='/daily-planner'>
-               <DailyPlanner />
+                <DailyPlanner />
               </Route>
             </Switch>
           </div>

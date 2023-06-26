@@ -42,6 +42,10 @@ const GoalsOverview = () => {
     }
   }
 
+  if (!goals) {
+    return <div>Loading...</div>
+  }
+
   return (
     <div>
       <h2>All Goals</h2>

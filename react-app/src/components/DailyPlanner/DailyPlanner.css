@@ -17,8 +17,12 @@
     display: flex;
     justify-content: center;
     margin-top: 10px;
+    z-index: 3;
+    cursor: pointer;
 }
 
-button {
-    margin: 0 5px;
+.time-slots {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
