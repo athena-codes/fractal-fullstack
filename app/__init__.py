@@ -33,7 +33,7 @@ app.config.from_object(Config)
 app.register_blueprint(user_routes, url_prefix='/api/users')
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(goal_routes, url_prefix='/api/goals')
-app.register_blueprint(todo_routes, url_prefix='/api/auth/todos')
+app.register_blueprint(todo_routes, url_prefix='/api/todos')
 app.register_blueprint(reminder_routes, url_prefix='/api/reminders')
 app.register_blueprint(daily_planner_routes, url_prefix='/api/daily-planner')
 
