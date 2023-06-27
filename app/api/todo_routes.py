@@ -4,6 +4,7 @@ from flask_login import current_user
 from datetime import datetime
 from flask_login import login_required
 from app.models import Todo, db
+from app.forms import TodoForm
 
 todo_routes = Blueprint('todos', __name__)
 
@@ -12,25 +13,31 @@ todo_routes = Blueprint('todos', __name__)
 @todo_routes.route('/', methods=['POST'])
 @login_required
 def create_todo():
-    data = request.get_json()
-    name = data.get('name')
-    priority = data.get('priority')
-    description = data.get('description')
-    notes = data.get('notes')
-    reminder = data.get('reminder')
-    completed = data.get('completed')
-    goal_id = data.get('goal_id')
-    # daily_planner_slot_id = data.get('daily_planner_slot_id')
+    form = TodoForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
     user_id = current_user.id
 
-    todo = Todo(user_id=user_id, goal_id=goal_id, name=name, priority=priority,
-                description=description, notes=notes, reminder=reminder, completed=completed)
+    if form.validate_on_submit():
+        user_id=user_id
+        goal_id=form.goal_id.data
+        name=form.name.data
+        priority=form.priority.data
+        description=form.description.data
+        notes=form.notes.data
+        reminder = bool(form.reminder.data)
+        completed=form.completed.data
 
-    db.session.add(todo)
-    db.session.commit()
 
-    return jsonify(todo.to_dict()), 200
+        todo = Todo(user_id=user_id, goal_id=goal_id, name=name, description=description,
+                    notes=notes, reminder=reminder, completed=completed)
 
+        db.session.add(todo)
+        db.session.commit()
+
+        return jsonify(todo.to_dict()), 200
+
+    return jsonify(errors=form.errors), 400
 
 # Get details of specific to-do
 @todo_routes.route('/<int:todo_id>', methods=['GET'])

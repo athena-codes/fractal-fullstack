@@ -55,9 +55,9 @@ export const createNewTodo = todoData => async dispatch => {
     }
 
     const todo = await response.json()
+    console.log('TODO RESPONSE --->', todo)
 
     dispatch(createTodo(todo))
-    return todo
   } catch (error) {
     console.error(error)
     // Handle error as needed
