@@ -27,11 +27,8 @@
     cursor: pointer;
 }
 
-.time-slots {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 0 -5px;
+.time {
+    font-size: 12px;
 }
 
 .time-slots-start-end {
@@ -41,20 +38,31 @@
     margin: 0 -5px;
 }
 
-.time-slot {
+
+.time-slots {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin: 5px;
+    align-items: flex-start;
 }
 
-input[type='text'] {
-    width: 200px;
-    height: 20px;
-    background-color: #f1f1f1;
+.time-slot {
+    display: flex;
+    align-items: center;
+}
+
+.time-slot p {
+    margin-right: 10px;
+}
+
+.time-slot-field {
+    width: 250px;
+    height: 14px;
+    background-color: rgba(224, 224, 224, 0.529);
     border: none;
-    border-radius: 4px;
-    padding: 10px;
-    color: #333;
-    font-size: 14px;
+    margin-left: 10px;
+}
+
+.navigation-link-pencil {
+    list-style: none;
+    text-decoration: none;
 }

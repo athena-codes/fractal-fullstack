@@ -25,6 +25,8 @@ function Navigation ({ isLoaded, user }) {
   const dispatch = useDispatch()
 
   const handleLogout = () => {
+    // history.push('/')
+    window.location.href = '/'
     dispatch(logout())
   }
 
@@ -41,11 +43,11 @@ function Navigation ({ isLoaded, user }) {
         <ul className='navigation-container'>
           {isLoaded && sessionUser && (
             <ul className='navigation-items-logged-in'>
-          <li className='navigation-item'>
-            <NavLink exact to='/' className='navigation-link'>
-              <FontAwesomeIcon icon={faHome} />{' '}
-            </NavLink>
-          </li>
+              <li className='navigation-item'>
+                <NavLink exact to='/' className='navigation-link'>
+                  <FontAwesomeIcon icon={faHome} />{' '}
+                </NavLink>
+              </li>
               <li className='navigation-item modal-btn'>
                 <OpenModalButton
                   buttonText={<FontAwesomeIcon icon={faSquarePlus} />}

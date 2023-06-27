@@ -26,9 +26,8 @@ function App () {
           <div className='Content'>
             <Switch>
               <Route exact path='/'>
-                <DailyOverview />
+                {user ? <DailyOverview /> : null}
               </Route>
-
               <Route path='/login'>
                 <LoginFormPage />
               </Route>

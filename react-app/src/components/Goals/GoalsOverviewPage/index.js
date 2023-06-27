@@ -48,7 +48,7 @@ const GoalsOverview = () => {
 
   return (
     <div>
-      <h2>All Goals</h2>
+      <h2>Goals</h2>
       {goals.length === 0 ? (
         <p>No goals found.</p>
       ) : (

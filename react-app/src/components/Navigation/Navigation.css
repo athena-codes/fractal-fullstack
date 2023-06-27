@@ -19,7 +19,8 @@
 .left-side-bar {
   background-color: #8c4dff;
   width: 30px;
-  height: 1000px;
+  height: 350vh;
+  padding: none;
 }
 
 .btn {
