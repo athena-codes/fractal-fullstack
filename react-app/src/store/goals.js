@@ -92,7 +92,9 @@ export const updateExistingGoal = (goalId, goalData) => async dispatch => {
 
     const updatedGoal = await response.json()
 
-    dispatch(updateGoal(updatedGoal))
+    if (updatedGoal) {
+      dispatch(updateGoal(updatedGoal))
+    }
   } catch (error) {
     console.error(error)
     // Handle error as needed
@@ -126,9 +128,12 @@ export const fetchAllGoals = () => async dispatch => {
 
     const goals = await response.json()
 
-    dispatch(getAllGoals(goals))
+    if (goals) {
+      dispatch(getAllGoals(goals))
+    }
+
   } catch (error) {
-    console.error(error)
+    // console.error(error)
     // Handle error as needed
   }
 }

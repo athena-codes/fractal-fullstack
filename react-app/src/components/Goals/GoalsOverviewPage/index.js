@@ -35,7 +35,7 @@ const GoalsOverview = () => {
     try {
       await dispatch(updateExistingGoal(selectedGoalId, updatedGoalData))
       closeModal()
-      dispatch(fetchAllGoals()) // Refetch goals to update the list
+      dispatch(fetchAllGoals()) 
     } catch (error) {
       console.error(error)
       // Handle error as needed
