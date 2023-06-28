@@ -106,7 +106,7 @@ export const fetchDailyPlannerSlotByIdThunk =
   }
 
 export const assignTodoToSlotThunk =
-  (date, slotId, todoId) => async dispatch => {
+  (date, slotId, todoId) => async (dispatch, getState) => {
     try {
       const response = await fetch(
         `/api/daily-planner/${date}/slots/${slotId}`,
@@ -121,9 +121,20 @@ export const assignTodoToSlotThunk =
         throw new Error('Failed to assign todo to slot')
       }
 
-      const slot = await response.json()
+      const updatedSlot = await response.json()
 
-      dispatch(assignTodoToSlot(slot))
+      dispatch(assignTodoToSlot(updatedSlot))
+
+      // Update the slots array in the state with the updated slot
+      const { slots } = getState().dailyPlanner
+      const updatedSlots = slots.map(slot => {
+        if (slot.id === updatedSlot.id) {
+          return updatedSlot
+        }
+        return slot
+      })
+
+      dispatch(getDailyPlannerSlots(updatedSlots))
     } catch (error) {
       console.error(error)
       // Handle error as needed
