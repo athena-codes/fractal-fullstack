@@ -33,6 +33,7 @@ const CreateTodoModal = () => {
     console.log('TODO DATA --->', todoData)
 
     await dispatch(createNewTodo(todoData))
+    closeModal()
   }
 
   const handleReminderChange = e => {
