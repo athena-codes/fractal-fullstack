@@ -19,7 +19,8 @@ function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
   const slots = useSelector(state => state.slots)
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [selectedSlotId, setSelectedSlotId] = useState(null)
+  const [slotId, setSlotId] = useState(null)
+  const [isCreateTodoModalOpen, setIsCreateTodoModalOpen] = useState(false)
 
   // Get all daily planners
   useEffect(() => {
@@ -47,14 +48,15 @@ function DailyPlanner () {
   }
 
   const handleSlotClick = slotId => {
-    setSelectedSlotId(slotId)
+    setSlotId(slotId)
+    setIsCreateTodoModalOpen(true)
   }
 
   const handleCreateTodo = async todoData => {
     try {
       const createdTodo = await dispatch(createNewTodo(todoData))
-      await dispatch(assignTodoToSlotThunk(selectedSlotId, createdTodo.id))
-      setSelectedSlotId(null)
+      await dispatch(assignTodoToSlotThunk(slotId, createdTodo.id))
+      setIsCreateTodoModalOpen(false)
     } catch (error) {
       console.error(error)
       // Handle error as needed
@@ -106,44 +108,38 @@ function DailyPlanner () {
       <h1>Daily Planner</h1>
       <div className='subheading'>
         <p>To Do | {formatDate(currentDailyPlanner.date)}</p>
-        <li className='navigation-items-logged-in'>
-          <OpenModalButton
-            modalComponent={
-              <CreateTodoModal
-                onCreateTodo={handleCreateTodo}
-                onClose={() => setSelectedSlotId(null)}
-              />
-            }
-            buttonText={<FontAwesomeIcon icon={faPencil} />}
-          />
-        </li>
+        <div className='navigation-items-logged-in'>
+          {dailyPlannerSlots &&
+            dailyPlannerSlots.map(slot => (
+              <div
+                className='time-slot'
+                key={slot.id}
+                onClick={() => handleSlotClick(slot.id)}
+              >
+                <p className='time'>
+                  {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
+                </p>
+                <input
+                  className='time-slot-field'
+                  type='text'
+                  value={slot.todo_id || ''}
+                  readOnly
+                />
+                <OpenModalButton
+                  modalComponent={
+                    <CreateTodoModal
+                      onCreateTodo={handleCreateTodo}
+                      onClose={() => setIsCreateTodoModalOpen(false)}
+                    />
+                  }
+                  buttonText={<FontAwesomeIcon icon={faPencil} />}
+                />
+              </div>
+            ))}
+        </div>
         <div className='slideshow-controls'>
           <button onClick={goToPreviousSlide}>&lt;</button>
           <button onClick={goToNextSlide}>&gt;</button>
-        </div>
-      </div>
-      <div className='slideshow-container'>
-        <div className='slide active'>
-          <div className='time-slots'>
-            {dailyPlannerSlots &&
-              dailyPlannerSlots.map(slot => (
-                <div
-                  className='time-slot'
-                  key={slot.id}
-                  onClick={() => handleSlotClick(slot.id)}
-                >
-                  <p className='time'>
-                    {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
-                  </p>
-                  <input
-                    className='time-slot-field'
-                    type='text'
-                    value={slot.todo_id || ''}
-                    readOnly
-                  />
-                </div>
-              ))}
-          </div>
         </div>
       </div>
     </div>
