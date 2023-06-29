@@ -29,44 +29,44 @@ function DailyPlanner () {
     dispatch(fetchDailyPlannersThunk())
   }, [dispatch])
 
-// Get all daily planner slots for each daily planner and display on corresponding slide
-useEffect(() => {
-  if (dailyPlanners && dailyPlanners.length > 0) {
-    dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
-  }
-}, [dailyPlanners, currentSlide, dispatch])
-
+  // Get all daily planner slots for each daily planner and display on corresponding slide
+  useEffect(() => {
+    if (dailyPlanners && dailyPlanners.length > 0) {
+      dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
+    }
+  }, [dailyPlanners, currentSlide, dispatch])
 
   // Planner back and forward button functionality
-const goToPreviousSlide = () => {
-  setCurrentSlide(prevSlide =>
-    dailyPlanners.length > 1
-      ? prevSlide === 0
-        ? dailyPlanners.length - 1
-        : prevSlide - 1
-      : prevSlide
-  )
-}
+  const goToPreviousSlide = () => {
+    setCurrentSlide(prevSlide =>
+      dailyPlanners.length > 1
+        ? prevSlide === 0
+          ? dailyPlanners.length - 1
+          : prevSlide - 1
+        : prevSlide
+    )
+  }
 
-const goToNextSlide = () => {
-  setCurrentSlide(prevSlide =>
-    dailyPlanners.length > 1
-      ? prevSlide === dailyPlanners.length - 1
-        ? 0
-        : prevSlide + 1
-      : prevSlide
-  )
-}
+  const goToNextSlide = () => {
+    setCurrentSlide(prevSlide =>
+      dailyPlanners.length > 1
+        ? prevSlide === dailyPlanners.length - 1
+          ? 0
+          : prevSlide + 1
+        : prevSlide
+    )
+  }
 
-
-  const handleSlotClick = slotId => {
-    setSlotId(slotId)
+  // Assigning to do to a time slot
+  const handleSlotClick = slot => {
+    setSlotId(slot.id)
     setIsCreateTodoModalOpen(true)
   }
 
   const handleCreateTodo = async todoData => {
     try {
       const createdTodo = await dispatch(createNewTodo(todoData))
+      console.log('CREATED TO DO ---->', createdTodo)
       await dispatch(
         assignTodoToSlotThunk(currentDailyPlanner.id, slotId, createdTodo.id)
       )
@@ -124,39 +124,39 @@ const goToNextSlide = () => {
       <h1>Daily Planner</h1>
       <div className='subheading'>
         <p>To Do | {currentDailyPlanner.date}</p>
-        <div className='navigation-items-logged-in'>
-          {dailyPlannerSlots &&
-            dailyPlannerSlots.map(slot => (
-              <div
-                className='time-slot'
-                key={slot.id}
-                onClick={() => handleSlotClick(slot.id)}
-              >
-                <p className='time'>
-                  {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
-                </p>
-                <input
-                  className='time-slot-field'
-                  type='text'
-                  value={slot.todo_id || ''}
-                  readOnly
-                />
-                <OpenModalButton
-                  modalComponent={
-                    <CreateTodoModal
-                      onCreateTodo={handleCreateTodo}
-                      onClose={() => setIsCreateTodoModalOpen(false)}
-                    />
-                  }
-                  buttonText={<FontAwesomeIcon icon={faPencil} />}
-                />
-              </div>
-            ))}
-        </div>
         <div className='slideshow-controls'>
           <button onClick={goToPreviousSlide}>&lt;</button>
           <button onClick={goToNextSlide}>&gt;</button>
         </div>
+      </div>
+      <div className='time-slots-start-end'>
+        {dailyPlannerSlots &&
+          dailyPlannerSlots.map(slot => (
+            <div
+              className='time-slot'
+              key={slot.id}
+              onClick={() => handleSlotClick(slot)}
+            >
+              <p className='time'>
+                {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
+              </p>
+              <input
+                className='time-slot-field'
+                type='text'
+                value={slot.todo_id || ''}
+                readOnly
+              />
+              <OpenModalButton
+                modalComponent={
+                  <CreateTodoModal
+                    onCreateTodo={handleCreateTodo}
+                    onClose={() => setIsCreateTodoModalOpen(false)}
+                  />
+                }
+                buttonText={<FontAwesomeIcon icon={faPencil} />}
+              />
+            </div>
+          ))}
       </div>
     </div>
   )

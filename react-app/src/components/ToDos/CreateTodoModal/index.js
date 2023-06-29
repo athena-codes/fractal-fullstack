@@ -30,8 +30,6 @@ const CreateTodoModal = () => {
       goal_id: goalId
     }
 
-    console.log('TODO DATA --->', todoData)
-
     await dispatch(createNewTodo(todoData))
     closeModal()
   }
@@ -39,7 +37,6 @@ const CreateTodoModal = () => {
   const handleReminderChange = e => {
     const isChecked = e.target.checked
     setReminder(isChecked ? true : false)
-    console.log(typeof reminder)
   }
 
   return (
