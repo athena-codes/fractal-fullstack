@@ -1,16 +1,10 @@
 // Action Types
-const CREATE_DAILY_PLANNER = 'daily_planner/createDailyPlanner'
 const GET_DAILY_PLANNERS = 'daily_planner/getDailyPlanner'
 const GET_DAILY_PLANNER_SLOTS = 'daily_planner/getDailyPlannerSlots'
 const GET_DAILY_PLANNER_SLOT_BY_ID = 'daily_planner/getDailyPlannerSlotById'
 const ASSIGN_TODO_TO_SLOT = 'daily_planner/assignTodoToSlot'
 
 // Action Creators
-const createDailyPlanner = dailyPlanner => ({
-  type: CREATE_DAILY_PLANNER,
-  payload: dailyPlanner
-})
-
 const getDailyPlanners = dailyPlanner => ({
   type: GET_DAILY_PLANNERS,
   payload: dailyPlanner
@@ -32,28 +26,7 @@ const assignTodoToSlot = slot => ({
 })
 
 // Thunks
-export const createDailyPlannerThunk = date => async dispatch => {
-  try {
-    const response = await fetch(`/api/daily-planner/${date}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' }
-    })
-
-    if (!response.ok) {
-      throw new Error('Failed to create daily planner')
-    }
-
-    const dailyPlanner = await response.json()
-
-    dispatch(createDailyPlanner(dailyPlanner))
-    return dailyPlanner
-  } catch (error) {
-    console.error(error)
-    // Handle error as needed
-  }
-}
-
-export const fetchDailyPlannersThunk = date => async dispatch => {
+export const fetchDailyPlannersThunk = () => async dispatch => {
   try {
     const response = await fetch(`/api/daily-planner/`)
 
@@ -70,9 +43,9 @@ export const fetchDailyPlannersThunk = date => async dispatch => {
   }
 }
 
-export const fetchDailyPlannerSlotsThunk = date => async dispatch => {
+export const fetchDailyPlannerSlotsThunk = dailyPlannerId => async dispatch => {
   try {
-    const response = await fetch(`/api/daily-planner/${date}/slots`)
+    const response = await fetch(`/api/daily-planner/${dailyPlannerId}/slots`)
 
     if (!response.ok) {
       throw new Error('Failed to fetch daily planner slots')
@@ -88,9 +61,9 @@ export const fetchDailyPlannerSlotsThunk = date => async dispatch => {
 }
 
 export const fetchDailyPlannerSlotByIdThunk =
-  (date, slotId) => async dispatch => {
+  (dailyPlannerId, slotId) => async dispatch => {
     try {
-      const response = await fetch(`/api/daily-planner/${date}/slots/${slotId}`)
+      const response = await fetch(`/api/daily-planner/${dailyPlannerId}/slots/${slotId}`)
 
       if (!response.ok) {
         throw new Error('Failed to fetch daily planner slot')
@@ -106,10 +79,10 @@ export const fetchDailyPlannerSlotByIdThunk =
   }
 
 export const assignTodoToSlotThunk =
-  (date, slotId, todoId) => async (dispatch, getState) => {
+  (dailyPlannerId, slotId, todoId) => async (dispatch, getState) => {
     try {
       const response = await fetch(
-        `/api/daily-planner/${date}/slots/${slotId}`,
+        `/api/daily-planner/${dailyPlannerId}/slots/${slotId}`,
         {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
@@ -150,11 +123,6 @@ const initialState = {
 
 const dailyPlannerReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CREATE_DAILY_PLANNER:
-      return {
-        ...state,
-        dailyPlanner: action.payload
-      }
     case GET_DAILY_PLANNERS:
       return {
         ...state,

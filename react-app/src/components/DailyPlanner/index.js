@@ -17,7 +17,9 @@ import './DailyPlanner.css'
 function DailyPlanner () {
   const dispatch = useDispatch()
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
-  const slots = useSelector(state => state.slots)
+  const slots = useSelector(state => state.daily_planner.slots)
+  console.log('DAILY PLANNERS --->', slots)
+  console.log('SLOTS --->', slots)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [slotId, setSlotId] = useState(null)
   const [isCreateTodoModalOpen, setIsCreateTodoModalOpen] = useState(false)
@@ -27,25 +29,35 @@ function DailyPlanner () {
     dispatch(fetchDailyPlannersThunk())
   }, [dispatch])
 
-  // Get all daily planner slots for each daily planner and display on corresponding slide
-  useEffect(() => {
-    if (dailyPlanners && dailyPlanners.length > 0) {
-      dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
-    }
-  }, [dailyPlanners, currentSlide, dispatch])
+// Get all daily planner slots for each daily planner and display on corresponding slide
+useEffect(() => {
+  if (dailyPlanners && dailyPlanners.length > 0) {
+    dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
+  }
+}, [dailyPlanners, currentSlide, dispatch])
+
 
   // Planner back and forward button functionality
-  const goToPreviousSlide = () => {
-    setCurrentSlide(prevSlide =>
-      prevSlide === 0 ? dailyPlanners.length - 1 : prevSlide - 1
-    )
-  }
+const goToPreviousSlide = () => {
+  setCurrentSlide(prevSlide =>
+    dailyPlanners.length > 1
+      ? prevSlide === 0
+        ? dailyPlanners.length - 1
+        : prevSlide - 1
+      : prevSlide
+  )
+}
 
-  const goToNextSlide = () => {
-    setCurrentSlide(prevSlide =>
-      prevSlide === dailyPlanners.length - 1 ? 0 : prevSlide + 1
-    )
-  }
+const goToNextSlide = () => {
+  setCurrentSlide(prevSlide =>
+    dailyPlanners.length > 1
+      ? prevSlide === dailyPlanners.length - 1
+        ? 0
+        : prevSlide + 1
+      : prevSlide
+  )
+}
+
 
   const handleSlotClick = slotId => {
     setSlotId(slotId)
@@ -55,7 +67,9 @@ function DailyPlanner () {
   const handleCreateTodo = async todoData => {
     try {
       const createdTodo = await dispatch(createNewTodo(todoData))
-      await dispatch(assignTodoToSlotThunk(slotId, createdTodo.id))
+      await dispatch(
+        assignTodoToSlotThunk(currentDailyPlanner.id, slotId, createdTodo.id)
+      )
       setIsCreateTodoModalOpen(false)
     } catch (error) {
       console.error(error)
@@ -70,6 +84,8 @@ function DailyPlanner () {
 
   // TIME SLOTS FOR EACH DAILY PLANNER
   const currentDailyPlanner = dailyPlanners[currentSlide]
+  console.log('CURRENT SLIDE --->', currentSlide)
+  console.log('CURRENT DAILY PLANNER --->', currentDailyPlanner)
   const dailyPlannerSlots = currentDailyPlanner.time_slots
 
   // DATE/TIME FORMATTING
@@ -107,7 +123,7 @@ function DailyPlanner () {
     <div>
       <h1>Daily Planner</h1>
       <div className='subheading'>
-        <p>To Do | {formatDate(currentDailyPlanner.date)}</p>
+        <p>To Do | {currentDailyPlanner.date}</p>
         <div className='navigation-items-logged-in'>
           {dailyPlannerSlots &&
             dailyPlannerSlots.map(slot => (
