@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { useModal } from '../../../context/Modal'
 import { createNewTodo } from '../../../store/todos'
 
-const CreateTodoModal = () => {
+const CreateTodoModal = ({ onClose }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const { closeModal } = useModal()
@@ -32,6 +32,7 @@ const CreateTodoModal = () => {
 
     await dispatch(createNewTodo(todoData))
     closeModal()
+    onClose(todoData)
   }
 
   const handleReminderChange = e => {
