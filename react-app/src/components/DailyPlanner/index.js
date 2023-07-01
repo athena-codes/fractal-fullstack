@@ -18,11 +18,8 @@ function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
   // const planners = useSelector(state => state.daily_planner)
   const slots = useSelector(state => state.daily_planner.slots)
-  console.log('DAILY PLANNERS --->', dailyPlanners)
-  console.log('SLOTS --->', slots)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [slotId, setSlotId] = useState('')
-  console.log('slot id ---->', slotId)
   const [isCreateTodoModalOpen, setIsCreateTodoModalOpen] = useState(false)
   const dispatch = useDispatch()
 
@@ -66,52 +63,51 @@ function DailyPlanner () {
 
   // TIME SLOTS FOR EACH DAILY PLANNER
   const currentDailyPlanner = dailyPlanners[currentSlide]
-  console.log('CURRENT SLIDE --->', currentSlide)
   console.log('CURRENT DAILY PLANNER --->', currentDailyPlanner)
   const dailyPlannerSlots = currentDailyPlanner.time_slots
 
   // Assigning to do to a time slot
   const handleSlotClick = slotId => {
-  setSlotId(slotId)
-  console.log('SLOT ID ---->', slotId)
-  setIsCreateTodoModalOpen(true)
-}
-
-const handleCreateTodo = async todoData => {
-  try {
-    const createdTodo = await dispatch(createNewTodo(todoData))
-    console.log('CREATED TODO ---->', createdTodo)
-
-    // Find the corresponding DailyPlannerSlot object
-    const slotToUpdate = dailyPlannerSlots.find(slot => slot.id === slotId)
-    console.log('SLOT TO UPDATE --->', slotToUpdate)
-    if (slotToUpdate) {
-      // Update the todo_id of the DailyPlannerSlot
-      slotToUpdate.todo_id = createdTodo.id
-      // Dispatch an action to update the DailyPlannerSlot in the database
-      await dispatch(
-        assignTodoToSlotThunk(
-          currentDailyPlanner.id,
-          slotToUpdate.id,
-          createdTodo.id
-        )
-      )
-    }
-
-    setIsCreateTodoModalOpen(false)
-  } catch (error) {
-    console.error(error)
-    // Handle error as needed
+    setSlotId(slotId)
+    console.log('SLOT ID ---->', slotId)
+    setIsCreateTodoModalOpen(true)
   }
-}
 
-const handleCloseModal = todoData => {
-  setIsCreateTodoModalOpen(false)
-  if (todoData) {
-    handleCreateTodo(todoData)
-  }
-}
+  // const handleCreateTodo = async todoData => {
+  //   try {
+  //     console.log('TODO DATA ---->', todoData)
+  //     const createdTodo = await dispatch(createNewTodo(todoData))
+  //     console.log('CREATED TODO ---->', createdTodo)
 
+  //     // Find the corresponding DailyPlannerSlot object
+  //     const slotToUpdate = dailyPlannerSlots.find(slot => slot.id === slotId)
+  //     console.log('SLOT TO UPDATE --->', slotToUpdate)
+  //     if (slotToUpdate) {
+  //       // Update the todo_id of the DailyPlannerSlot
+  //       slotToUpdate.todo_id = createdTodo.id
+  //       // Dispatch an action to update the DailyPlannerSlot in the database
+  //       await dispatch(
+  //         assignTodoToSlotThunk(
+  //           currentDailyPlanner.id,
+  //           slotToUpdate.id,
+  //           createdTodo.id
+  //         )
+  //       )
+  //     }
+
+  //     setIsCreateTodoModalOpen(false)
+  //   } catch (error) {
+  //     console.error(error)
+  //     // Handle error as needed
+  //   }
+  // }
+
+  // const handleCloseModal = todoData => {
+  //   setIsCreateTodoModalOpen(false)
+  //   if (todoData) {
+  //     handleCreateTodo(todoData)
+  //   }
+  // }
 
   // DATE/TIME FORMATTING
   const getOrdinalSuffix = day => {
@@ -170,9 +166,8 @@ const handleCloseModal = todoData => {
               <OpenModalButton
                 modalComponent={
                   <CreateTodoModal
-                    onCreateTodo={handleCreateTodo}
-                    onClose={handleCloseModal}
                     slotId={slot.id}
+                    plannerId={currentDailyPlanner.id}
                   />
                 }
                 buttonText={<FontAwesomeIcon icon={faPencil} />}

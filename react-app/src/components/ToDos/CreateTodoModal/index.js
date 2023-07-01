@@ -3,8 +3,9 @@ import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { useModal } from '../../../context/Modal'
 import { createNewTodo } from '../../../store/todos'
+import { assignTodoToSlotThunk } from '../../../store/daily_planner'
 
-const CreateTodoModal = ({ onClose }) => {
+const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const { closeModal } = useModal()
@@ -30,9 +31,15 @@ const CreateTodoModal = ({ onClose }) => {
       goal_id: goalId
     }
 
-    await dispatch(createNewTodo(todoData))
+    console.log('SLOT ID ---->', slotId)
+    console.log('PLANNER ID ---->', plannerId)
+    const newTodo = await dispatch(createNewTodo(todoData))
+
+    if (newTodo) {
+      await dispatch(assignTodoToSlotThunk(plannerId, slotId, newTodo.id))
+    }
+
     closeModal()
-    onClose(todoData)
   }
 
   const handleReminderChange = e => {
