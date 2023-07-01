@@ -101,7 +101,7 @@ export const assignTodoToSlotThunk =
       dispatch(assignTodoToSlot(updatedSlot))
 
       // Update the slots array in the state with the updated slot
-      const { slots } = getState().dailyPlanner
+      const slots = getState().slots || []
       const updatedSlots = slots.map(slot => {
         if (slot.id === updatedSlot.id) {
           return updatedSlot
@@ -143,12 +143,14 @@ const dailyPlannerReducer = (state = initialState, action) => {
     case ASSIGN_TODO_TO_SLOT:
       return {
         ...state,
-        slots: state.slots.map(slot => {
-          if (slot.id === action.payload.id) {
-            return action.payload
-          }
-          return slot
-        })
+        slots: Array.isArray(state.slots)
+          ? state.slots.map(slot => {
+              if (slot.id === action.payload.id) {
+                return action.payload
+              }
+              return slot
+            })
+          : []
       }
     default:
       return state
