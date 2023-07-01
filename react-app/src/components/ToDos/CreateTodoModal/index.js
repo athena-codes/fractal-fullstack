@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { useModal } from '../../../context/Modal'
 import { createNewTodo } from '../../../store/todos'
@@ -8,6 +8,8 @@ import { assignTodoToSlotThunk } from '../../../store/daily_planner'
 const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const slots = useSelector(state => state.daily_planner.slots)
+  console.log('slots ---->', slots)
   const { closeModal } = useModal()
 
   const [name, setName] = useState('')

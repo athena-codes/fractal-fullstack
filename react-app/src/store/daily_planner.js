@@ -63,7 +63,9 @@ export const fetchDailyPlannerSlotsThunk = dailyPlannerId => async dispatch => {
 export const fetchDailyPlannerSlotByIdThunk =
   (dailyPlannerId, slotId) => async dispatch => {
     try {
-      const response = await fetch(`/api/daily-planner/${dailyPlannerId}/slots/${slotId}`)
+      const response = await fetch(
+        `/api/daily-planner/${dailyPlannerId}/slots/${slotId}`
+      )
 
       if (!response.ok) {
         throw new Error('Failed to fetch daily planner slot')
@@ -141,7 +143,12 @@ const dailyPlannerReducer = (state = initialState, action) => {
     case ASSIGN_TODO_TO_SLOT:
       return {
         ...state,
-        slot: action.payload
+        slots: state.slots.map(slot => {
+          if (slot.id === action.payload.id) {
+            return action.payload
+          }
+          return slot
+        })
       }
     default:
       return state
