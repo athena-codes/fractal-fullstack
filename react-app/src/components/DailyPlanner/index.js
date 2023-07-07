@@ -11,12 +11,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import CreateTodoModal from '../ToDos/CreateTodoModal'
 import OpenModalButton from '../../components/OpenModalButton'
-
 import './DailyPlanner.css'
 
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
-  // const planners = useSelector(state => state.daily_planner)
   const slots = useSelector(state => state.daily_planner.slots)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [slotId, setSlotId] = useState('')
@@ -63,51 +61,16 @@ function DailyPlanner () {
 
   // TIME SLOTS FOR EACH DAILY PLANNER
   const currentDailyPlanner = dailyPlanners[currentSlide]
-  console.log('CURRENT DAILY PLANNER --->', currentDailyPlanner)
   const dailyPlannerSlots = currentDailyPlanner.time_slots
+  console.log('DAILY PLANNER SLOTS --->', dailyPlannerSlots)
 
-  // Assigning to do to a time slot
+  // Assign slotId for assigning a todo to a slot
   const handleSlotClick = slotId => {
     setSlotId(slotId)
     console.log('SLOT ID ---->', slotId)
     setIsCreateTodoModalOpen(true)
   }
 
-  // const handleCreateTodo = async todoData => {
-  //   try {
-  //     console.log('TODO DATA ---->', todoData)
-  //     const createdTodo = await dispatch(createNewTodo(todoData))
-  //     console.log('CREATED TODO ---->', createdTodo)
-
-  //     // Find the corresponding DailyPlannerSlot object
-  //     const slotToUpdate = dailyPlannerSlots.find(slot => slot.id === slotId)
-  //     console.log('SLOT TO UPDATE --->', slotToUpdate)
-  //     if (slotToUpdate) {
-  //       // Update the todo_id of the DailyPlannerSlot
-  //       slotToUpdate.todo_id = createdTodo.id
-  //       // Dispatch an action to update the DailyPlannerSlot in the database
-  //       await dispatch(
-  //         assignTodoToSlotThunk(
-  //           currentDailyPlanner.id,
-  //           slotToUpdate.id,
-  //           createdTodo.id
-  //         )
-  //       )
-  //     }
-
-  //     setIsCreateTodoModalOpen(false)
-  //   } catch (error) {
-  //     console.error(error)
-  //     // Handle error as needed
-  //   }
-  // }
-
-  // const handleCloseModal = todoData => {
-  //   setIsCreateTodoModalOpen(false)
-  //   if (todoData) {
-  //     handleCreateTodo(todoData)
-  //   }
-  // }
 
   // DATE/TIME FORMATTING
   const getOrdinalSuffix = day => {
@@ -144,7 +107,7 @@ function DailyPlanner () {
     <div>
       <h1>Daily Planner</h1>
       <div className='subheading'>
-        <p>To Do | {currentDailyPlanner.date}</p>
+        <p>To Do | {formatDate(currentDailyPlanner.date)}</p>
         <div className='slideshow-controls'>
           <button onClick={goToPreviousSlide}>&lt;</button>
           <button onClick={goToNextSlide}>&gt;</button>

@@ -3,6 +3,7 @@ const GET_DAILY_PLANNERS = 'daily_planner/getDailyPlanner'
 const GET_DAILY_PLANNER_SLOTS = 'daily_planner/getDailyPlannerSlots'
 const GET_DAILY_PLANNER_SLOT_BY_ID = 'daily_planner/getDailyPlannerSlotById'
 const ASSIGN_TODO_TO_SLOT = 'daily_planner/assignTodoToSlot'
+const UPDATE_TODO_ID = 'daily_planner/updateTodoId'
 
 // Action Creators
 const getDailyPlanners = dailyPlanner => ({
@@ -23,6 +24,11 @@ const getDailyPlannerSlotById = slot => ({
 const assignTodoToSlot = slot => ({
   type: ASSIGN_TODO_TO_SLOT,
   payload: slot
+})
+
+const updateTodoId = (slotId, todoId) => ({
+  type: UPDATE_TODO_ID,
+  payload: { slotId, todoId }
 })
 
 // Thunks
@@ -97,24 +103,29 @@ export const assignTodoToSlotThunk =
       }
 
       const updatedSlot = await response.json()
+      console.log('UPDATED SLOT ---->', updatedSlot)
 
-      dispatch(assignTodoToSlot(updatedSlot))
+      await dispatch(assignTodoToSlot(updatedSlot))
+      await dispatch(updateTodoId(slotId, todoId))
 
-      // Update the slots array in the state with the updated slot
-      const slots = getState().slots || []
-      const updatedSlots = slots.map(slot => {
-        if (slot.id === updatedSlot.id) {
-          return updatedSlot
-        }
-        return slot
-      })
+      // Fetch the updated slots after assigning the todo
+      const updatedSlotsResponse = await fetch(
+        `/api/daily-planner/${dailyPlannerId}/slots`
+      )
+      if (!updatedSlotsResponse.ok) {
+        throw new Error('Failed to fetch updated slots')
+      }
+      const updatedSlots = await updatedSlotsResponse.json()
+      console.log('UPDATED SLOTS ---->', updatedSlots)
 
-      dispatch(getDailyPlannerSlots(updatedSlots))
+      await dispatch(getDailyPlannerSlots(updatedSlots))
+      return updatedSlots
     } catch (error) {
       console.error(error)
       // Handle error as needed
     }
   }
+
 
 // Reducer
 const initialState = {
@@ -151,6 +162,19 @@ const dailyPlannerReducer = (state = initialState, action) => {
               return slot
             })
           : []
+      }
+    case UPDATE_TODO_ID:
+      const { slotId, todoId } = action.payload
+      const updatedSlots = state.slots.map(slot => {
+        if (slot.id === slotId) {
+          return { ...slot, todo_id: todoId }
+        }
+        return slot
+      })
+
+      return {
+        ...state,
+        slots: updatedSlots
       }
     default:
       return state

@@ -9,7 +9,6 @@ const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const slots = useSelector(state => state.daily_planner.slots)
-  console.log('slots ---->', slots)
   const { closeModal } = useModal()
 
   const [name, setName] = useState('')
