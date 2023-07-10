@@ -5,15 +5,20 @@ import {
   fetchDailyPlannersThunk,
   fetchDailyPlannerSlotsThunk
 } from '../../store/daily_planner'
+import { updateExistingTodo, deleteExistingTodo } from '../../store/todos'
 import CreateTodoModal from '../ToDos/CreateTodoModal'
+import UpdateTodoModal from '../ToDos/UpdateTodoModal'
 import OpenModalButton from '../../components/OpenModalButton'
+import { useModal } from '../../context/Modal'
 import './DailyPlanner.css'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faChevronLeft,
   faChevronRight,
-  faPencil
+  faPlus,
+  faPencil,
+  faTrash
 } from '@fortawesome/free-solid-svg-icons'
 
 function DailyPlanner () {
@@ -23,6 +28,7 @@ function DailyPlanner () {
     getCurrentDailyPlannerIndex()
   )
   const [slotId, setSlotId] = useState('')
+  const { closeModal } = useModal()
   const dispatch = useDispatch()
 
   // FETCH DAILY PLANNERS
@@ -40,6 +46,26 @@ function DailyPlanner () {
   useEffect(() => {
     setCurrentSlide(getCurrentDailyPlannerIndex())
   }, [dailyPlanners])
+
+  // UPDATE TODO
+  const handleUpdateTodo = async updatedTodoData => {
+    try {
+      await dispatch(updateExistingTodo(slotId, updatedTodoData))
+      closeModal()
+      dispatch(fetchDailyPlannerSlotsThunk())
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  // DELETE TODO
+  const handleDeleteTodo = async slotId => {
+    try {
+      await dispatch(deleteExistingTodo(slotId))
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   // DAILY PLANNER INDEX HELPER FUNCTION - to find + display today's date as 1st daily planner in list
   function getCurrentDailyPlannerIndex () {
@@ -162,10 +188,37 @@ function DailyPlanner () {
                     plannerId={currentDailyPlanner.id}
                   />
                 }
-                buttonText={<FontAwesomeIcon icon={faPencil} />}
+                buttonText={<FontAwesomeIcon icon={faPlus} />}
                 handleSlotClick={handleSlotClick}
                 slotId={slot.id}
               />
+              {slot.todo && (
+                <>
+                  <OpenModalButton
+                    modalComponent={
+                      <UpdateTodoModal
+                        todoId={slot.todo_id}
+                        name={slot.todo.name}
+                        priority={slot.todo.priority}
+                        notes={slot.todo.notes}
+                        reminder={slot.todo.reminder}
+                        onSubmit={handleUpdateTodo}
+                        onClose={() => setSlotId(null)}
+                      />
+                    }
+                    buttonText={
+                      <FontAwesomeIcon icon={faPencil} className='update' />
+                    }
+                    onModalClose={() => setSlotId(null)}
+                  />
+                  <button
+                    onClick={() => handleDeleteTodo(slot.todo.id)}
+                    className='delete-button'
+                  >
+                    {<FontAwesomeIcon icon={faTrash} className='delete' />}
+                  </button>
+                </>
+              )}
             </div>
           ))}
       </div>
