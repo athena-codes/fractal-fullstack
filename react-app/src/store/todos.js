@@ -113,6 +113,7 @@ export const deleteExistingTodo = todoId => async dispatch => {
     }
 
     dispatch(deleteTodo(todoId))
+    return response
   } catch (error) {
     console.error(error)
     // Handle error as needed

@@ -23,6 +23,7 @@ import './DailyPlanner.css'
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
   const slots = useSelector(state => state.daily_planner.slots.slots)
+  console.log('SLOTS ====>', slots)
   const [currentSlide, setCurrentSlide] = useState(
     getCurrentDailyPlannerIndex()
   )
@@ -58,14 +59,20 @@ function DailyPlanner () {
   }
 
   // DELETE TODO
-  const handleDeleteTodo = async slotId => {
-    try {
-      await dispatch(deleteExistingTodo(slotId))
-      dispatch(fetchDailyPlannerSlotsThunk())
-    } catch (error) {
-      console.error(error)
+const handleDeleteTodo = async slotId => {
+  try {
+    const response = await dispatch(deleteExistingTodo(slotId))
+
+    if (response.ok) {
+      dispatch(fetchDailyPlannersThunk())
+    } else {
+      throw new Error('Failed to delete TODO')
     }
+  } catch (error) {
+    console.error(error)
   }
+}
+
 
   // DAILY PLANNER INDEX HELPER FUNCTION - to find + display today's date as 1st daily planner in list
   function getCurrentDailyPlannerIndex () {
