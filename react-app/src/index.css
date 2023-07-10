@@ -14,10 +14,7 @@ font-weight: lighter;}
 }
 
 
-input {
+input, button, textarea, select, option {
     font-family: 'Arima', cursive;
 }
 
-button {
-    font-family: 'Arima', cursive;
-}

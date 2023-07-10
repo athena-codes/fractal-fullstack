@@ -1,14 +1,20 @@
 .goals-overview {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
+    position: relative;
+    left: -15;
+}
 
+.goals-list {
+    display: flex;
+    flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .goal-card {
     width: 250px;
-    padding: 1rem;
+    margin: 20px;
+    padding: 5px;
     border-radius: 8px;
     background-color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -39,7 +45,6 @@
 }
 
 .modal-btn-goal {
-    background-color: #58c2ff;
     color: #ffffff;
     border: none;
     border-radius: 4px;
@@ -49,10 +54,14 @@
     transition: background-color 0.2s ease-in-out;
 }
 
+.modal-btn-goal:hover {
+    background-color: #68bbfe;
+}
+
 
 .goal-card .delete-button {
-    background-color: #ff5858;
-    color: #000000;
+    background-color: transparent;
+   color: #000000;
     border: none;
     border-radius: 4px;
     padding: 0.5rem 1rem;
@@ -66,7 +75,6 @@
 }
 
 .goal-card .open-modal-button {
-    background-color: #47b2ff;
     color: #ffffff;
     border: none;
     border-radius: 4px;
@@ -76,6 +84,12 @@
     transition: background-color 0.2s ease-in-out;
 }
 
-.goal-card .open-modal-button:hover {
-    background-color: #3792dd;
+
+.timeframe-clock {
+    margin: 10px;
+    padding: 4px;
+}
+
+.clock, .hourglass, .bullseye {
+    margin-right: 8px;
 }

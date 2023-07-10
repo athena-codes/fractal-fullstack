@@ -5,6 +5,14 @@ import { useModal } from '../../../context/Modal'
 import { updateExistingGoal } from '../../../store/goals'
 import UpdateGoalModal from '../UpdateGoalModal'
 import OpenModalButton from '../../OpenModalButton'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faClock,
+  faHourglass,
+  faBullseye,
+  faPenToSquare,
+  faTrash
+} from '@fortawesome/free-solid-svg-icons'
 
 import './GoalsOverviewPage.css'
 
@@ -54,7 +62,7 @@ const GoalsOverview = () => {
         return 'th'
     }
   }
-
+  ;<FontAwesomeIcon icon={faClock} />
   const formatDate = dateString => {
     const date = new Date(dateString)
     const timeZoneOffset = date.getTimezoneOffset() * 60 * 1000 // Get the time zone offset in milliseconds
@@ -74,47 +82,62 @@ const GoalsOverview = () => {
   return (
     <>
       <h2>Goals</h2>
-    <div className='goals-overview'>
-      {goals.length === 0 ? (
-        <p>No goals found.</p>
-      ) : (
-        <ul className='goals-list'>
-          {goals.map(goal => (
-            <li key={goal.id} className='goal-card'>
-              <h3 className='title'>{goal.title}</h3>
-              <p className='description'>{goal.description}</p>
-              <p>Deadline: {formatDate(goal.end_date)}</p>
-              <p>Timeframe: {goal.timeframe} days</p>
-              <div className='goal-actions'>
-                <div className='modal-btn-goal'>
-                  <OpenModalButton
-                    modalComponent={
-                      <UpdateGoalModal
-                        goalId={goal.id}
-                        title={goal.title}
-                        description={goal.description}
-                        endDate={goal.end_date}
-                        timeframe={goal.timeframe}
-                        onSubmit={handleUpdateGoal}
-                        onClose={() => setSelectedGoalId(null)}
-                      />
-                    }
-                    buttonText='Update'
-                    onModalClose={() => setSelectedGoalId(null)}
-                  />
+      <div className='goals-overview'>
+        {goals.length === 0 ? (
+          <p>No goals found.</p>
+        ) : (
+          <ul className='goals-list'>
+            {goals.map(goal => (
+              <li key={goal.id} className='goal-card'>
+                <h3 className='title'>
+                  {' '}
+                  {<FontAwesomeIcon icon={faBullseye} className='bullseye' />}
+                  {goal.title}
+                </h3>
+                <p className='description'> -{goal.description}</p>
+                <p>
+                  {<FontAwesomeIcon icon={faClock} className='clock' />}
+                  {formatDate(goal.end_date)}
+                </p>
+                <p className='timeframe-clock'>
+                  {<FontAwesomeIcon icon={faHourglass} className='hourglass' />}
+                  {goal.timeframe} days
+                </p>
+                <div className='goal-actions'>
+                  <div className='modal-btn-goal'>
+                    <OpenModalButton
+                      modalComponent={
+                        <UpdateGoalModal
+                          goalId={goal.id}
+                          title={goal.title}
+                          description={goal.description}
+                          endDate={goal.end_date}
+                          timeframe={goal.timeframe}
+                          onSubmit={handleUpdateGoal}
+                          onClose={() => setSelectedGoalId(null)}
+                        />
+                      }
+                      buttonText={
+                        <FontAwesomeIcon
+                          icon={faPenToSquare}
+                          className='update'
+                        />
+                      }
+                      onModalClose={() => setSelectedGoalId(null)}
+                    />
+                  </div>
+                  <button
+                    onClick={() => handleDeleteGoal(goal.id)}
+                    className='delete-button'
+                  >
+                    {<FontAwesomeIcon icon={faTrash} className='delete' />}
+                  </button>
                 </div>
-                <button
-                  onClick={() => handleDeleteGoal(goal.id)}
-                  className='delete-button'
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </>
   )
 }

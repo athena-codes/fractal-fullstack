@@ -92,9 +92,10 @@ const CreateGoalModal = () => {
         />
       </div>
 
-      <div>
-        <button type='submit'>Create</button>
-        <button type='button' onClick={closeModal}>
+      <div className='submit-cancel-btns'>
+        <button className='goal-submit-btn' type='submit'>Create</button>
+        <button className = 'goal-cancel-btn'
+ type='button' onClick={closeModal}>
           Cancel
         </button>
       </div>
