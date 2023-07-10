@@ -15,9 +15,12 @@ import './DailyPlanner.css'
 
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
+  console.log('DAILY PLANNERS --->', dailyPlanners)
   const slots = useSelector(state => state.daily_planner.slots.slots)
   console.log('SLOTS INSIDE DP COMPONENT --->', slots)
-  const [currentSlide, setCurrentSlide] = useState(0)
+  const [currentSlide, setCurrentSlide] = useState(
+    getCurrentDailyPlannerIndex()
+  )
   const [slotId, setSlotId] = useState('')
   const [isCreateTodoModalOpen, setIsCreateTodoModalOpen] = useState(false)
   const dispatch = useDispatch()
@@ -33,6 +36,27 @@ function DailyPlanner () {
       dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
     }
   }, [dailyPlanners, currentSlide, dispatch])
+
+  useEffect(() => {
+    setCurrentSlide(getCurrentDailyPlannerIndex())
+  }, [dailyPlanners])
+
+  // Helper function to get the index of the current daily planner
+  function getCurrentDailyPlannerIndex () {
+    if (!dailyPlanners || dailyPlanners.length === 0) {
+      return 0 // Return 0 if no daily planners are available
+    }
+
+    const currentDate = new Date().toLocaleDateString() // Get the current date in local time
+    console.log('DATE --->', currentDate)
+    for (let i = 0; i < dailyPlanners.length; i++) {
+      if (dailyPlanners[i].date === currentDate) {
+        return i // Return the index of the daily planner with matching date
+      }
+    }
+
+    return 0 // Return 0 if no daily planner with matching date is found
+  }
 
   // Planner back and forward button functionality
   const goToPreviousSlide = () => {
@@ -70,7 +94,6 @@ function DailyPlanner () {
     setIsCreateTodoModalOpen(true)
   }
 
-
   // DATE/TIME FORMATTING
   const getOrdinalSuffix = day => {
     if (day >= 11 && day <= 13) {
@@ -90,9 +113,11 @@ function DailyPlanner () {
 
   const formatDate = dateString => {
     const date = new Date(dateString)
+    const timeZoneOffset = date.getTimezoneOffset() * 60 * 1000 // Get the time zone offset in milliseconds
+    const adjustedDate = new Date(date.getTime() + timeZoneOffset) // Adjust the date by adding the time zone offset
     const options = { weekday: 'long', month: 'long', day: 'numeric' }
-    const formattedDate = date.toLocaleDateString('en-US', options)
-    const day = date.getDate()
+    const formattedDate = adjustedDate.toLocaleDateString('en-US', options)
+    const day = adjustedDate.getDate()
     const suffix = getOrdinalSuffix(day)
     return formattedDate.replace(/(\d+)$/, `$1${suffix}`)
   }
@@ -122,7 +147,7 @@ function DailyPlanner () {
               <input
                 className='time-slot-field'
                 type='text'
-                value={ slot['todo'] && slot.todo.name || ''}
+                value={(slot['todo'] && slot.todo.name) || ''}
                 readOnly
               />
               <OpenModalButton
