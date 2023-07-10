@@ -13,6 +13,7 @@ const CreateGoalModal = () => {
   const [endDate, setEndDate] = useState('')
   const [timeframe, setTimeframe] = useState('')
 
+  // HANDLE FORM SUBMISSION
   const handleSubmit = async e => {
     e.preventDefault()
 
@@ -30,6 +31,7 @@ const CreateGoalModal = () => {
     history.push('/goals')
   }
 
+  // FORMAT END DATE + SET TIMEFRAME
   const handleEndDateChange = e => {
     const selectedEndDate = e.target.value
     setEndDate(selectedEndDate)

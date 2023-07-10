@@ -8,12 +8,7 @@ import {
   fetchDailyPlannersThunk
 } from '../../../store/daily_planner'
 
-const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
-  const dispatch = useDispatch()
-  const history = useHistory()
-  const slots = useSelector(state => state.daily_planner.slots)
-  const { closeModal } = useModal()
-
+const CreateTodoModal = ({ slotId, plannerId }) => {
   const [name, setName] = useState('')
   const [priority, setPriority] = useState('')
   const [description, setDescription] = useState('')
@@ -22,6 +17,11 @@ const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
   const [completed, setCompleted] = useState(false)
   const [goalId, setGoalId] = useState('')
 
+  const { closeModal } = useModal()
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  // HANDLE FORM SUBMISSION
   const handleSubmit = async e => {
     e.preventDefault()
 
@@ -108,8 +108,7 @@ const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
         />
       </div>
 
-
-{/*  COMPLETED AND GOAL ID INPUT FIELDS */}
+      {/*  COMPLETED AND GOAL ID INPUT FIELDS */}
       {/* <div>
         <label>Completed:</label>
         <input

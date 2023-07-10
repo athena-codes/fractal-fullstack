@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useHistory } from 'react-router-dom'
 import {
   fetchDailyPlannersThunk,
-  fetchDailyPlannerSlotsThunk,
-  assignTodoToSlotThunk
+  fetchDailyPlannerSlotsThunk
 } from '../../store/daily_planner'
-import { createNewTodo } from '../../store/todos'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import CreateTodoModal from '../ToDos/CreateTodoModal'
@@ -15,22 +13,19 @@ import './DailyPlanner.css'
 
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
-  console.log('DAILY PLANNERS --->', dailyPlanners)
   const slots = useSelector(state => state.daily_planner.slots.slots)
-  console.log('SLOTS INSIDE DP COMPONENT --->', slots)
   const [currentSlide, setCurrentSlide] = useState(
     getCurrentDailyPlannerIndex()
   )
   const [slotId, setSlotId] = useState('')
-  const [isCreateTodoModalOpen, setIsCreateTodoModalOpen] = useState(false)
   const dispatch = useDispatch()
 
-  // Get all daily planners
+  // FETCH DAILY PLANNERS
   useEffect(() => {
     dispatch(fetchDailyPlannersThunk())
   }, [dispatch])
 
-  // Get all daily planner slots for each daily planner and display on corresponding slide
+  // SET SLIDES FOR DAILY PLANNER SLIDESHOW
   useEffect(() => {
     if (dailyPlanners && dailyPlanners.length > 0) {
       dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
@@ -41,28 +36,27 @@ function DailyPlanner () {
     setCurrentSlide(getCurrentDailyPlannerIndex())
   }, [dailyPlanners])
 
-  // Helper function to get the index of the current daily planner
-function getCurrentDailyPlannerIndex () {
-  if (!dailyPlanners || dailyPlanners.length === 0) {
-    return 0 // Return 0 if no daily planners are available
-  }
-
-  const currentDate = new Date()
-  currentDate.setUTCHours(0, 0, 0, 0) // Set time to 00:00:00 GMT
-  console.log('DATE --->', currentDate)
-
-  for (let i = 0; i < dailyPlanners.length; i++) {
-    const plannerDate = new Date(dailyPlanners[i].date)
-    plannerDate.setUTCHours(0, 0, 0, 0) // Set time to 00:00:00 GMT
-    if (plannerDate.getTime() === currentDate.getTime()) {
-      return i // Return the index of the daily planner with matching date
+  // DAILY PLANNER INDEX HELPER FUNCTION - to find + display today's date as 1st daily planner in list
+  function getCurrentDailyPlannerIndex () {
+    if (!dailyPlanners || dailyPlanners.length === 0) {
+      return 0
     }
+
+    const currentDate = new Date()
+    currentDate.setUTCHours(0, 0, 0, 0)
+
+    for (let i = 0; i < dailyPlanners.length; i++) {
+      const plannerDate = new Date(dailyPlanners[i].date)
+      plannerDate.setUTCHours(0, 0, 0, 0)
+      if (plannerDate.getTime() === currentDate.getTime()) {
+        return i
+      }
+    }
+
+    return 0
   }
 
-  return 0 // Return 0 if no daily planner with matching date is found
-}
-
-
+  // SLIDE FUNCTIONALITY
   const goToPreviousSlide = () => {
     setCurrentSlide(prevSlide =>
       dailyPlanners.length > 1
@@ -83,19 +77,17 @@ function getCurrentDailyPlannerIndex () {
     )
   }
 
-  // Loading symbol
+  // LOADING SYMBOL
   if (!dailyPlanners) {
     return <div>Loading...</div>
   }
 
-  // TIME SLOTS FOR EACH DAILY PLANNER
+  // CURRENT DAILY PLANNER VARIABLE
   const currentDailyPlanner = dailyPlanners[currentSlide]
 
-  // Assign slotId for assigning a todo to a slot
+  // ASSIGN SLOT ID - associates a todo with a specific time
   const handleSlotClick = slotId => {
     setSlotId(slotId)
-    console.log('SLOT ID ---->', slotId)
-    setIsCreateTodoModalOpen(true)
   }
 
   // DATE/TIME FORMATTING

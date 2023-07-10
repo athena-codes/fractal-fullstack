@@ -19,7 +19,8 @@ const UpdateGoalModal = ({
   )
   const [updatedTimeframe, setUpdatedTimeframe] = useState(timeframe)
 
-  const handleFormSubmit = async e => {
+  // HANDLE FORM SUBMISSTION
+  const handleSubmit = async e => {
     e.preventDefault()
 
     const updatedGoalData = {
@@ -34,10 +35,10 @@ const UpdateGoalModal = ({
       closeModal()
     } catch (error) {
       console.error(error)
-      // Handle error as needed
     }
   }
 
+  // HANDLE END DATE CHANGE + SET TIMEFRAME
   const handleEndDateChange = e => {
     const selectedEndDate = e.target.value
     setUpdatedEndDate(selectedEndDate)
@@ -55,7 +56,7 @@ const UpdateGoalModal = ({
   return (
     <div>
       <h2>Update Goal</h2>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleSubmit}>
         <label htmlFor='title'>Title</label>
         <input
           type='text'
@@ -92,4 +93,4 @@ const UpdateGoalModal = ({
 }
 
 
-export default UpdateGoalModal; 
+export default UpdateGoalModal;

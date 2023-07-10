@@ -9,39 +9,34 @@ import OpenModalButton from '../../OpenModalButton'
 const GoalsOverview = () => {
   const dispatch = useDispatch()
   const goals = useSelector(state => state.goals.goals)
-  const { openModal, closeModal } = useModal()
+  const { closeModal } = useModal()
   const [selectedGoalId, setSelectedGoalId] = useState(null)
 
   useEffect(() => {
     dispatch(fetchAllGoals())
   }, [dispatch])
 
+  // HANDLE DELETE GOAL
   const handleDeleteGoal = async goalId => {
     try {
       await dispatch(deleteExistingGoal(goalId))
-      // Optionally show a success message here
     } catch (error) {
       console.error(error)
-      // Handle error as needed
     }
   }
 
-  const handleUpdateGoal = goalId => {
-    setSelectedGoalId(goalId)
-    openModal()
-  }
-
-  const handleSubmitUpdateGoal = async updatedGoalData => {
+  // HANDLE UPDATE GOAL
+  const handleUpdateGoal = async updatedGoalData => {
     try {
       await dispatch(updateExistingGoal(selectedGoalId, updatedGoalData))
       closeModal()
-      dispatch(fetchAllGoals()) 
+      dispatch(fetchAllGoals())
     } catch (error) {
       console.error(error)
-      // Handle error as needed
     }
   }
 
+  // LOADING SYMBOL
   if (!goals) {
     return <div>Loading...</div>
   }
@@ -67,7 +62,7 @@ const GoalsOverview = () => {
                     description={goal.description}
                     endDate={goal.end_date}
                     timeframe={goal.timeframe}
-                    onSubmit={handleSubmitUpdateGoal}
+                    onSubmit={handleUpdateGoal}
                     onClose={() => setSelectedGoalId(null)}
                   />
                 }
