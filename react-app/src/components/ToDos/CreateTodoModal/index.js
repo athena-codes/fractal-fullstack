@@ -80,14 +80,14 @@ const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
         </select>
       </div>
 
-      <div>
+      {/* <div>
         <label>Description:</label>
         <textarea
           name='description'
           value={description}
           onChange={e => setDescription(e.target.value)}
         ></textarea>
-      </div>
+      </div> */}
 
       <div>
         <label>Notes:</label>
@@ -108,7 +108,9 @@ const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
         />
       </div>
 
-      <div>
+
+{/*  COMPLETED AND GOAL ID INPUT FIELDS */}
+      {/* <div>
         <label>Completed:</label>
         <input
           name='completed'
@@ -116,9 +118,9 @@ const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
           checked={completed}
           onChange={e => setCompleted(e.target.checked)}
         />
-      </div>
+      </div> */}
 
-      <div>
+      {/* <div>
         <label>Goal ID:</label>
         <input
           name='goal_id'
@@ -126,7 +128,7 @@ const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
           value={goalId}
           onChange={e => setGoalId(e.target.value)}
         />
-      </div>
+      </div> */}
 
       <div>
         <button type='submit'>Create</button>
