@@ -35,8 +35,6 @@ const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
       goal_id: goalId
     }
 
-    console.log('SLOT ID ---->', slotId)
-    console.log('PLANNER ID ---->', plannerId)
     const newTodo = await dispatch(createNewTodo(todoData))
 
     if (newTodo) {

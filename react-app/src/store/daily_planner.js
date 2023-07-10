@@ -103,7 +103,6 @@ export const assignTodoToSlotThunk =
       }
 
       const updatedSlot = await response.json()
-      console.log('UPDATED SLOT ---->', updatedSlot)
 
       await dispatch(assignTodoToSlot(updatedSlot))
       await dispatch(updateTodoId(slotId, todoId))
@@ -154,7 +153,6 @@ const dailyPlannerReducer = (state = initialState, action) => {
     case ASSIGN_TODO_TO_SLOT:
       const updatedSlot = action.payload.time_slot
       console.log('UPDATED SLOT REDUCER --->', updatedSlot)
-      console.log('STATE.SLOTS --->', state.slots.slots)
       let updatedSlotsAssign
       if (updatedSlot) {
         updatedSlotsAssign = state.slots.slots.map(slot => {

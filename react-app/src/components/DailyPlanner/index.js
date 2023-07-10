@@ -122,7 +122,7 @@ function DailyPlanner () {
               <input
                 className='time-slot-field'
                 type='text'
-                value={slot.todo_id || ''}
+                value={ slot['todo'] && slot.todo.name || ''}
                 readOnly
               />
               <OpenModalButton

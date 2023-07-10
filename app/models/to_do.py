@@ -25,7 +25,7 @@ class Todo(db.Model):
     user=db.relationship('User', back_populates='todos')
     goal=db.relationship('Goal', back_populates='todos')
     reminders=db.relationship('Reminder', back_populates='todo')
-
+    slot = db.relationship('DailyPlannerSlot', back_populates='todo')
 
 
     def __init__(self, user_id, goal_id, name, priority=None, description=None, notes=None, reminder=False, completed=False):
