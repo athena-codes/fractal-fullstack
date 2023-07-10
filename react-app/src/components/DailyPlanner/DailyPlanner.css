@@ -1,16 +1,19 @@
-.slideshow-container {
-    position: relative;
-    width: 100%;
-    height: 200px;
+.slideshow-controls {
+    display: flex;
+    align-items: center;
 }
 
-.slide {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transition: opacity 0.5s;
+.slideshow-button {
+    background-color: transparent;
+    border: none;
+    color: #555555;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.slideshow-button:hover {
+    color: #333333;
 }
 
 .subheading {
@@ -18,17 +21,12 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
-}
-
-.slideshow-controls {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+    width: 75%;
 }
 
 .time {
     font-size: 12px;
+    margin-right: 10px;
 }
 
 .time-slots-start-end {
@@ -38,16 +36,10 @@
     margin: 0 -5px;
 }
 
-
-.time-slots {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
 .time-slot {
     display: flex;
     align-items: center;
+    margin-bottom: 10px;
 }
 
 .time-slot p {
@@ -60,9 +52,10 @@
     background-color: rgba(224, 224, 224, 0.529);
     border: none;
     margin-left: 10px;
+    transition: background-color 0.3s ease;
 }
 
-.navigation-link-pencil {
-    list-style: none;
-    text-decoration: none;
+.time-slot-field:focus {
+    background-color: rgba(224, 224, 224, 0.8);
+    outline: none;
 }

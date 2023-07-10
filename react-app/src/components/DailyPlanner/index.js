@@ -5,11 +5,16 @@ import {
   fetchDailyPlannersThunk,
   fetchDailyPlannerSlotsThunk
 } from '../../store/daily_planner'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import CreateTodoModal from '../ToDos/CreateTodoModal'
 import OpenModalButton from '../../components/OpenModalButton'
 import './DailyPlanner.css'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faChevronLeft,
+  faChevronRight,
+  faPencil
+} from '@fortawesome/free-solid-svg-icons'
 
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
@@ -129,8 +134,12 @@ function DailyPlanner () {
       <div className='subheading'>
         <p>To Do | {formatDate(currentDailyPlanner.date)}</p>
         <div className='slideshow-controls'>
-          <button onClick={goToPreviousSlide}>&lt;</button>
-          <button onClick={goToNextSlide}>&gt;</button>
+          <button className='slideshow-button' onClick={goToPreviousSlide}>
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
+          <button className='slideshow-button' onClick={goToNextSlide}>
+            <FontAwesomeIcon icon={faChevronRight} />
+          </button>
         </div>
       </div>
       <div className='time-slots-start-end'>
