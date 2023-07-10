@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { useModal } from '../../../context/Modal'
 import { createNewTodo } from '../../../store/todos'
-import { assignTodoToSlotThunk } from '../../../store/daily_planner'
+import {
+  assignTodoToSlotThunk,
+  fetchDailyPlannersThunk
+} from '../../../store/daily_planner'
 
 const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
   const dispatch = useDispatch()
@@ -39,6 +42,7 @@ const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
     if (newTodo) {
       await dispatch(assignTodoToSlotThunk(plannerId, slotId, newTodo.id))
     }
+    dispatch(fetchDailyPlannersThunk())
 
     closeModal()
   }

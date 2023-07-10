@@ -15,7 +15,8 @@ import './DailyPlanner.css'
 
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
-  const slots = useSelector(state => state.daily_planner.slots)
+  const slots = useSelector(state => state.daily_planner.slots.slots)
+  console.log('SLOTS INSIDE DP COMPONENT --->', slots)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [slotId, setSlotId] = useState('')
   const [isCreateTodoModalOpen, setIsCreateTodoModalOpen] = useState(false)
@@ -61,8 +62,6 @@ function DailyPlanner () {
 
   // TIME SLOTS FOR EACH DAILY PLANNER
   const currentDailyPlanner = dailyPlanners[currentSlide]
-  const dailyPlannerSlots = currentDailyPlanner.time_slots
-  console.log('DAILY PLANNER SLOTS --->', dailyPlannerSlots)
 
   // Assign slotId for assigning a todo to a slot
   const handleSlotClick = slotId => {
@@ -114,8 +113,8 @@ function DailyPlanner () {
         </div>
       </div>
       <div className='time-slots-start-end'>
-        {dailyPlannerSlots &&
-          dailyPlannerSlots.map(slot => (
+        {slots &&
+          slots.map(slot => (
             <div className='time-slot' key={slot.id}>
               <p className='time'>
                 {formatTime(slot.start_time)} - {formatTime(slot.end_time)}

@@ -21,9 +21,9 @@ const getDailyPlannerSlotById = slot => ({
   payload: slot
 })
 
-const assignTodoToSlot = slot => ({
+const assignTodoToSlot = updatedSlot => ({
   type: ASSIGN_TODO_TO_SLOT,
-  payload: slot
+  payload: updatedSlot
 })
 
 const updateTodoId = (slotId, todoId) => ({
@@ -108,15 +108,15 @@ export const assignTodoToSlotThunk =
       await dispatch(assignTodoToSlot(updatedSlot))
       await dispatch(updateTodoId(slotId, todoId))
 
-      // Fetch the updated slots after assigning the todo
-      const updatedSlotsResponse = await fetch(
-        `/api/daily-planner/${dailyPlannerId}/slots`
-      )
-      if (!updatedSlotsResponse.ok) {
-        throw new Error('Failed to fetch updated slots')
-      }
-      const updatedSlots = await updatedSlotsResponse.json()
-      console.log('UPDATED SLOTS ---->', updatedSlots)
+      // Update the slots array in the state with the updated slot
+      const slots = getState().daily_planner.slots
+      console.log('SLOTS ----->', slots)
+      const updatedSlots = slots.map(slot => {
+        if (slot.id === updatedSlot.id) {
+          return updatedSlot
+        }
+        return slot
+      })
 
       await dispatch(getDailyPlannerSlots(updatedSlots))
       return updatedSlots
@@ -126,7 +126,6 @@ export const assignTodoToSlotThunk =
     }
   }
 
-
 // Reducer
 const initialState = {
   dailyPlanner: null,
@@ -134,6 +133,7 @@ const initialState = {
   slot: null
 }
 
+// Reducer
 const dailyPlannerReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_DAILY_PLANNERS:
@@ -152,20 +152,26 @@ const dailyPlannerReducer = (state = initialState, action) => {
         slot: action.payload
       }
     case ASSIGN_TODO_TO_SLOT:
+      const updatedSlot = action.payload.time_slot
+      console.log('UPDATED SLOT REDUCER --->', updatedSlot)
+      console.log('STATE.SLOTS --->', state.slots.slots)
+      let updatedSlotsAssign
+      if (updatedSlot) {
+        updatedSlotsAssign = state.slots.slots.map(slot => {
+          if (slot.id === updatedSlot.id) {
+            return updatedSlot
+          }
+          return slot
+        })
+      }
+
       return {
         ...state,
-        slots: Array.isArray(state.slots)
-          ? state.slots.map(slot => {
-              if (slot.id === action.payload.id) {
-                return action.payload
-              }
-              return slot
-            })
-          : []
+        slots: updatedSlotsAssign
       }
     case UPDATE_TODO_ID:
       const { slotId, todoId } = action.payload
-      const updatedSlots = state.slots.map(slot => {
+      const updatedSlotsUpdate = state.slots.map(slot => {
         if (slot.id === slotId) {
           return { ...slot, todo_id: todoId }
         }
@@ -174,7 +180,7 @@ const dailyPlannerReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        slots: updatedSlots
+        slots: updatedSlotsUpdate
       }
     default:
       return state
