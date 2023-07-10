@@ -3,7 +3,7 @@
     min-height: 100vh;
     grid-template-rows: 30px auto;
     padding: none;
-    margin: none;
+    margin: -10px;
 }
 
 .Content {
