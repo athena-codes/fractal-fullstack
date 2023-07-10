@@ -39,6 +39,11 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.modal-btn:hover {
+  transform: scale(1.1);
 }
 
 .navigation-link {
@@ -121,4 +126,8 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.navigation-item:hover {
+  transform: scale(1.1);
 }
