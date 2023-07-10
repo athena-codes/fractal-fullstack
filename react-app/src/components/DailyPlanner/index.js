@@ -6,12 +6,10 @@ import {
   fetchDailyPlannerSlotsThunk
 } from '../../store/daily_planner'
 import { updateExistingTodo, deleteExistingTodo } from '../../store/todos'
+import { useModal } from '../../context/Modal'
 import CreateTodoModal from '../ToDos/CreateTodoModal'
 import UpdateTodoModal from '../ToDos/UpdateTodoModal'
 import OpenModalButton from '../../components/OpenModalButton'
-import { useModal } from '../../context/Modal'
-import './DailyPlanner.css'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faChevronLeft,
@@ -20,6 +18,7 @@ import {
   faPencil,
   faTrash
 } from '@fortawesome/free-solid-svg-icons'
+import './DailyPlanner.css'
 
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
@@ -62,6 +61,7 @@ function DailyPlanner () {
   const handleDeleteTodo = async slotId => {
     try {
       await dispatch(deleteExistingTodo(slotId))
+      dispatch(fetchDailyPlannerSlotsThunk())
     } catch (error) {
       console.error(error)
     }
