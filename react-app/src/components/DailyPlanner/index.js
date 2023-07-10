@@ -42,23 +42,27 @@ function DailyPlanner () {
   }, [dailyPlanners])
 
   // Helper function to get the index of the current daily planner
-  function getCurrentDailyPlannerIndex () {
-    if (!dailyPlanners || dailyPlanners.length === 0) {
-      return 0 // Return 0 if no daily planners are available
-    }
-
-    const currentDate = new Date().toLocaleDateString() // Get the current date in local time
-    console.log('DATE --->', currentDate)
-    for (let i = 0; i < dailyPlanners.length; i++) {
-      if (dailyPlanners[i].date === currentDate) {
-        return i // Return the index of the daily planner with matching date
-      }
-    }
-
-    return 0 // Return 0 if no daily planner with matching date is found
+function getCurrentDailyPlannerIndex () {
+  if (!dailyPlanners || dailyPlanners.length === 0) {
+    return 0 // Return 0 if no daily planners are available
   }
 
-  // Planner back and forward button functionality
+  const currentDate = new Date()
+  currentDate.setUTCHours(0, 0, 0, 0) // Set time to 00:00:00 GMT
+  console.log('DATE --->', currentDate)
+
+  for (let i = 0; i < dailyPlanners.length; i++) {
+    const plannerDate = new Date(dailyPlanners[i].date)
+    plannerDate.setUTCHours(0, 0, 0, 0) // Set time to 00:00:00 GMT
+    if (plannerDate.getTime() === currentDate.getTime()) {
+      return i // Return the index of the daily planner with matching date
+    }
+  }
+
+  return 0 // Return 0 if no daily planner with matching date is found
+}
+
+
   const goToPreviousSlide = () => {
     setCurrentSlide(prevSlide =>
       dailyPlanners.length > 1
