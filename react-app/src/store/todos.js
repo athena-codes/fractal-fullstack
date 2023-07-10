@@ -45,8 +45,7 @@ export const createNewTodo = todoData => async dispatch => {
         description,
         notes,
         reminder,
-        completed,
-        goal_id
+        completed
       })
     })
 

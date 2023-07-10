@@ -32,7 +32,7 @@ const CreateTodoModal = ({ onClose, slotId, plannerId }) => {
       notes,
       reminder: reminder || false,
       completed: completed || false,
-      goal_id: goalId
+      goal_id: goalId ? goalId : null
     }
 
     const newTodo = await dispatch(createNewTodo(todoData))
