@@ -10,6 +10,7 @@ import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import CreateTodoModal from '../ToDos/CreateTodoModal'
 import OpenModalButton from '../../components/OpenModalButton'
 import './DailyPlanner.css'
+import { TimeSlot } from './DragAndDrop/TimeSlot'
 
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)

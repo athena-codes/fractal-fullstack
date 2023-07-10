@@ -8,6 +8,9 @@ import DailyPlanner from './components/DailyPlanner'
 import DailyOverview from './components/DailyOverview'
 import { authenticate } from './store/session'
 import Navigation from './components/Navigation'
+import { useDrag, useDrop } from 'react-dnd'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 function App () {
   const dispatch = useDispatch()
@@ -38,7 +41,9 @@ function App () {
                 <GoalsOverview />
               </Route>
               <Route path='/daily-planner'>
-                <DailyPlanner />
+                <DndProvider backend={HTML5Backend}>
+                  <DailyPlanner />
+                </DndProvider>
               </Route>
             </Switch>
           </div>
