@@ -4,9 +4,20 @@
     grid-template-rows: 30px auto;
     padding: none;
     margin: -10px;
-}
+font-family: 'Arima', cursive;
+font-weight: lighter;}
 
 .Content {
-   grid-column: 1;
-   margin-left: 100px;
+    grid-column: 1;
+    margin-left: 100px;
+    font-family: 'Arima', cursive;
+}
+
+
+input {
+    font-family: 'Arima', cursive;
+}
+
+button {
+    font-family: 'Arima', cursive;
 }

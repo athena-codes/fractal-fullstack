@@ -9,6 +9,7 @@
   align-items: center;
   backdrop-filter: blur(8px);
   z-index: 100;
+  font-family: 'Arima', cursive;
 }
 
 #modal-background {
