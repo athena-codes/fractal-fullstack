@@ -2,9 +2,11 @@ from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from datetime import datetime
+from flask import current_app
 from flask_login import UserMixin
 from .goal import Goal
 import os
+
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -31,19 +33,29 @@ class User(db.Model, UserMixin):
         'DailyPlannerSlot', back_populates='user', lazy=True)
 
 
-    def __init__(self, full_name, username, email, password, profile_picture_url=None, dark_mode_enabled=False):
+    def __init__(self, full_name, username, email, password, profile_picture_url=None, dark_mode_enabled=False, s3=None):
         self.full_name = full_name
         self.username = username
         self.email = email
         self.password = generate_password_hash(password)
         self.profile_picture_url = profile_picture_url or os.path.join('assets/images', 'user.png')
         self.dark_mode_enabled = dark_mode_enabled
+        self.s3 = s3
 
         if profile_picture_url:
-            filename = secure_filename(profile_picture.filename)
+            filename = secure_filename(profile_picture_url.filename)
             profile_picture_path = os.path.join('profile_pictures', filename)
-            s3.upload_fileobj(profile_picture, current_app.config['AWS_S3_BUCKET'], profile_picture_path)
-            self.profile_picture_url = s3.generate_presigned_url('get_object', Params={'Bucket': current_app.config['AWS_S3_BUCKET'], 'Key': profile_picture_path})
+            self.upload_profile_picture(profile_picture_url, profile_picture_path)
+
+    def upload_profile_picture(self, file, path):
+        if self.s3:
+            self.s3.upload_fileobj(file, current_app.config['AWS_S3_BUCKET'], path)
+            self.profile_picture_url = self.s3.generate_presigned_url('get_object', Params={'Bucket': current_app.config['AWS_S3_BUCKET'], 'Key': path})
+        else:
+            # Handle the case when s3 object is not available (e.g., during testing)
+            # You can implement an alternative behavior here
+            pass
+
 
 
     def check_password(self, password):

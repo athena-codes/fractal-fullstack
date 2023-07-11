@@ -4,7 +4,6 @@ from app.forms import LoginForm
 from app.forms import SignUpForm
 from datetime import datetime, date
 from threading import Semaphore
-from flask import g
 from ..utils import generate_monthly_daily_planners, generate_daily_planner_slots_for_user
 from flask_login import current_user, login_user, logout_user, login_required
 import os
@@ -76,18 +75,19 @@ def sign_up():
         if profile_picture:
             filename = secure_filename(profile_picture.filename)
             profile_picture_path = os.path.join('profile_pictures', filename)
-            # s3.upload_fileobj(profile_picture, current_app.config['AWS_S3_BUCKET'], profile_picture_path)
-            # profile_picture_url = s3.generate_presigned_url('get_object', Params={'Bucket': current_app.config['AWS_S3_BUCKET'], 'Key': profile_picture_path})
+            current_app.s3.upload_fileobj(profile_picture, current_app.config['AWS_S3_BUCKET'], profile_picture_path)
+            profile_picture_url = current_app.s3.generate_presigned_url('get_object', Params={'Bucket': current_app.config['AWS_S3_BUCKET'], 'Key': profile_picture_path})
         else:
             profile_picture_url = None
 
         user = User(
-            username=form.data['username'],
-            full_name=form.data['full_name'],
-            email=form.data['email'],
-            password=form.data['password'],
-            profile_picture_url=profile_picture_url
-        )
+                username=form.data['username'],
+                full_name=form.data['full_name'],
+                email=form.data['email'],
+                password=form.data['password'],
+                profile_picture_url=profile_picture_url,
+                s3=current_app.s3
+            )
 
         db.session.add(user)
         db.session.commit()

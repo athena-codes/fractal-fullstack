@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { logout } from "../../store/session";
-import OpenModalButton from "../OpenModalButton";
-import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
-import profile_picture from "./images/user.png"
+import React, { useState, useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
+import { logout } from '../../store/session'
+import OpenModalButton from '../OpenModalButton'
+import LoginFormModal from '../LoginFormModal'
+import SignupFormModal from '../SignupFormModal'
+import profile_picture from './images/user.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
@@ -12,6 +12,7 @@ function ProfileButton ({ user }) {
   const dispatch = useDispatch()
   const [showMenu, setShowMenu] = useState(false)
   const ulRef = useRef()
+  console.log('USER --->', user)
 
   const openMenu = () => {
     if (showMenu) return
@@ -42,23 +43,23 @@ function ProfileButton ({ user }) {
 
   return (
     <>
-        {user ? (
-          <img
-            className='profile-picture'
-            src={profile_picture}
-            alt='Profile'
-          />
-        ) : (
-          <button className='profile-icon' onClick={openMenu}>
+      {user ? (
+        <img
+          className='profile-picture'
+          src={user.profile_picture_url}
+          alt='Profile'
+        />
+      ) : (
+        <button className='profile-icon' onClick={openMenu}>
           <i className='fas fa-user-circle' />
-      </button>
-        )}
-        {user ? (
-          <>
-            <p className="welcome-msg">Welcome, {user.full_name}</p>
-          </>
-        ) : (
-      <ul className={ulClassName} ref={ulRef}>
+        </button>
+      )}
+      {user ? (
+        <>
+          <p className='welcome-msg'>Welcome, {user.full_name}</p>
+        </>
+      ) : (
+        <ul className={ulClassName} ref={ulRef}>
           <>
             <OpenModalButton
               buttonText='Log In'
@@ -72,8 +73,8 @@ function ProfileButton ({ user }) {
               modalComponent={<SignupFormModal />}
             />
           </>
-      </ul>
-        )}
+        </ul>
+      )}
     </>
   )
 }

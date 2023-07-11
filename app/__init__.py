@@ -17,24 +17,22 @@ import boto3
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
+s3 = boto3.client(
+        's3',
+        aws_access_key_id=current_app.config['AWS_ACCESS_KEY'],
+        aws_secret_access_key=current_app.config['AWS_SECRET_ACCESS_KEY']
+    )
 
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
 
 
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
-
-# # Create the S3 client within the application context
-# with app.app_context():
-#     s3 = boto3.client(
-#         's3',
-#         aws_access_key_id=current_app.config['AWS_ACCESS_KEY'],
-#         aws_secret_access_key=current_app.config['AWS_SECRET_ACCESS_KEY']
-#     )
 
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
