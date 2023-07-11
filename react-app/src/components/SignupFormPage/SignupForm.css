@@ -5,7 +5,6 @@
 }
 
 .signup-form h1 {
-    margin-bottom: 20px;
     text-align: center;
 }
 
@@ -18,13 +17,13 @@
 .signup-form ul {
     list-style: none;
     padding: 0;
-    margin-bottom: 20px;
 }
 
 .signup-form label {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
+    font-size: 10px;
 }
 
 .signup-form input {
@@ -32,6 +31,9 @@
     border-radius: 4px;
     border: 1px solid #ccc;
     margin-top: 5px;
+    font-size: 10px;
+    height: 2vh;
+    width: 50vh;
 }
 
 .signup-form button[type="submit"] {

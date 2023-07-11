@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, session, request, redirect, url_for
+from flask import Blueprint, current_app, jsonify, session, request, redirect, url_for
 from app.models import User, db
 from app.forms import LoginForm
 from app.forms import SignUpForm
@@ -7,6 +7,8 @@ from threading import Semaphore
 from flask import g
 from ..utils import generate_monthly_daily_planners, generate_daily_planner_slots_for_user
 from flask_login import current_user, login_user, logout_user, login_required
+import os
+from werkzeug.utils import secure_filename
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -69,12 +71,24 @@ def sign_up():
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
+        profile_picture = request.files.get('profilePicture')  # Retrieve the profile picture file
+
+        if profile_picture:
+            filename = secure_filename(profile_picture.filename)
+            profile_picture_path = os.path.join('profile_pictures', filename)
+            # s3.upload_fileobj(profile_picture, current_app.config['AWS_S3_BUCKET'], profile_picture_path)
+            # profile_picture_url = s3.generate_presigned_url('get_object', Params={'Bucket': current_app.config['AWS_S3_BUCKET'], 'Key': profile_picture_path})
+        else:
+            profile_picture_url = None
+
         user = User(
             username=form.data['username'],
             full_name=form.data['full_name'],
             email=form.data['email'],
-            password=form.data['password']
+            password=form.data['password'],
+            profile_picture_url=profile_picture_url
         )
+
         db.session.add(user)
         db.session.commit()
 

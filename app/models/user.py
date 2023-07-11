@@ -1,5 +1,6 @@
 from .db import db, environment, SCHEMA, add_prefix_for_prod
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from datetime import datetime
 from flask_login import UserMixin
 from .goal import Goal
@@ -31,12 +32,19 @@ class User(db.Model, UserMixin):
 
 
     def __init__(self, full_name, username, email, password, profile_picture_url=None, dark_mode_enabled=False):
-            self.full_name = full_name
-            self.username = username
-            self.email = email
-            self.password = generate_password_hash(password)
-            self.profile_picture_url = profile_picture_url or os.path.join('assets/images', 'user.png')
-            self.dark_mode_enabled = dark_mode_enabled
+        self.full_name = full_name
+        self.username = username
+        self.email = email
+        self.password = generate_password_hash(password)
+        self.profile_picture_url = profile_picture_url or os.path.join('assets/images', 'user.png')
+        self.dark_mode_enabled = dark_mode_enabled
+
+        if profile_picture_url:
+            filename = secure_filename(profile_picture.filename)
+            profile_picture_path = os.path.join('profile_pictures', filename)
+            s3.upload_fileobj(profile_picture, current_app.config['AWS_S3_BUCKET'], profile_picture_path)
+            self.profile_picture_url = s3.generate_presigned_url('get_object', Params={'Bucket': current_app.config['AWS_S3_BUCKET'], 'Key': profile_picture_path})
+
 
     def check_password(self, password):
         return check_password_hash(self.password, password)

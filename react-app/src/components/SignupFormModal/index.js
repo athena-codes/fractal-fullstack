@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useModal } from '../../context/Modal'
 import { signUp } from '../../store/session'
+import { Field, ErrorMessage } from 'formik'
+import Dropzone from 'react-dropzone'
 import './SignupForm.css'
 
 function SignupFormModal () {
@@ -11,13 +13,16 @@ function SignupFormModal () {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [fullName, setFullName] = useState('')
+  const [profilePicture, setProfilePicture] = useState(null)
   const [errors, setErrors] = useState([])
   const { closeModal } = useModal()
 
   const handleSubmit = async e => {
     e.preventDefault()
     if (password === confirmPassword) {
-      const data = await dispatch(signUp(fullName, username, email, password))
+      const data = await dispatch(
+        signUp(fullName, username, email, password, profilePicture)
+      )
       if (data) {
         setErrors(data)
       } else {
@@ -89,6 +94,28 @@ function SignupFormModal () {
             required
           />
         </label>
+        <label className='signup-form-label'>
+          Profile Picture
+          <Dropzone
+            onDrop={acceptedFiles => setProfilePicture(acceptedFiles[0])}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <div {...getRootProps()} className='dropzone'>
+                <input {...getInputProps()} />
+                {profilePicture ? (
+                  <img
+                    src={URL.createObjectURL(profilePicture)}
+                    alt='Profile'
+                    className='profile-picture-preview'
+                  />
+                ) : (
+                  <p>Drag and drop an image here or click to select a file</p>
+                )}
+              </div>
+            )}
+          </Dropzone>
+        </label>
+
         <button className='signup-form-button' type='submit'>
           Sign Up
         </button>

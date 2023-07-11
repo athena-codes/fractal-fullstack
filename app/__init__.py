@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, current_app, render_template, request, session, redirect
 from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
@@ -13,8 +13,10 @@ from .api.reminder_routes import reminder_routes
 from .api.daily_planner_routes import daily_planner_routes
 from .seeds import seed_commands
 from .config import Config
+import boto3
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
+
 
 # Setup login manager
 login = LoginManager(app)
@@ -25,6 +27,14 @@ login.login_view = 'auth.unauthorized'
 def load_user(id):
     return User.query.get(int(id))
 
+
+# # Create the S3 client within the application context
+# with app.app_context():
+#     s3 = boto3.client(
+#         's3',
+#         aws_access_key_id=current_app.config['AWS_ACCESS_KEY'],
+#         aws_secret_access_key=current_app.config['AWS_SECRET_ACCESS_KEY']
+#     )
 
 # Tell flask about our seed commands
 app.cli.add_command(seed_commands)
