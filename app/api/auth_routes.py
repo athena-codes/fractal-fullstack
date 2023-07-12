@@ -8,6 +8,7 @@ from ..utils import generate_monthly_daily_planners, generate_daily_planner_slot
 from flask_login import current_user, login_user, logout_user, login_required
 import os
 from werkzeug.utils import secure_filename
+from app.aws import upload_file_to_s3, get_unique_filename
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -70,23 +71,28 @@ def sign_up():
     form = SignUpForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
-        profile_picture = request.files.get('profilePicture')  # Retrieve the profile picture file
+        profile_picture = request.files['profile_picture'] # Retrieve the profile picture file
+        print('PROFILE PIC 1  -->', profile_picture, request.form)
+        print('form  -->', dir(request.form), list(request.form.items()))
+
 
         if profile_picture:
-            filename = secure_filename(profile_picture.filename)
-            profile_picture_path = os.path.join('profile_pictures', filename)
-            current_app.s3.upload_fileobj(profile_picture, current_app.config['AWS_S3_BUCKET'], profile_picture_path)
-            profile_picture_url = current_app.s3.generate_presigned_url('get_object', Params={'Bucket': current_app.config['AWS_S3_BUCKET'], 'Key': profile_picture_path})
+                profile_picture.filename = get_unique_filename(profile_picture.filename)
+                filename = secure_filename(profile_picture.filename)
+                s3 = upload_file_to_s3(profile_picture)
+                print('s3 ---->', s3)
+                profile_picture_url = s3['url']
+                print('PROFILE PIC 2 -->', profile_picture)
         else:
-            profile_picture_url = None
+                # put default pic here
+                profile_picture_url = None
 
         user = User(
-                username=form.data['username'],
-                full_name=form.data['full_name'],
-                email=form.data['email'],
-                password=form.data['password'],
-                profile_picture_url=profile_picture_url,
-                s3=current_app.s3
+                username=request.form['username'],
+                full_name=request.form['full_name'],
+                email=request.form['email'],
+                password=request.form['password'],
+                profile_picture_url=profile_picture_url
             )
 
         db.session.add(user)
@@ -94,15 +100,16 @@ def sign_up():
 
         login_user(user)
 
-        current_date = date.today()
+        # current_date = date.today()
 
         # Generate daily planners for the user
-        generate_monthly_daily_planners(user, current_date)
+        # generate_monthly_daily_planners(user, current_date)
 
         # Redirect the user to generate the daily planner slots
-        return redirect(url_for('auth.generate_daily_planner_slots', user_id=user.id))
+        # return redirect(url_for('auth.generate_daily_planner_slots', user_id=user.id))
 
-    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
+# validation_errors_to_error_messages(form.errors)
+    return {'errors': ['error']}, 401
 
 
 @auth_routes.route('/generate_daily_planner_slots/<int:user_id>', methods=['GET'])

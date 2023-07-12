@@ -13,20 +13,13 @@ from .api.reminder_routes import reminder_routes
 from .api.daily_planner_routes import daily_planner_routes
 from .seeds import seed_commands
 from .config import Config
-import boto3
 
 app = Flask(__name__, static_folder='../react-app/build', static_url_path='/')
 
-s3 = boto3.client(
-        's3',
-        aws_access_key_id=current_app.config['AWS_ACCESS_KEY'],
-        aws_secret_access_key=current_app.config['AWS_SECRET_ACCESS_KEY']
-    )
 
 # Setup login manager
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
-
 
 
 @login.user_loader

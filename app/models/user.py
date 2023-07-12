@@ -40,21 +40,20 @@ class User(db.Model, UserMixin):
         self.password = generate_password_hash(password)
         self.profile_picture_url = profile_picture_url or os.path.join('assets/images', 'user.png')
         self.dark_mode_enabled = dark_mode_enabled
-        self.s3 = s3
 
-        if profile_picture_url:
-            filename = secure_filename(profile_picture_url.filename)
-            profile_picture_path = os.path.join('profile_pictures', filename)
-            self.upload_profile_picture(profile_picture_url, profile_picture_path)
+        # if profile_picture_url:
+        #     filename = secure_filename(profile_picture_url.filename)
+        #     profile_picture_path = os.path.join('profile_pictures', filename)
+        #     self.upload_profile_picture(profile_picture_url, profile_picture_path)
 
-    def upload_profile_picture(self, file, path):
-        if self.s3:
-            self.s3.upload_fileobj(file, current_app.config['AWS_S3_BUCKET'], path)
-            self.profile_picture_url = self.s3.generate_presigned_url('get_object', Params={'Bucket': current_app.config['AWS_S3_BUCKET'], 'Key': path})
-        else:
-            # Handle the case when s3 object is not available (e.g., during testing)
-            # You can implement an alternative behavior here
-            pass
+    # def upload_profile_picture(self, file, path):
+    #     if self.s3:
+    #         self.s3.upload_fileobj(file, current_app.config['AWS_S3_BUCKET'], path)
+    #         self.profile_picture_url = self.s3.generate_presigned_url('get_object', Params={'Bucket': current_app.config['AWS_S3_BUCKET'], 'Key': path})
+    #     else:
+    #         # Handle the case when s3 object is not available (e.g., during testing)
+    #         # You can implement an alternative behavior here
+    #         pass
 
 
 

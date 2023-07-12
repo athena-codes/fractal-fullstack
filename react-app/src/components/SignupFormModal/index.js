@@ -20,9 +20,14 @@ function SignupFormModal () {
   const handleSubmit = async e => {
     e.preventDefault()
     if (password === confirmPassword) {
-      const data = await dispatch(
-        signUp(fullName, username, email, password, profilePicture)
-      )
+      const form = new FormData()
+      form.append('full_name', fullName)
+      form.append('username', username)
+      form.append('email', email)
+      form.append('password', password)
+      form.append('profile_picture', profilePicture)
+
+      const data = await dispatch(signUp(form))
       if (data) {
         setErrors(data)
       } else {
@@ -101,7 +106,11 @@ function SignupFormModal () {
           >
             {({ getRootProps, getInputProps }) => (
               <div {...getRootProps()} className='dropzone'>
-                <input {...getInputProps()} />
+                <input
+                  {...getInputProps()}
+                  onChange={(e) => setProfilePicture(e.target.files[0])
+                  }
+                />
                 {profilePicture ? (
                   <img
                     src={URL.createObjectURL(profilePicture)}
