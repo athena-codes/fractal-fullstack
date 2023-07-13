@@ -23,7 +23,6 @@ import './DailyPlanner.css'
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
   const slots = useSelector(state => state.daily_planner.slots.slots)
-  console.log('SLOTS ====>', slots)
   const [currentSlide, setCurrentSlide] = useState(
     getCurrentDailyPlannerIndex()
   )
@@ -50,29 +49,34 @@ function DailyPlanner () {
   // UPDATE TODO
   const handleUpdateTodo = async updatedTodoData => {
     try {
-      await dispatch(updateExistingTodo(slotId, updatedTodoData))
-      closeModal()
-      dispatch(fetchDailyPlannerSlotsThunk())
+      const response = await dispatch(
+        updateExistingTodo(slotId, updatedTodoData)
+      )
+
+      if (response.ok) {
+        dispatch(fetchDailyPlannersThunk())
+      } else {
+        throw new Error('Failed to update TODO')
+      }
     } catch (error) {
       console.error(error)
     }
   }
 
   // DELETE TODO
-const handleDeleteTodo = async slotId => {
-  try {
-    const response = await dispatch(deleteExistingTodo(slotId))
+  const handleDeleteTodo = async slotId => {
+    try {
+      const response = await dispatch(deleteExistingTodo(slotId))
 
-    if (response.ok) {
-      dispatch(fetchDailyPlannersThunk())
-    } else {
-      throw new Error('Failed to delete TODO')
+      if (response.ok) {
+        dispatch(fetchDailyPlannersThunk())
+      } else {
+        throw new Error('Failed to delete TODO')
+      }
+    } catch (error) {
+      console.error(error)
     }
-  } catch (error) {
-    console.error(error)
   }
-}
-
 
   // DAILY PLANNER INDEX HELPER FUNCTION - to find + display today's date as 1st daily planner in list
   function getCurrentDailyPlannerIndex () {
@@ -210,6 +214,7 @@ const handleDeleteTodo = async slotId => {
                         notes={slot.todo.notes}
                         reminder={slot.todo.reminder}
                         onSubmit={handleUpdateTodo}
+
                         onClose={() => setSlotId(null)}
                       />
                     }

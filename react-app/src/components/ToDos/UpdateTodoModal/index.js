@@ -1,12 +1,18 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateExistingTodo } from '../../../store/todos'
+import {
+  fetchDailyPlannersThunk,
+  fetchDailyPlannerSlotsThunk
+} from '../../../store/daily_planner'
 import { useModal } from '../../../context/Modal'
-
 
 const UpdateTodoModal = ({ todoId, name, priority, notes, reminder }) => {
   const [updatedName, setUpdatedName] = useState(name)
   const [updatedPriority, setUpdatedPriority] = useState(priority)
+console.log(' STATE PRIORITY ====>', priority)
+
+  console.log('PRIORITY ====>', updatedPriority)
   const [updatedNotes, setUpdatedNotes] = useState(notes)
   const [updatedReminder, setUpdatedReminder] = useState(reminder)
   //   const [description, setDescription] = useState(initialData.description)
@@ -15,18 +21,23 @@ const UpdateTodoModal = ({ todoId, name, priority, notes, reminder }) => {
   const dispatch = useDispatch()
   const { closeModal } = useModal()
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
 
     const updatedTodoData = {
       name: updatedName,
       priority: updatedPriority,
       notes: updatedNotes,
-      reminder: updatedReminder,
+      reminder: updatedReminder
     }
 
-    dispatch(updateExistingTodo(todoId, updatedTodoData))
-    closeModal()
+    try {
+      dispatch(updateExistingTodo(todoId, updatedTodoData))
+      closeModal()
+      await dispatch(fetchDailyPlannersThunk())
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
