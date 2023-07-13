@@ -72,7 +72,6 @@ def sign_up():
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         profile_picture = request.files['profile_picture'] # Retrieve the profile picture file
-        print('PROFILE PIC 1  -->', profile_picture, request.form)
         print('form  -->', dir(request.form), list(request.form.items()))
 
 
@@ -80,9 +79,8 @@ def sign_up():
                 profile_picture.filename = get_unique_filename(profile_picture.filename)
                 filename = secure_filename(profile_picture.filename)
                 s3 = upload_file_to_s3(profile_picture)
-                print('s3 ---->', s3)
                 profile_picture_url = s3['url']
-                print('PROFILE PIC 2 -->', profile_picture)
+                print('============= PROFILE PIC URL -->', profile_picture_url)
         else:
                 # put default pic here
                 profile_picture_url = None
@@ -100,16 +98,15 @@ def sign_up():
 
         login_user(user)
 
-        # current_date = date.today()
+        current_date = date.today()
 
         # Generate daily planners for the user
-        # generate_monthly_daily_planners(user, current_date)
+        generate_monthly_daily_planners(user, current_date)
 
         # Redirect the user to generate the daily planner slots
-        # return redirect(url_for('auth.generate_daily_planner_slots', user_id=user.id))
+        return redirect(url_for('auth.generate_daily_planner_slots', user_id=user.id))
 
-# validation_errors_to_error_messages(form.errors)
-    return {'errors': ['error']}, 401
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 
 
 @auth_routes.route('/generate_daily_planner_slots/<int:user_id>', methods=['GET'])
