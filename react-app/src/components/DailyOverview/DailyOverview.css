@@ -1,12 +1,130 @@
-import React from 'react'
-import { NavLink, useHistory } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-
-function DailyPlanner() {
-    return (
-        <h1>Daily Planner Page</h1>
-    )
+.daily-overview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
 }
 
+.goals-section-overview,
+.reminders-section,
+.coming-soon-section {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-export default DailyPlanner;
+.goals-section-overview {
+    grid-column: 1 / span 2;
+}
+
+.goals-header-overview {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.see-all-link {
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.see-all-link:hover {
+    color: #555;
+}
+
+.goal-list-overview {
+    list-style-type: none;
+    padding: 0;
+}
+
+.goal-progress-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.goal-name {
+    flex-grow: 1;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.progress-bar {
+    height: 10px;
+    background-color: #ddd;
+    width: 70vh;
+    border-radius: 5px;
+    margin-right: 20px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #7cb342;
+    transition: width 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-weight: bold;
+    padding-right: 5px;
+}
+
+.reminders-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.reminders-list {
+    list-style: none;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+.coming-soon-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-style: italic;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.goals-title-overview {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.goal-list-overview {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Hover animation */
+.goal-progress-section:hover {
+    transform: scale(1);
+    transition: transform 0.3s ease;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(0px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.goals-section-overview,
+.reminders-section,
+.coming-soon-section {
+    animation: fadeIn 0.5s ease forwards;
+}

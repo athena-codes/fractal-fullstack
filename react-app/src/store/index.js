@@ -3,12 +3,14 @@ import thunk from 'redux-thunk';
 import session from './session'
 import goals from './goals'
 import daily_planner from './daily_planner'
+import todos from './todos'
 
 
 const rootReducer = combineReducers({
   session,
   goals,
-  daily_planner
+  daily_planner,
+  todos
 });
 
 

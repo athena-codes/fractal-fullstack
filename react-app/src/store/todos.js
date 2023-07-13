@@ -131,11 +131,13 @@ export const fetchAllTodos = () => async dispatch => {
     const todos = await response.json()
 
     dispatch(getAllTodos(todos))
+    return todos
   } catch (error) {
     console.error(error)
     // Handle error as needed
   }
 }
+
 
 // Reducer
 const initialState = {

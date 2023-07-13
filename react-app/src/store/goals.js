@@ -119,7 +119,7 @@ try {
 }
 
 export const fetchAllGoals = () => async dispatch => {
-    try {
+  try {
     const response = await fetch('/api/goals/')
 
     if (!response.ok) {
@@ -129,14 +129,14 @@ export const fetchAllGoals = () => async dispatch => {
     const goals = await response.json()
 
     if (goals) {
-      dispatch(getAllGoals(goals))
+      dispatch(getAllGoals(goals)) 
     }
-
   } catch (error) {
-    // console.error(error)
+    console.error(error)
     // Handle error as needed
   }
 }
+
 
 export const fetchTodosForGoal = goalId => async dispatch => {
   try {
@@ -192,6 +192,7 @@ const goalsReducer = (state = initialState, action) => {
       return {
         ...state,
         goals: action.payload
+
       }
     case GET_TODOS_FOR_GOAL:
       return {
