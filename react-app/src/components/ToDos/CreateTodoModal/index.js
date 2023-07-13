@@ -27,7 +27,7 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
 
     const todoData = {
       name,
-      priority,
+      priority: parseInt(priority),
       description,
       notes,
       reminder: reminder || false,

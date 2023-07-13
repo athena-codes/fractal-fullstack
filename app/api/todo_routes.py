@@ -29,7 +29,7 @@ def create_todo():
         completed=form.completed.data
 
 
-        todo = Todo(user_id=user_id, goal_id=goal_id, name=name, description=description,
+        todo = Todo(user_id=user_id, goal_id=goal_id, name=name,priority=priority,description=description,
                     notes=notes, reminder=reminder, completed=completed)
 
         db.session.add(todo)

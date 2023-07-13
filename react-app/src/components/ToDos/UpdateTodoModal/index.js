@@ -10,9 +10,6 @@ import { useModal } from '../../../context/Modal'
 const UpdateTodoModal = ({ todoId, name, priority, notes, reminder }) => {
   const [updatedName, setUpdatedName] = useState(name)
   const [updatedPriority, setUpdatedPriority] = useState(priority)
-console.log(' STATE PRIORITY ====>', priority)
-
-  console.log('PRIORITY ====>', updatedPriority)
   const [updatedNotes, setUpdatedNotes] = useState(notes)
   const [updatedReminder, setUpdatedReminder] = useState(reminder)
   //   const [description, setDescription] = useState(initialData.description)

@@ -31,7 +31,11 @@
 }
 
 .see-all-link:hover {
-    color: #555;
+    color: #8c4dff;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+
 }
 
 .goal-list-overview {
@@ -106,8 +110,9 @@
 
 /* Hover animation */
 .goal-progress-section:hover {
-    transform: scale(1);
+    transform: scale(1.01);
     transition: transform 0.3s ease;
+    cursor:default;
 }
 
 /* Fade-in animation */

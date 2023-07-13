@@ -21,11 +21,17 @@ function DailyOverview () {
 
   // FORMAT PROGRESS PERCENTAGE
   function formatProgress (progress) {
-  const formattedProgress = parseFloat(progress).toFixed(2)
-  return formattedProgress.endsWith('.00')
-    ? parseInt(formattedProgress)
-    : formattedProgress
+    const formattedProgress = parseFloat(progress).toFixed(2)
+    return formattedProgress.endsWith('.00')
+      ? parseInt(formattedProgress)
+      : formattedProgress
+  }
+
+const formatTime = timeString => {
+  const date = new Date(`2000-01-01T${timeString}`)
+  return date.toLocaleTimeString([], { hour: 'numeric' })
 }
+
 
 
   return (
@@ -61,10 +67,14 @@ function DailyOverview () {
             <h2>Reminders</h2>
             <ul className='reminders-list'>
               {reminderTodos.map(todo => (
-                <li className='reminders-list-item' key={todo.id}>{todo.name}</li>
+                <li className='reminders-list-item' key={todo.id}>
+                  {todo.name} {' '}
+                    {/* {formatTime(todo.start_time)} - {formatTime(todo.end_time)} */}
+                </li>
               ))}
             </ul>
           </div>
+
           <div className='coming-soon-section'>
             <h2>Coming Soon!</h2>
           </div>

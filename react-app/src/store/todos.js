@@ -41,7 +41,7 @@ export const createNewTodo = todoData => async dispatch => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         name,
-        priority,
+        priority: parseInt(priority),
         description,
         notes,
         reminder,
@@ -49,12 +49,14 @@ export const createNewTodo = todoData => async dispatch => {
       })
     })
 
+    console.log('PRIORITY THUNK --->', todoData.priority)
     if (!response.ok) {
       throw new Error('Failed to create TODO')
     }
 
     const todo = await response.json()
     console.log('TODO RESPONSE --->', todo)
+
 
     dispatch(createTodo(todo))
     return todo

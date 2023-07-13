@@ -109,7 +109,6 @@ export const assignTodoToSlotThunk =
 
       // Update the slots array in the state with the updated slot
       const slots = getState().daily_planner.slots
-      console.log('SLOTS ----->', slots)
       const updatedSlots = slots.map(slot => {
         if (slot.id === updatedSlot.id) {
           return updatedSlot
