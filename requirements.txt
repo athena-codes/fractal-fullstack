@@ -27,5 +27,5 @@ six==1.16.0
 sqlalchemy==1.4.46
 werkzeug==2.2.2
 wtforms==3.0.1
-flask-uploads = "*"
-boto3 = "*"
+flask-uploads==0.2.1
+boto3 ==1.28.2
