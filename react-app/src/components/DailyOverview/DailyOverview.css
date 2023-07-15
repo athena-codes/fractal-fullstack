@@ -17,10 +17,17 @@
     grid-column: 1 / span 2;
 }
 
-.goals-header-overview {
+.goals-header-overview{
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.reminders-header {
+       display: flex;
+            justify-content: space-around;
+            align-items: center;
+
 }
 
 .see-all-link {
@@ -28,14 +35,6 @@
     font-weight: bold;
     text-decoration: none;
     transition: color 0.3s ease;
-}
-
-.see-all-link:hover {
-    color: #8c4dff;
-    transform: scale(1.1);
-    transition: transform 0.3s ease;
-    cursor: pointer;
-
 }
 
 .goal-list-overview {
@@ -83,7 +82,7 @@
 }
 
 .reminders-list {
-    list-style: none;
+    list-style:square;
     text-decoration: none;
     margin-right: 20px;
 }
@@ -108,12 +107,27 @@
     padding: 0;
 }
 
-/* Hover animation */
+/* Hover animations */
 .goal-progress-section:hover {
     transform: scale(1.01);
-    transition: transform 0.3s ease;
-    cursor:default;
+    transition: transform 0.1s ease;
+    cursor: default;
 }
+
+.reminders-list-item:hover {
+    transform: scale(1.01);
+    transition: transform 0.1s ease;
+    cursor: default;
+}
+
+.see-all-link:hover {
+    color: #8c4dff;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+
+}
+
 
 /* Fade-in animation */
 @keyframes fadeIn {

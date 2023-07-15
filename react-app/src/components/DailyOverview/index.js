@@ -27,12 +27,10 @@ function DailyOverview () {
       : formattedProgress
   }
 
-const formatTime = timeString => {
-  const date = new Date(`2000-01-01T${timeString}`)
-  return date.toLocaleTimeString([], { hour: 'numeric' })
-}
-
-
+  const formatTime = timeString => {
+    const date = new Date(`2000-01-01T${timeString}`)
+    return date.toLocaleTimeString([], { hour: 'numeric' })
+  }
 
   return (
     <>
@@ -64,12 +62,18 @@ const formatTime = timeString => {
             </ul>
           </div>
           <div className='reminders-section'>
+            <div className='reminders-header'>
+
             <h2>Reminders</h2>
+            <Link to='/daily-planner' className='see-all-link'>
+              See All
+            </Link>
+            </div>
             <ul className='reminders-list'>
               {reminderTodos.map(todo => (
                 <li className='reminders-list-item' key={todo.id}>
-                  {todo.name} {' '}
-                    {/* {formatTime(todo.start_time)} - {formatTime(todo.end_time)} */}
+                  {todo.name}{' '}
+                  {/* {formatTime(todo.start_time)} - {formatTime(todo.end_time)} */}
                 </li>
               ))}
             </ul>
