@@ -14,7 +14,7 @@ function SignupFormModal () {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [fullName, setFullName] = useState('')
   const [profilePicture, setProfilePicture] = useState(null)
-  const [errors, setErrors] = useState([])
+  const [errors, setErrors] = useState({})
   const { closeModal } = useModal()
 
   const handleSubmit = async e => {
@@ -28,15 +28,21 @@ function SignupFormModal () {
       form.append('profile_picture', profilePicture)
 
       const data = await dispatch(signUp(form))
-      if (data) {
-        setErrors(data)
+      if (data && data.length > 0) {
+        const errorObj = {}
+        data.forEach(error => {
+          const [key, value] = error.split(' : ')
+          errorObj[key] = value
+        })
+        setErrors(errorObj)
       } else {
         closeModal()
       }
     } else {
-      setErrors([
-        'Confirm Password field must be the same as the Password field'
-      ])
+      setErrors({
+        confirmPassword:
+          'Confirm Password field must be the same as the Password field'
+      })
     }
   }
 
@@ -45,9 +51,9 @@ function SignupFormModal () {
       <h1 className='signup-form-heading'>Sign Up</h1>
       <form className='signup-form' onSubmit={handleSubmit}>
         <ul className='signup-form-errors'>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
-          ))}
+          {/* {Object.entries(errors).map(([key, error]) => (
+            <li key={key}>{error}</li>
+          ))} */}
         </ul>
         <label className='signup-form-label'>
           Full Name
@@ -56,8 +62,10 @@ function SignupFormModal () {
             type='text'
             value={fullName}
             onChange={e => setFullName(e.target.value)}
-            required
           />
+          {errors.full_name && (
+            <span className='error-message'>{errors.full_name}</span>
+          )}
         </label>
         <label className='signup-form-label'>
           Email
@@ -66,8 +74,10 @@ function SignupFormModal () {
             type='text'
             value={email}
             onChange={e => setEmail(e.target.value)}
-            required
           />
+          {errors.email && (
+            <span className='error-message'>{errors.email}</span>
+          )}
         </label>
         <label className='signup-form-label'>
           Username
@@ -76,8 +86,10 @@ function SignupFormModal () {
             type='text'
             value={username}
             onChange={e => setUsername(e.target.value)}
-            required
           />
+          {errors.username && (
+            <span className='error-message'>{errors.username}</span>
+          )}
         </label>
         <label className='signup-form-label'>
           Password
@@ -86,8 +98,10 @@ function SignupFormModal () {
             type='password'
             value={password}
             onChange={e => setPassword(e.target.value)}
-            required
           />
+          {errors.password && (
+            <span className='error-message'>{errors.password}</span>
+          )}
         </label>
         <label className='signup-form-label'>
           Confirm Password
@@ -96,8 +110,10 @@ function SignupFormModal () {
             type='password'
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
-            required
           />
+          {errors.confirmPassword && (
+            <span className='error-message'>{errors.confirmPassword}</span>
+          )}
         </label>
         <label className='signup-form-label'>
           Profile Picture
@@ -108,8 +124,7 @@ function SignupFormModal () {
               <div {...getRootProps()} className='dropzone'>
                 <input
                   {...getInputProps()}
-                  onChange={(e) => setProfilePicture(e.target.files[0])
-                  }
+                  onChange={e => setProfilePicture(e.target.files[0])}
                 />
                 {profilePicture ? (
                   <img

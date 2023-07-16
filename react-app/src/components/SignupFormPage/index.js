@@ -11,7 +11,7 @@ function SignupFormPage () {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [fullName, setFullName] = useState('') 
+  const [fullName, setFullName] = useState('')
   const [errors, setErrors] = useState([])
 
   if (sessionUser) return <Redirect to='/' />
@@ -48,7 +48,6 @@ function SignupFormPage () {
             type='text'
             value={fullName}
             onChange={e => setFullName(e.target.value)}
-            required
           />
         </label>
         <label className='signup-form'>
@@ -58,7 +57,6 @@ function SignupFormPage () {
             type='text'
             value={email}
             onChange={e => setEmail(e.target.value)}
-            required
           />
         </label>
         <label className='signup-form'>
@@ -68,7 +66,6 @@ function SignupFormPage () {
             type='text'
             value={username}
             onChange={e => setUsername(e.target.value)}
-            required
           />
         </label>
         <label className='signup-form'>
@@ -78,7 +75,6 @@ function SignupFormPage () {
             type='password'
             value={password}
             onChange={e => setPassword(e.target.value)}
-            required
           />
         </label>
         <label className='signup-form'>
@@ -88,7 +84,6 @@ function SignupFormPage () {
             type='password'
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
-            required
           />
         </label>
         <button className='signup-form' type='submit'>

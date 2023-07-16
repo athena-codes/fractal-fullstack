@@ -17,16 +17,16 @@
     grid-column: 1 / span 2;
 }
 
-.goals-header-overview{
+.goals-header-overview {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .reminders-header {
-       display: flex;
-            justify-content: space-around;
-            align-items: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 
 }
 
@@ -82,7 +82,7 @@
 }
 
 .reminders-list {
-    list-style:square;
+    list-style: square;
     text-decoration: none;
     margin-right: 20px;
 }

@@ -11,6 +11,7 @@ function LoginFormModal () {
   const [errors, setErrors] = useState([])
   const { closeModal } = useModal()
 
+
   const handleSubmit = async e => {
     e.preventDefault()
     const data = await dispatch(login(credential, password))
@@ -37,7 +38,6 @@ function LoginFormModal () {
             type='text'
             value={credential}
             onChange={e => setCredential(e.target.value)}
-            required
           />
         </label>
         <label className='login-form'>
@@ -47,7 +47,6 @@ function LoginFormModal () {
             type='password'
             value={password}
             onChange={e => setPassword(e.target.value)}
-            required
           />
         </label>
         <button className='login-form' type='submit'>
