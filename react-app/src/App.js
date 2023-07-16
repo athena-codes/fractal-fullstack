@@ -5,7 +5,8 @@ import SignupFormPage from './components/SignupFormPage'
 import LoginFormPage from './components/LoginFormPage'
 import GoalsOverview from './components/Goals/GoalsOverviewPage'
 import DailyPlanner from './components/DailyPlanner'
-import DailyOverview from './components/DailyOverview'
+// import DailyOverview from './components/DailyOverview'
+import MainContent from './components/MainContent'
 import { authenticate } from './store/session'
 import Navigation from './components/Navigation'
 
@@ -26,7 +27,7 @@ function App () {
           <div className='Content'>
             <Switch>
               <Route exact path='/'>
-                {user ? <DailyOverview /> : null}
+                <MainContent />
               </Route>
               <Route path='/login'>
                 <LoginFormPage />

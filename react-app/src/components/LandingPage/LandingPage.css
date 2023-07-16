@@ -1,0 +1,44 @@
+.landing-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.landing-page-gif {
+    width: 400px;
+    height: 400px;
+}
+
+.landing-page-description {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.landing-page-description p {
+    margin-bottom: 10px;
+}
+
+.landing-page-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.landing-page-button {
+    background-color: white;
+    color: black;
+    padding: 10px 20px;
+    border: .8px solid black;
+    border-radius: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.landing-page-button:hover {
+    background-color: #f3f3f3;
+    border: 1px solid black;
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

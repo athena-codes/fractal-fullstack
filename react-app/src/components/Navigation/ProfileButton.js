@@ -6,7 +6,7 @@ import LoginFormModal from '../LoginFormModal'
 import SignupFormModal from '../SignupFormModal'
 import profile_picture from './images/user.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faCircleUser } from '@fortawesome/free-solid-svg-icons'
 
 function ProfileButton ({ user }) {
   const dispatch = useDispatch()
@@ -51,7 +51,7 @@ function ProfileButton ({ user }) {
         />
       ) : (
         <button className='profile-icon' onClick={openMenu}>
-          <i className='fas fa-user-circle' />
+          <FontAwesomeIcon icon={faCircleUser} />
         </button>
       )}
       {user ? (
@@ -59,9 +59,10 @@ function ProfileButton ({ user }) {
           <p className='welcome-msg'>Welcome, {user.full_name}</p>
         </>
       ) : (
-        <ul className={ulClassName} ref={ulRef}>
-          <>
+        <>
+          <ul className={ulClassName} ref={ulRef}>
             <OpenModalButton
+            className='login-btn'
               buttonText='Log In'
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
@@ -72,8 +73,8 @@ function ProfileButton ({ user }) {
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
             />
-          </>
-        </ul>
+          </ul>
+        </>
       )}
     </>
   )

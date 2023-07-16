@@ -34,7 +34,7 @@ function Navigation ({ isLoaded, user }) {
     <div className='navigation'>
       <ul className='navigation-container-profile'>
         {isLoaded && (
-          <li className={`profile-right-nav${user ? '' : ' flex-column'}`}>
+          <li className={`profile-right-nav${user ? '' : ' flex-column'}`} >
             <ProfileButton user={sessionUser} />
           </li>
         )}
