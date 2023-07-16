@@ -27,7 +27,11 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    width: 60vh;
+}
 
+.reminders-title {
+    margin-right: 25vh;
 }
 
 .see-all-link {

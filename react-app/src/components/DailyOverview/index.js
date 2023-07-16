@@ -64,7 +64,7 @@ function DailyOverview () {
           <div className='reminders-section'>
             <div className='reminders-header'>
 
-            <h2>Reminders</h2>
+            <h2 className='reminders-title'>Reminders</h2>
             <Link to='/daily-planner' className='see-all-link'>
               See All
             </Link>
