@@ -89,6 +89,8 @@ const GoalsOverview = () => {
           <ul className='goals-list'>
             {goals.map(goal => (
               <li key={goal.id} className='goal-card'>
+                <div className='goal-contents'>
+
                 <h3 className='title'>
                   {' '}
                   {<FontAwesomeIcon icon={faBullseye} className='bullseye' />}
@@ -108,31 +110,32 @@ const GoalsOverview = () => {
                     <OpenModalButton
                       modalComponent={
                         <UpdateGoalModal
-                          goalId={goal.id}
-                          title={goal.title}
-                          description={goal.description}
-                          endDate={goal.end_date}
-                          timeframe={goal.timeframe}
+                        goalId={goal.id}
+                        title={goal.title}
+                        description={goal.description}
+                        endDate={goal.end_date}
+                        timeframe={goal.timeframe}
                           onSubmit={handleUpdateGoal}
                           onClose={() => setSelectedGoalId(null)}
                         />
                       }
                       buttonText={
                         <FontAwesomeIcon
-                          icon={faPenToSquare}
-                          className='update'
+                        icon={faPenToSquare}
+                        className='update'
                         />
                       }
                       onModalClose={() => setSelectedGoalId(null)}
-                    />
+                      />
                   </div>
                   <button
                     onClick={() => handleDeleteGoal(goal.id)}
                     className='delete-button'
-                  >
+                    >
                     {<FontAwesomeIcon icon={faTrash} className='delete' />}
                   </button>
                 </div>
+            </div>
               </li>
             ))}
           </ul>

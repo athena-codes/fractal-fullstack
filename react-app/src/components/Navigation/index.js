@@ -34,7 +34,7 @@ function Navigation ({ isLoaded, user }) {
     <div className='navigation'>
       <ul className='navigation-container-profile'>
         {isLoaded && (
-          <li className={`profile-right-nav${user ? '' : ' flex-column'}`} >
+          <li className={`profile-right-nav${user ? '' : ' flex-column'}`}>
             <ProfileButton user={sessionUser} />
           </li>
         )}
@@ -65,16 +65,18 @@ function Navigation ({ isLoaded, user }) {
                   <FontAwesomeIcon icon={faList} />{' '}
                 </NavLink>
               </li>
-              <li className='navigation-item'>
-                <button className='profile-icon'>
-                  <FontAwesomeIcon icon={faGear} />{' '}
-                </button>
-              </li>
-              <li className='navigation-item'>
-                <button className='profile-icon' onClick={handleLogout}>
-                  <FontAwesomeIcon icon={faArrowRightFromBracket} />{' '}
-                </button>
-              </li>
+              <div className='logout-settings-nav-bar'>
+                <li className='navigation-item'>
+                  <button className='profile-icon' onClick={() => alert('Coming soon!')}>
+                    <FontAwesomeIcon icon={faGear} />{' '}
+                  </button>
+                </li>
+                <li className='navigation-item nav-logout'>
+                  <button className='profile-icon' onClick={handleLogout}>
+                    <FontAwesomeIcon icon={faArrowRightFromBracket} />{' '}
+                  </button>
+                </li>
+              </div>
             </ul>
           )}
         </ul>

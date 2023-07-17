@@ -4,17 +4,24 @@
     grid-template-rows: 30px auto;
     padding: none;
     margin: -10px;
-font-family: 'Arima', cursive;
-font-weight: lighter;}
+    font-family: 'Poppins', sans-serif;
+
+    font-weight: bolder;
+}
 
 .Content {
     grid-column: 1;
     margin-left: 100px;
-    font-family: 'Arima', cursive;
+    font-family: 'Poppins', sans-serif;
+
 }
 
 
-input, button, textarea, select, option {
-    font-family: 'Arima', cursive;
-}
+input,
+button,
+textarea,
+select,
+option {
+    font-family: 'Poppins', sans-serif;
 
+}

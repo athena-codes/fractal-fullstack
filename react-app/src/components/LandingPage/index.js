@@ -17,10 +17,20 @@ function LandingPage () {
           aspirations.
         </p>
       </div>
-        <div className='landing-page-buttons'>
-          <button className='landing-page-button'>About</button>
-          <button className='landing-page-button'>Get Started!</button>
-        </div>
+      <div className='landing-page-buttons'>
+        <button
+          className='landing-page-button'
+          onClick={() => alert('Coming soon!')}
+        >
+          About
+        </button>
+        <button
+          className='landing-page-button'
+          onClick={() => alert('Coming soon!')}
+        >
+          Get Started!
+        </button>
+      </div>
     </div>
   )
 }

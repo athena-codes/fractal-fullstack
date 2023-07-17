@@ -57,7 +57,6 @@ const CreateGoalModal = () => {
           type='text'
           value={title}
           onChange={e => setTitle(e.target.value)}
-          required
         />
       </div>
 
@@ -77,25 +76,19 @@ const CreateGoalModal = () => {
           type='date'
           value={endDate}
           onChange={handleEndDateChange}
-          required
         />
       </div>
 
       <div>
         <label>Timeframe:</label>
-        <input
-          name='timeframe'
-          type='text'
-          value={timeframe}
-          readOnly
-          required
-        />
+        <input name='timeframe' type='text' value={timeframe} readOnly />
       </div>
 
       <div className='submit-cancel-btns'>
-        <button className='goal-submit-btn' type='submit'>Create</button>
-        <button className = 'goal-cancel-btn'
- type='button' onClick={closeModal}>
+        <button className='goal-submit-btn' type='submit'>
+          Create
+        </button>
+        <button className='goal-cancel-btn' type='button' onClick={closeModal}>
           Cancel
         </button>
       </div>

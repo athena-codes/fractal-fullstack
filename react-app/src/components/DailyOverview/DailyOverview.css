@@ -19,19 +19,12 @@
 
 .goals-header-overview {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
-.reminders-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
-.reminders-title {
-    margin-right: 30vh;
-}
 
 .see-all-link {
     color: #333;
@@ -78,11 +71,6 @@
     padding-right: 5px;
 }
 
-.reminders-section {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
 
 .reminders-list {
     list-style: square;
@@ -118,8 +106,8 @@
 }
 
 .reminders-list-item:hover {
-    transform: scale(1.01);
     transition: transform 0.1s ease;
+    transform: scale(1.05);
     cursor: default;
 }
 

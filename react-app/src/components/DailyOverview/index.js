@@ -12,7 +12,6 @@ function DailyOverview () {
   const goals = useSelector(state => state.goals.goals)
   const todos = useSelector(state => state.todos.todos)
   const reminderTodos = todos.filter(todo => todo.reminder)
-  console.log('GOALS --->', goals)
 
   useEffect(() => {
     dispatch(fetchAllGoals())
@@ -62,11 +61,11 @@ function DailyOverview () {
             </ul>
           </div>
           <div className='reminders-section'>
-            <div className='reminders-header'>
+            <div className='goal-header-overview'>
 
             <h2 className='reminders-title'>Reminders</h2>
             <Link to='/daily-planner' className='see-all-link'>
-              See All
+              Go to Daily Planner →
             </Link>
             </div>
             <ul className='reminders-list'>

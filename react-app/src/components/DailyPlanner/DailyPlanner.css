@@ -49,7 +49,7 @@
 }
 
 .time-slot-field {
-    width: 250px;
+    width: 100vh;
     height: 14px;
     background-color: rgba(224, 224, 224, 0.529);
     border: none;
@@ -60,6 +60,11 @@
 .time-slot-field:focus {
     background-color: rgba(224, 224, 224, 0.8);
     outline: none;
+    cursor: default;
+}
+
+.time-slot-field:hover {
+    cursor: default;
 }
 
 .delete-button {

@@ -18,8 +18,9 @@
 
 .left-side-bar {
   background-color: #8c4dff;
-  width: 30px;
+  width: 40px;
   height: 350vh;
+  margin-left: 2px;
   padding: none;
 }
 
@@ -28,10 +29,19 @@
   margin-top: 2px;
 }
 
+.profile-icon {
+  font-size: 20px;
+}
+
+.logout-settings-nav-bar {
+  margin-top: 10vh;
+}
+
 .navigation-item {
   margin-right: 10px;
   text-decoration: none;
   background-color: transparent;
+  font-size: 20px;
 }
 
 .modal-btn {
@@ -39,6 +49,7 @@
   background-color: transparent;
   border: none;
   cursor: pointer;
+  font-size: 20px;
   transition: transform 0.2s;
 }
 
