@@ -31,6 +31,7 @@
   border-radius: 4px;
   padding: 20px;
   width: 70vh;
+  height: 90vh;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -51,7 +52,7 @@
 }
 
 #modal-content input {
-  color: #fff;
+  color: #000000;
   margin-left: 5px;
   margin-bottom: 5px;
 }
@@ -67,7 +68,6 @@
   margin-bottom: 5px;
 }
 
-#modal-content input {
-  color: #fff;
-  margin-left: 5px;
+#modal-content {
+  overflow-y: scroll;
 }

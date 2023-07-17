@@ -84,7 +84,7 @@ const GoalsOverview = () => {
       <h2>Goals</h2>
       <div className='goals-overview'>
         {goals.length === 0 ? (
-          <p>No goals found.</p>
+          <p>No goals yet. Create one now to start making progress toward a better you!</p>
         ) : (
           <ul className='goals-list'>
             {goals.map(goal => (

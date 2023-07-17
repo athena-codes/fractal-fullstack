@@ -6,7 +6,7 @@ import { Field, ErrorMessage } from 'formik'
 import Dropzone from 'react-dropzone'
 import './SignupForm.css'
 
-function SignupFormModal () {
+const SignupFormModal = () => {
   const dispatch = useDispatch()
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
@@ -16,6 +16,7 @@ function SignupFormModal () {
   const [profilePicture, setProfilePicture] = useState(null)
   const [errors, setErrors] = useState({})
   const { closeModal } = useModal()
+  const [isLoaded, setIsLoaded] = useState(false)
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -27,6 +28,7 @@ function SignupFormModal () {
       form.append('password', password)
       form.append('profile_picture', profilePicture)
 
+      setIsLoaded(true)
       const data = await dispatch(signUp(form))
       if (data && data.length > 0) {
         const errorObj = {}
@@ -35,6 +37,7 @@ function SignupFormModal () {
           errorObj[key] = value
         })
         setErrors(errorObj)
+        setIsLoaded(false)
       } else {
         closeModal()
       }
@@ -52,7 +55,7 @@ function SignupFormModal () {
       <form className='signup-form' onSubmit={handleSubmit}>
         <ul className='signup-form-errors'>
           {/* {Object.entries(errors).map(([key, error]) => (
-            <li key={key}>{error}</li>
+            <li key={key}>{key}{error}</li>
           ))} */}
         </ul>
         <label className='signup-form-label'>
@@ -138,11 +141,18 @@ function SignupFormModal () {
               </div>
             )}
           </Dropzone>
+          {errors.profile_picture && (
+            <span className='error-message'>{errors.profile_picture}</span>
+          )}
         </label>
 
-        <button className='signup-form-button' type='submit'>
-          Sign Up
-        </button>
+        {isLoaded ? (
+          <div className='loading-symbol'></div> // Display the loading symbol if isLoaded is true
+        ) : (
+          <button className='signup-form-button' type='submit'>
+            Sign Up
+          </button>
+        )}
       </form>
     </>
   )

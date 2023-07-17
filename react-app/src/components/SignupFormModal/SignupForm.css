@@ -7,3 +7,51 @@
     color: red;
     font-weight: bolder;
 }
+
+/* LOADING SYMBOL FOR SIGNUP */
+.loading-symbol {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    position: relative;
+}
+
+.loading-symbol::before {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: #000;
+    border-radius: 50%;
+    position: absolute;
+    top: 11px;
+    left: 1px;
+    animation: loading 1.2s infinite ease-in-out;
+}
+
+.loading-symbol::after {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: #000;
+    border-radius: 50%;
+    position: absolute;
+    top: 11px;
+    left: 11px;
+    animation: loading 1.2s infinite ease-in-out;
+}
+
+@keyframes loading {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.5);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

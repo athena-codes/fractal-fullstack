@@ -32,8 +32,8 @@ class SignUpForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired('Username is required'), Length(min=5), username_exists])
     email = StringField('Email', validators=[DataRequired('Email is required'), user_exists, validate_email])
     password = PasswordField('Password', validators=[DataRequired('Password is required'), Length(min=8)])
-    profile_picture = FileField('Profile Picture', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
+    profile_picture = FileField('Profile Picture', validators=[DataRequired('Please upload a profile photo'), FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
 
 
-#  PASSWORD VALIDATION 
+#  PASSWORD VALIDATION
 #  Regexp(r'[A-Za-z0-9@#$%^&+=]+[A-Z]+[0-9]+', message='Password must contain at least 1 uppercase letter and 1 number')

@@ -77,6 +77,13 @@
     margin-right: 20px;
 }
 
+.reminder-header-overview {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .coming-soon-section {
     display: flex;
     align-items: center;

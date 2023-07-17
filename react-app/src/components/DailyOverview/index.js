@@ -40,44 +40,50 @@ function DailyOverview () {
             <div className='goals-header-overview'>
               <h2 className='goals-title-overview'>Goal Progress</h2>
               <Link to='/goals' className='see-all-link'>
-                See All
+                See All →
               </Link>
             </div>
-            <ul className='goal-list-overview'>
-              {goals.map(goal => (
-                <li className='goal-progress-section' key={goal.id}>
-                  <div className='goal-name'>{goal.title}</div>
-                  <div className='progress-bar'>
-                    <div
-                      className='progress-bar-fill'
-                      style={{ width: `${goal.progress}%` }}
-                    >
-                      {goal.progress}
+            {goals.length === 0 ? (
+              <p className='no-goals-message'>No goals yet!</p>
+            ) : (
+              <ul className='goal-list-overview'>
+                {goals.map(goal => (
+                  <li className='goal-progress-section' key={goal.id}>
+                    <div className='goal-name'>{goal.title}</div>
+                    <div className='progress-bar'>
+                      <div
+                        className='progress-bar-fill'
+                        style={{ width: `${goal.progress}%` }}
+                      >
+                        {goal.progress}
+                      </div>
                     </div>
-                  </div>
-                  {formatProgress(goal.progress)}%
-                </li>
-              ))}
-            </ul>
+                    {formatProgress(goal.progress)}%
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
           <div className='reminders-section'>
-            <div className='goal-header-overview'>
-
-            <h2 className='reminders-title'>Reminders</h2>
-            <Link to='/daily-planner' className='see-all-link'>
-              Go to Daily Planner →
-            </Link>
+            <div className='reminder-header-overview'>
+              <h2 className='reminders-title'>Reminders</h2>
+              <Link to='/daily-planner' className='see-all-link'>
+                Go to Daily Planner →
+              </Link>
             </div>
-            <ul className='reminders-list'>
-              {reminderTodos.map(todo => (
-                <li className='reminders-list-item' key={todo.id}>
-                  {todo.name}{' '}
-                  {/* {formatTime(todo.start_time)} - {formatTime(todo.end_time)} */}
-                </li>
-              ))}
-            </ul>
+            {reminderTodos.length === 0 ? (
+              <p className='no-reminders-message'>No reminders yet!</p>
+            ) : (
+              <ul className='reminders-list'>
+                {reminderTodos.map(todo => (
+                  <li className='reminders-list-item' key={todo.id}>
+                    {todo.name}{' '}
+                    {/* {formatTime(todo.start_time)} - {formatTime(todo.end_time)} */}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
-
           <div className='coming-soon-section'>
             <h2>Coming Soon!</h2>
           </div>
