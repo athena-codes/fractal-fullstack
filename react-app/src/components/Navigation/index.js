@@ -24,9 +24,8 @@ function Navigation ({ isLoaded, user }) {
 
   const dispatch = useDispatch()
 
-  const handleLogout = () => {
-    // history.push('/')
-    window.location.href = '/'
+  const handleLogout = (e) => {
+    e.preventDefault()
     dispatch(logout())
   }
 
