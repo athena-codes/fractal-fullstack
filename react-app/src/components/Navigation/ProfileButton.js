@@ -12,7 +12,6 @@ function ProfileButton ({ user }) {
   const dispatch = useDispatch()
   const [showMenu, setShowMenu] = useState(false)
   const ulRef = useRef()
-  console.log('USER --->', user)
 
   const openMenu = () => {
     if (showMenu) return

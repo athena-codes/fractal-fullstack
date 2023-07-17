@@ -69,9 +69,6 @@ export const logout = () => async dispatch => {
 
 export const signUp =
   (formData) => async dispatch => {
-    for(let item of formData.entries()) {
-      console.log('ITEM', item[0], '============', item[1])
-    }
 
     const response = await fetch('/api/auth/signup', {
       method: 'POST',

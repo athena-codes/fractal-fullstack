@@ -151,7 +151,6 @@ const dailyPlannerReducer = (state = initialState, action) => {
       }
     case ASSIGN_TODO_TO_SLOT:
       const updatedSlot = action.payload.time_slot
-      console.log('UPDATED SLOT REDUCER --->', updatedSlot)
       let updatedSlotsAssign
       if (updatedSlot) {
         updatedSlotsAssign = state.slots.slots.map(slot => {
