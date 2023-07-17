@@ -27,6 +27,7 @@ function Navigation ({ isLoaded, user }) {
   const handleLogout = (e) => {
     e.preventDefault()
     dispatch(logout())
+    window.location.href = '/'
   }
 
   return (
