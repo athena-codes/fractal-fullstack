@@ -4,6 +4,9 @@ import { useHistory } from 'react-router-dom'
 import { useModal } from '../../../context/Modal'
 import { createNewGoal } from '../../../store/goals'
 
+import './CreateGoalModal.css'
+
+
 const CreateGoalModal = () => {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -12,10 +15,26 @@ const CreateGoalModal = () => {
   const [description, setDescription] = useState('')
   const [endDate, setEndDate] = useState('')
   const [timeframe, setTimeframe] = useState('')
+  const [errors, setErrors] = useState({})
 
   // HANDLE FORM SUBMISSION
   const handleSubmit = async e => {
     e.preventDefault()
+
+    const errors = {}
+
+    if (!title) {
+      errors.title = 'Please provide a title for your goal!'
+    }
+
+    if (!endDate) {
+      errors.endDate = 'Please provide an end date for your goal!'
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors)
+      return
+    }
 
     const formattedEndDate = new Date(endDate).toISOString().split('T')[0]
 
@@ -58,6 +77,7 @@ const CreateGoalModal = () => {
           value={title}
           onChange={e => setTitle(e.target.value)}
         />
+        {errors.title && <p className='error-message-goal'>{errors.title}</p>}
       </div>
 
       <div>
@@ -77,6 +97,7 @@ const CreateGoalModal = () => {
           value={endDate}
           onChange={handleEndDateChange}
         />
+        {errors.endDate && <p className='error-message-goal'>{errors.endDate}</p>}
       </div>
 
       <div>
