@@ -52,6 +52,8 @@ const SignupFormModal = () => {
   return (
     <>
       <h1 className='signup-form-heading'>Sign Up</h1>
+      <div className='singup-form-scrollable'>
+
       <form className='signup-form' onSubmit={handleSubmit}>
         <ul className='signup-form-errors'>
           {/* {Object.entries(errors).map(([key, error]) => (
@@ -154,6 +156,7 @@ const SignupFormModal = () => {
           </button>
         )}
       </form>
+         </div>
     </>
   )
 }

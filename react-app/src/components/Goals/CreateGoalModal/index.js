@@ -6,7 +6,6 @@ import { createNewGoal } from '../../../store/goals'
 
 import './CreateGoalModal.css'
 
-
 const CreateGoalModal = () => {
   const dispatch = useDispatch()
   const history = useHistory()
@@ -29,6 +28,13 @@ const CreateGoalModal = () => {
 
     if (!endDate) {
       errors.endDate = 'Please provide an end date for your goal!'
+    } else {
+      const today = new Date().setHours(0, 0, 0, 0)
+      const selectedDate = new Date(endDate).setHours(0, 0, 0, 0)
+
+      if (selectedDate <= today) {
+        errors.endDate = 'End date must be a future date!'
+      }
     }
 
     if (Object.keys(errors).length > 0) {
@@ -97,7 +103,9 @@ const CreateGoalModal = () => {
           value={endDate}
           onChange={handleEndDateChange}
         />
-        {errors.endDate && <p className='error-message-goal'>{errors.endDate}</p>}
+        {errors.endDate && (
+          <p className='error-message-goal'>{errors.endDate}</p>
+        )}
       </div>
 
       <div>

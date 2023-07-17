@@ -32,6 +32,8 @@
   padding: 20px;
   width: 70vh;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-height: 100vh;
+      overflow-y: auto;
 }
 
 
@@ -65,8 +67,4 @@
 #modal-content select {
   margin-left: 5px;
   margin-bottom: 5px;
-}
-
-#modal-content {
-  overflow-y: scroll;
 }
