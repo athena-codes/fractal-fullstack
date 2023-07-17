@@ -63,6 +63,22 @@ function LoginFormModal () {
         <button className='login-form' type='submit'>
           Log In
         </button>
+        <button
+          className='demo-btn'
+          onClick={async e => {
+            e.preventDefault()
+            const demoCredential = 'hgranger'
+            const demoPassword = 'password'
+            const data = await dispatch(login(demoCredential, demoPassword))
+            if (data) {
+              setErrors(data)
+            } else {
+              closeModal()
+            }
+          }}
+        >
+          Demo User
+        </button>
       </form>
     </>
   )
