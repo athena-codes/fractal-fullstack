@@ -6,17 +6,21 @@ import './LoginForm.css'
 
 function LoginFormModal () {
   const dispatch = useDispatch()
-  const [credential, setCredential] = useState('')
+  const [loginCredential, setLoginCredential] = useState('')
   const [password, setPassword] = useState('')
-  const [errors, setErrors] = useState([])
+  const [errors, setErrors] = useState({})
   const { closeModal } = useModal()
-
 
   const handleSubmit = async e => {
     e.preventDefault()
-    const data = await dispatch(login(credential, password))
+    const data = await dispatch(login(loginCredential, password))
     if (data) {
-      setErrors(data)
+      const errorObj = {}
+      data.forEach(error => {
+        const [key, value] = error.split(' : ')
+        errorObj[key] = value
+      })
+      setErrors(errorObj)
     } else {
       closeModal()
     }
@@ -27,18 +31,21 @@ function LoginFormModal () {
       <h1 className='login-form'>Log In</h1>
       <form className='login-form' onSubmit={handleSubmit}>
         <ul className='login-form'>
-          {errors.map((error, idx) => (
+          {/* {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
-          ))}
+          ))} */}
         </ul>
         <label className='login-form'>
           Username/Email
           <input
             className='login-form'
             type='text'
-            value={credential}
-            onChange={e => setCredential(e.target.value)}
+            value={loginCredential}
+            onChange={e => setLoginCredential(e.target.value)}
           />
+          {errors.credential && (
+            <span className='error-message'>{errors.credential}</span>
+          )}
         </label>
         <label className='login-form'>
           Password
@@ -48,7 +55,11 @@ function LoginFormModal () {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
+          {errors.password && (
+            <span className='error-message'>{errors.password}</span>
+          )}
         </label>
+
         <button className='login-form' type='submit'>
           Log In
         </button>

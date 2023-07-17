@@ -3,12 +3,24 @@ from sqlalchemy.sql import text
 import os
 
 def seed_users():
-    john = User(
-        full_name='John Doe', username='justjohn', email='john@example.com', password='password', profile_picture_url=os.path.join('assets/images', 'user.png'), dark_mode_enabled=False)
+    image_filename = 'sample-profile-picture.png'
+    image_url = '/assets/images/' + image_filename
+    hermoine = User(
+        full_name='Hermoine Granger',
+        username='hgranger',
+        email='griffindor22@hogwarts.com',
+        password='password',
+        profile_picture_url=image_url,
+        dark_mode_enabled=False)
     jane = User(
-        full_name='Jane Doe', username='justjane', email='jane@example.com', password='password', profile_picture_url=os.path.join('assets/images', 'user.png'), dark_mode_enabled=False)
+        full_name='Jane Doe',
+        username='justjane',
+        email='jane@example.com',
+        password='password',
+        profile_picture_url=os.path.join('assets/images', 'sample-profile-picture.png'),
+        dark_mode_enabled=False)
 
-    db.session.add(john)
+    db.session.add(hermoine)
     db.session.add(jane)
     db.session.commit()
 

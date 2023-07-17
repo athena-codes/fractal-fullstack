@@ -25,13 +25,12 @@
 
 .reminders-header {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    width: 60vh;
 }
 
 .reminders-title {
-    margin-right: 25vh;
+    margin-right: 30vh;
 }
 
 .see-all-link {
