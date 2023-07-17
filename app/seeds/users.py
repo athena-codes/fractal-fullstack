@@ -10,7 +10,7 @@ def seed_users():
         username='hgranger',
         email='griffindor22@hogwarts.com',
         password='password',
-        profile_picture_url=image_url,
+        profile_picture_url="https://images.pexels.com/photos/1755385/pexels-photo-1755385.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         dark_mode_enabled=False)
     jane = User(
         full_name='Jane Doe',
