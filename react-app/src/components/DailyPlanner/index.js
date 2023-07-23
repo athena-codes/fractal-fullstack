@@ -23,7 +23,6 @@ import './DailyPlanner.css'
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
   const slots = useSelector(state => state.daily_planner.slots.slots)
-  const todos = useSelector(state => state.todos.todos)
   const [currentSlide, setCurrentSlide] = useState(
     getCurrentDailyPlannerIndex()
   )
@@ -166,15 +165,6 @@ function DailyPlanner () {
     return date.toLocaleTimeString([], { hour: 'numeric' })
   }
 
-  // Create an array mapping each slot to its corresponding todo, if any
-  const slotTodos = slots.map(slot => {
-    const todo = todos.find(todo => todo.slotId === slot.id)
-    return {
-      slot,
-      todo
-    }
-  })
-
   return (
     <div>
       <h1>Daily Planner</h1>
@@ -190,57 +180,58 @@ function DailyPlanner () {
         </div>
       </div>
       <div className='time-slots-start-end'>
-        {slotTodos.map(({ slot, todo }) => (
-          <div className='time-slot' key={slot.id}>
-            <p className='time'>
-              {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
-            </p>
-            <input
-              className='time-slot-field'
-              type='text'
-              value={(todo && todo.name) || ''}
-              readOnly
-            />
-            <OpenModalButton
-              modalComponent={
-                <CreateTodoModal
-                  slotId={slot.id}
-                  plannerId={currentDailyPlanner.id}
-                />
-              }
-              buttonText={<FontAwesomeIcon icon={faPlus} />}
-              handleSlotClick={handleSlotClick}
-              slotId={slot.id}
-            />
-            {todo && (
-              <>
-                <OpenModalButton
-                  modalComponent={
-                    <UpdateTodoModal
-                      todoId={todo.id}
-                      name={todo.name}
-                      priority={todo.priority}
-                      notes={todo.notes}
-                      reminder={todo.reminder}
-                      onSubmit={handleUpdateTodo}
-                      onClose={() => setSlotId(null)}
-                    />
-                  }
-                  buttonText={
-                    <FontAwesomeIcon icon={faPencil} className='update' />
-                  }
-                  onModalClose={() => setSlotId(null)}
-                />
-                <button
-                  onClick={() => handleDeleteTodo(todo.id)}
-                  className='delete-button'
-                >
-                  {<FontAwesomeIcon icon={faTrash} className='delete' />}
-                </button>
-              </>
-            )}
-          </div>
-        ))}
+        {slots &&
+          slots.map(slot => (
+            <div className='time-slot' key={slot.id}>
+              <p className='time'>
+                {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
+              </p>
+              <input
+                className='time-slot-field'
+                type='text'
+                value={(slot['todo'] && slot.todo.name) || ''}
+                readOnly
+              />
+              <OpenModalButton
+                modalComponent={
+                  <CreateTodoModal
+                    slotId={slot.id}
+                    plannerId={currentDailyPlanner.id}
+                  />
+                }
+                buttonText={<FontAwesomeIcon icon={faPlus} />}
+                handleSlotClick={handleSlotClick}
+                slotId={slot.id}
+              />
+              {slot.todo && (
+                <>
+                  <OpenModalButton
+                    modalComponent={
+                      <UpdateTodoModal
+                        todoId={slot.todo_id}
+                        name={slot.todo.name}
+                        priority={slot.todo.priority}
+                        notes={slot.todo.notes}
+                        reminder={slot.todo.reminder}
+                        onSubmit={handleUpdateTodo}
+                        onClose={() => setSlotId(null)}
+                      />
+                    }
+                    buttonText={
+                      <FontAwesomeIcon icon={faPencil} className='update' />
+                    }
+                    onModalClose={() => setSlotId(null)}
+                  />
+                  <button
+                    onClick={() => handleDeleteTodo(slot.todo.id)}
+                    className='delete-button'
+                  >
+                    {<FontAwesomeIcon icon={faTrash} className='delete' />}
+                  </button>
+                </>
+              )}
+            </div>
+          ))}
       </div>
     </div>
   )
