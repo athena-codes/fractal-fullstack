@@ -40,7 +40,7 @@ function DailyOverview () {
             <div className='goals-header-overview'>
               <h2 className='goals-title-overview'>Goal Progress</h2>
               <Link to='/goals' className='see-all-link'>
-                See All →
+                See All
               </Link>
             </div>
             {goals.length === 0 ? (
@@ -68,7 +68,7 @@ function DailyOverview () {
             <div className='reminder-header-overview'>
               <h2 className='reminders-title'>Reminders</h2>
               <Link to='/daily-planner' className='see-all-link'>
-                Go to Daily Planner →
+                See All
               </Link>
             </div>
             {reminderTodos.length === 0 ? (
