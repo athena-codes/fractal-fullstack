@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { useModal } from '../../../context/Modal'
 import { createNewTodo } from '../../../store/todos'
+import { fetchAllGoals } from '../../../store/goals'
 import {
   assignTodoToSlotThunk,
   fetchDailyPlannersThunk
@@ -19,10 +20,26 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
   const [completed, setCompleted] = useState(false)
   const [goalId, setGoalId] = useState('')
   const [errors, setErrors] = useState({})
+  const [goals, setGoals] = useState([])
 
   const { closeModal } = useModal()
   const dispatch = useDispatch()
   const history = useHistory()
+
+  // Fetch the list of goals from the backend using the thunk
+  useEffect(() => {
+    dispatch(fetchAllGoals())
+  }, [dispatch])
+
+  // Get the list of goals from the Redux store using useSelector
+  const allGoals = useSelector(state => state.goals.goals) // Update the reducer name accordingly
+
+  // Update the local state with the goals fetched from the Redux store
+  useEffect(() => {
+    if (allGoals) {
+      setGoals(allGoals)
+    }
+  }, [allGoals])
 
   // HANDLE FORM SUBMISSION
   const handleSubmit = async e => {
@@ -96,7 +113,9 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
           <option value='2'>Medium</option>
           <option value='3'>High</option>
         </select>
-        {errors.priority && <p className='error-message-todo'>{errors.priority}</p>}
+        {errors.priority && (
+          <p className='error-message-todo'>{errors.priority}</p>
+        )}
       </div>
 
       <div>
@@ -116,6 +135,23 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
           checked={reminder}
           onChange={handleReminderChange}
         />
+      </div>
+      <div>
+        <label>Goal:</label>
+        <select
+          name='goal_id'
+          value={goalId}
+          onChange={e => setGoalId(e.target.value)}
+        >
+          <option value=''>Select Goal</option>
+          {/* Map over the goals and render each goal as an option */}
+          {goals.map(goal => (
+            <option key={goal.id} value={goal.id}>
+              {goal.title}
+            </option>
+          ))}
+        </select>
+        {/* Add any error handling for the goal dropdown if needed */}
       </div>
 
       <div>
