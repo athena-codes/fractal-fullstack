@@ -17,9 +17,10 @@ import {
 import './GoalsOverviewPage.css'
 
 const GoalsOverview = () => {
-  const dispatch = useDispatch()
   const goals = useSelector(state => state.goals.goals)
+  const sessionUser = useSelector(state => state.session.user)
   const { closeModal } = useModal()
+  const dispatch = useDispatch()
   const [selectedGoalId, setSelectedGoalId] = useState(null)
 
   useEffect(() => {
@@ -62,7 +63,7 @@ const GoalsOverview = () => {
         return 'th'
     }
   }
-  ;<FontAwesomeIcon icon={faClock} />
+
   const formatDate = dateString => {
     const date = new Date(dateString)
     const timeZoneOffset = date.getTimezoneOffset() * 60 * 1000 // Get the time zone offset in milliseconds
@@ -80,6 +81,7 @@ const GoalsOverview = () => {
   }
 
   return (
+
     <>
       <h2>Goals</h2>
       <div className='goals-overview'>
@@ -138,11 +140,12 @@ const GoalsOverview = () => {
             </div>
               </li>
             ))}
-          </ul>
-        )}
-      </div>
-    </>
-  )
-}
+            </ul>
+            )}
+            </div>
+            </>
+            )
+          }
+
 
 export default GoalsOverview

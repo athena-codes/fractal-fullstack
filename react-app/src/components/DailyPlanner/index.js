@@ -120,7 +120,7 @@ function DailyPlanner () {
   }
 
   // LOADING SYMBOL
-  if (!dailyPlanners) {
+  if (!dailyPlanners && !slots) {
     return <div>Loading...</div>
   }
 
