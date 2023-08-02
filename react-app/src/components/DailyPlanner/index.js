@@ -23,7 +23,7 @@ import './DailyPlanner.css'
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
   const slots = useSelector(state => state.daily_planner.slots.slots)
-  console.log('Slots ----->' , slots)
+  console.log('Slots ----->', slots)
   const [currentSlide, setCurrentSlide] = useState(
     getCurrentDailyPlannerIndex()
   )
@@ -69,7 +69,15 @@ function DailyPlanner () {
     try {
       const updatedTodoData = { completed: !completed }
       console.log('UPDATED TODO --->', updatedTodoData)
-      await dispatch(updateExistingTodo(todo, updatedTodoData))
+
+      const response = await dispatch(updateExistingTodo(todo, updatedTodoData))
+      console.log(response)
+
+      // if (response.ok) {
+        dispatch(fetchDailyPlannersThunk())
+      // } else {
+      //   throw new Error('Failed to update TODO')
+      // }
     } catch (error) {
       console.error(error)
     }
