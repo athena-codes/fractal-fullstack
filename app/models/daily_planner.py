@@ -32,5 +32,5 @@ class DailyPlanner(db.Model):
             'date': self.date,
             'created_at': self.created_at,
             'updated_at': self.updated_at,
-            'time_slots': [slot.to_dict() for slot in self.time_slots]
+            
         }
