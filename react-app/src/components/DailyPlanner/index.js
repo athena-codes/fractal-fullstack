@@ -24,6 +24,7 @@ import './DailyPlanner.css'
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
   const slots = useSelector(state => state.daily_planner.slots.slots)
+  const todos = useSelector(state => state.todos.todos)
   const [currentSlide, setCurrentSlide] = useState(
     getCurrentDailyPlannerIndex()
   )
@@ -109,40 +110,48 @@ function DailyPlanner () {
   }
 
   // CHECKBOX CHANGE HANDLER
-const handleTodoCheckboxChange = async (todo, completed, progress) => {
-  try {
-    const updatedTodoData = { completed: !completed }
-    progress = parseInt(progress)
+  const handleTodoCheckboxChange = async (todo, completed, currentProgress) => {
+    try {
+      const updatedTodoData = { completed: !completed }
 
-    const updatedTodo = await dispatch(
-      updateExistingTodo(todo, updatedTodoData)
-    )
-    console.log('UPDATED TODO --->', updatedTodo)
+      const updatedTodo = await dispatch(
+        updateExistingTodo(todo, updatedTodoData)
+      )
+      console.log('UPDATED TODO --->', updatedTodo)
 
-    if (updatedTodo) {
-      // Check if the completed status changed and the todo has a goal_id
-      if (updatedTodo.completed !== completed && updatedTodo.goal_id) {
-        // Dispatch the action to update the goal progress
-        await dispatch(
-          updateExistingGoal(updatedTodo.goal_id, { progress: progress + 1 })
-        )
+      if (updatedTodo) {
+        // Check if the completed status changed and the todo has a goal_id
+        if (updatedTodo.completed !== completed && updatedTodo.goal_id) {
+          // Calculate the progress for the specific goal
+          const completedTodos = todos.filter(
+            todo => todo.goal_id === updatedTodo.goal_id && todo.completed
+          )
+          const totalTodos = todos.filter(
+            todo => todo.goal_id === updatedTodo.goal_id
+          ).length
+          const calculatedProgress = (completedTodos.length / totalTodos) * 100
 
-        // Fetch the updated goals after updating the progress
-        dispatch(fetchAllGoals())
+          // Calculate the new progress value by considering the currentProgress and calculatedProgress
+          const newProgress = currentProgress + calculatedProgress
+
+          // Dispatch the action to update the goal progress
+          await dispatch(
+            updateExistingGoal(updatedTodo.goal_id, { progress: newProgress })
+          )
+
+          // Fetch the updated goals after updating the progress
+          dispatch(fetchAllGoals())
+        }
+
+        // Fetch the updated slots for the current daily planner
+        dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
+      } else {
+        throw new Error('Failed to update TODO')
       }
-
-      // Fetch the updated slots for the current daily planner
-      dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
-    } else {
-      throw new Error('Failed to update TODO')
+    } catch (error) {
+      console.error(error)
     }
-  } catch (error) {
-    console.error(error)
   }
-}
-
-
-
 
   // DELETE TODO
   const handleDeleteTodo = async slotId => {
