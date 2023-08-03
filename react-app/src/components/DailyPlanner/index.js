@@ -23,6 +23,7 @@ import './DailyPlanner.css'
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
   const slots = useSelector(state => state.daily_planner.slots.slots)
+  console.log('SLOTS --->', slots)
   const [currentSlide, setCurrentSlide] = useState(
     getCurrentDailyPlannerIndex()
   )
@@ -42,54 +43,55 @@ function DailyPlanner () {
     }
   }, [dailyPlanners, currentSlide, dispatch])
 
+  // DAILY PLANNER INDEX HELPER FUNCTION - to find + display today's date as 1st daily planner in list
+  function getCurrentDailyPlannerIndex () {
+    if (!dailyPlanners || dailyPlanners.length === 0) {
+      return 0
+    }
+
+    const currentDate = new Date()
+    currentDate.setUTCHours(0, 0, 0, 0)
+
+    if (dailyPlanners) {
+      for (let i = 0; i < dailyPlanners.length; i++) {
+        const plannerDate = new Date(dailyPlanners[i].date)
+        // *** FIX DAILY PLANNER DATE NOT SHOWING TODAY'S DATE
+        console.log('DATE --->', currentDate)
+        console.log('PLANNER DATE -->', plannerDate)
+        plannerDate.setUTCHours(0, 0, 0, 0)
+        if (plannerDate.getTime() === currentDate.getTime()) {
+          return i
+        }
+      }
+
+      return 0
+    }
+  }
+
   useEffect(() => {
     setCurrentSlide(getCurrentDailyPlannerIndex())
   }, [dailyPlanners])
 
-  // DAILY PLANNER INDEX HELPER FUNCTION - to find + display today's date as 1st daily planner in list
-function getCurrentDailyPlannerIndex () {
-  if (!dailyPlanners || dailyPlanners.length === 0) {
-    return 0
+  // SLIDE FUNCTIONALITY
+  const goToPreviousSlide = () => {
+    setCurrentSlide(prevSlide =>
+      dailyPlanners.length > 1
+        ? prevSlide === 0
+          ? dailyPlanners.length - 1
+          : prevSlide - 1
+        : prevSlide
+    )
   }
 
-  const currentDate = new Date()
-  currentDate.setUTCHours(0, 0, 0, 0)
-
-  for (let i = 0; i < dailyPlanners.length; i++) {
-    const plannerDate = new Date(dailyPlanners[i].date)
-    // *** FIX DAILY PLANNER DATE NOT SHOWING TODAY'S DATE
-    console.log('DATE --->', currentDate)
-    console.log('PLANNER DATE -->', plannerDate)
-    plannerDate.setUTCHours(0, 0, 0, 0)
-    if (plannerDate.getTime() === currentDate.getTime()) {
-      return i
-    }
+  const goToNextSlide = () => {
+    setCurrentSlide(prevSlide =>
+      dailyPlanners.length > 1
+        ? prevSlide === dailyPlanners.length - 1
+          ? 0
+          : prevSlide + 1
+        : prevSlide
+    )
   }
-
-  return 0
-}
-
-// SLIDE FUNCTIONALITY
-const goToPreviousSlide = () => {
-  setCurrentSlide(prevSlide =>
-    dailyPlanners.length > 1
-      ? prevSlide === 0
-        ? dailyPlanners.length - 1
-        : prevSlide - 1
-      : prevSlide
-  )
-}
-
-const goToNextSlide = () => {
-  setCurrentSlide(prevSlide =>
-    dailyPlanners.length > 1
-      ? prevSlide === dailyPlanners.length - 1
-        ? 0
-        : prevSlide + 1
-      : prevSlide
-  )
-}
-
 
   // UPDATE TODO
   const handleUpdateTodo = async updatedTodoData => {
@@ -142,7 +144,6 @@ const goToNextSlide = () => {
     }
   }
 
-
   // LOADING SYMBOL
   if (!dailyPlanners && !slots) {
     return <div>Loading...</div>
@@ -190,6 +191,74 @@ const goToNextSlide = () => {
     return date.toLocaleTimeString([], { hour: 'numeric' })
   }
 
+  // CONDITIONALLY RENDER THE TIME SLOTS
+  let timeSlots = <div>Loading ...</div>
+  if (slots) {
+    timeSlots = slots
+      .filter(slot => slot.daily_planner_id === currentDailyPlanner.id)
+      .map(slot => (
+        <div className='time-slot' key={slot.id}>
+          <p className='time'>
+            {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
+          </p>
+          <input
+            className='time-slot-field'
+            type='text'
+            value={(slot['todo'] && slot.todo.name) || ''}
+            readOnly
+          />
+          {slot.todo && (
+            <input
+              type='checkbox'
+              checked={slot.todo.completed}
+              onChange={() =>
+                handleTodoCheckboxChange(slot.todo.id, slot.todo.completed)
+              }
+            />
+          )}
+
+          <OpenModalButton
+            modalComponent={
+              <CreateTodoModal
+                slotId={slot.id}
+                plannerId={currentDailyPlanner.id}
+              />
+            }
+            buttonText={<FontAwesomeIcon icon={faPlus} />}
+            handleSlotClick={handleSlotClick}
+            slotId={slot.id}
+          />
+          {slot.todo && (
+            <>
+              <OpenModalButton
+                modalComponent={
+                  <UpdateTodoModal
+                    todoId={slot.todo_id}
+                    name={slot.todo.name}
+                    priority={slot.todo.priority}
+                    notes={slot.todo.notes}
+                    reminder={slot.todo.reminder}
+                    onSubmit={handleUpdateTodo}
+                    onClose={() => setSlotId(null)}
+                  />
+                }
+                buttonText={
+                  <FontAwesomeIcon icon={faPencil} className='update' />
+                }
+                onModalClose={() => setSlotId(null)}
+              />
+              <button
+                onClick={() => handleDeleteTodo(slot.todo.id)}
+                className='delete-button'
+              >
+                {<FontAwesomeIcon icon={faTrash} className='delete' />}
+              </button>
+            </>
+          )}
+        </div>
+      ))
+  }
+
   return (
     <div>
       <h1>Daily Planner</h1>
@@ -204,70 +273,7 @@ const goToNextSlide = () => {
           </button>
         </div>
       </div>
-      <div className='time-slots-start-end'>
-        {slots &&
-          slots.map(slot => (
-            <div className='time-slot' key={slot.id}>
-              <p className='time'>
-                {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
-              </p>
-              <input
-                className='time-slot-field'
-                type='text'
-                value={(slot['todo'] && slot.todo.name) || ''}
-                readOnly
-              />
-              {slot.todo && (
-                <input
-                  type='checkbox'
-                  checked={slot.todo.completed}
-                  onChange={() =>
-                    handleTodoCheckboxChange(slot.todo.id, slot.todo.completed)
-                  }
-                />
-              )}
-
-              <OpenModalButton
-                modalComponent={
-                  <CreateTodoModal
-                    slotId={slot.id}
-                    plannerId={currentDailyPlanner.id}
-                  />
-                }
-                buttonText={<FontAwesomeIcon icon={faPlus} />}
-                handleSlotClick={handleSlotClick}
-                slotId={slot.id}
-              />
-              {slot.todo && (
-                <>
-                  <OpenModalButton
-                    modalComponent={
-                      <UpdateTodoModal
-                        todoId={slot.todo_id}
-                        name={slot.todo.name}
-                        priority={slot.todo.priority}
-                        notes={slot.todo.notes}
-                        reminder={slot.todo.reminder}
-                        onSubmit={handleUpdateTodo}
-                        onClose={() => setSlotId(null)}
-                      />
-                    }
-                    buttonText={
-                      <FontAwesomeIcon icon={faPencil} className='update' />
-                    }
-                    onModalClose={() => setSlotId(null)}
-                  />
-                  <button
-                    onClick={() => handleDeleteTodo(slot.todo.id)}
-                    className='delete-button'
-                  >
-                    {<FontAwesomeIcon icon={faTrash} className='delete' />}
-                  </button>
-                </>
-              )}
-            </div>
-          ))}
-      </div>
+      <div className='time-slots-start-end'>{timeSlots}</div>
     </div>
   )
 }
