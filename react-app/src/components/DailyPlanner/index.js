@@ -57,6 +57,7 @@ function getCurrentDailyPlannerIndex () {
 
   for (let i = 0; i < dailyPlanners.length; i++) {
     const plannerDate = new Date(dailyPlanners[i].date)
+    // *** FIX DAILY PLANNER DATE NOT SHOWING TODAY'S DATE
     console.log('DATE --->', currentDate)
     console.log('PLANNER DATE -->', plannerDate)
     plannerDate.setUTCHours(0, 0, 0, 0)
