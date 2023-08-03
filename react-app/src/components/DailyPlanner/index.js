@@ -109,34 +109,38 @@ function DailyPlanner () {
   }
 
   // CHECKBOX CHANGE HANDLER
-const handleTodoCheckboxChange = async (todo, completed) => {
+const handleTodoCheckboxChange = async (todo, completed, progress) => {
   try {
-    const updatedTodoData = { completed: !completed };
+    const updatedTodoData = { completed: !completed }
+    progress = parseInt(progress)
 
     const updatedTodo = await dispatch(
       updateExistingTodo(todo, updatedTodoData)
-    );
-    console.log('UPDATED TODO --->', updatedTodo);
+    )
+    console.log('UPDATED TODO --->', updatedTodo)
 
     if (updatedTodo) {
       // Check if the completed status changed and the todo has a goal_id
       if (updatedTodo.completed !== completed && updatedTodo.goal_id) {
         // Dispatch the action to update the goal progress
-        await dispatch(updateExistingGoal(updatedTodo.goal_id, {}));
+        await dispatch(
+          updateExistingGoal(updatedTodo.goal_id, { progress: progress + 1 })
+        )
 
         // Fetch the updated goals after updating the progress
-        dispatch(fetchAllGoals());
+        dispatch(fetchAllGoals())
       }
 
       // Fetch the updated slots for the current daily planner
-      dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id));
+      dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
     } else {
-      throw new Error('Failed to update TODO');
+      throw new Error('Failed to update TODO')
     }
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}
+
 
 
 
@@ -223,7 +227,7 @@ const handleTodoCheckboxChange = async (todo, completed) => {
               type='checkbox'
               checked={slot.todo.completed}
               onChange={() =>
-                handleTodoCheckboxChange(slot.todo.id, slot.todo.completed)
+                handleTodoCheckboxChange(slot.todo.id, slot.todo.completed, 0)
               }
             />
           )}

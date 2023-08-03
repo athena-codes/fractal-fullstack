@@ -81,10 +81,26 @@ export const fetchGoal = goalId => async dispatch => {
 export const updateExistingGoal =
   (goalId, goalData) => async (dispatch, getState) => {
     try {
+      const { progress } = goalData
+
+      if (progress !== undefined) {
+        // If progress is provided in goalData, update only the progress using the new API endpoint
+        const progressResponse = await fetch(`api/goals/${goalId}/progress`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ progress }) // Send only the progress field in the request body
+        })
+
+        if (!progressResponse.ok) {
+          throw new Error('Failed to update goal progress')
+        }
+      }
+
+      // Update the other fields of the goal using the original API endpoint
       const response = await fetch(`api/goals/${goalId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(goalData)
+        body: JSON.stringify(goalData) // Send the entire goalData object
       })
 
       if (!response.ok) {
@@ -94,26 +110,26 @@ export const updateExistingGoal =
       const updatedGoal = await response.json()
       console.log('UPDATED GOAL --->', updatedGoal)
 
-      if (updatedGoal) {
-        // Calculate the progress based on the number of completed todos for this goal
-        const todos = getState().todos.todos
-        const completedTodos = todos.filter(
-          todo => todo.goal_id === goalId && todo.completed
-        )
-        const totalTodos = todos.filter(todo => todo.goal_id === goalId).length
-        const progress = (completedTodos.length / totalTodos) * 100
+      // Calculate the progress based on the number of completed todos for this goal
+      const todos = getState().todos.todos
+      const completedTodos = todos.filter(
+        todo => todo.goal_id === goalId && todo.completed
+      )
+      const totalTodos = todos.filter(todo => todo.goal_id === goalId).length
+      const calculatedProgress = (completedTodos.length / totalTodos) * 100
 
-        // Update the progress field of the goal
-        updatedGoal.progress = parseFloat(progress.toFixed(2)) // Convert progress to a number
+      // Update the progress field of the goal
+      updatedGoal.progress = parseFloat(calculatedProgress.toFixed(2)) // Convert progress to a number
 
-        // Dispatch an action to update the goal in the store
-        dispatch(updateGoal(updatedGoal))
-      }
+      // Dispatch an action to update the goal in the store
+      dispatch(updateGoal(updatedGoal))
     } catch (error) {
       console.error(error)
       // Handle error as needed
     }
   }
+
+
 
 export const deleteExistingGoal = goalId => async dispatch => {
 try {

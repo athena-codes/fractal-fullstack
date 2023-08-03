@@ -65,8 +65,32 @@ def update_goal(goal_id):
     data = request.get_json()
     goal.title = data.get('title')
     goal.description = data.get('description')
-    goal.end_date = datetime.strptime(data.get('end_date'), '%Y-%m-%d')
+    # goal.end_date = datetime.strptime(data.get('end_date'), '%Y-%m-%d')
     goal.timeframe = data.get('timeframe')
+
+    if 'progress' in data:
+        goal.progress = data['progress']
+
+    db.session.commit()
+
+    return jsonify(goal.to_dict()), 200
+
+# Update the progress field of a specific goal
+@goal_routes.route('/<goal_id>/progress', methods=['PUT'])
+@login_required
+def update_goal_progress(goal_id):
+    goal = Goal.query.get(goal_id)
+
+    if not goal:
+        return jsonify({'message': 'Goal not found'}), 404
+
+    if goal.user_id != current_user.id:
+        return jsonify({'message': 'Unauthorized'}), 401
+
+    data = request.get_json()
+
+    if 'progress' in data:
+        goal.progress = data['progress']
 
     db.session.commit()
 
