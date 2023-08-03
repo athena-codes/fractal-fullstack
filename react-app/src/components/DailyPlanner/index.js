@@ -23,7 +23,6 @@ import './DailyPlanner.css'
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
   const slots = useSelector(state => state.daily_planner.slots.slots)
-  console.log('Slots ----->', slots)
   const [currentSlide, setCurrentSlide] = useState(
     getCurrentDailyPlannerIndex()
   )
@@ -46,6 +45,50 @@ function DailyPlanner () {
   useEffect(() => {
     setCurrentSlide(getCurrentDailyPlannerIndex())
   }, [dailyPlanners])
+
+  // DAILY PLANNER INDEX HELPER FUNCTION - to find + display today's date as 1st daily planner in list
+function getCurrentDailyPlannerIndex () {
+  if (!dailyPlanners || dailyPlanners.length === 0) {
+    return 0
+  }
+
+  const currentDate = new Date()
+  currentDate.setUTCHours(0, 0, 0, 0)
+
+  for (let i = 0; i < dailyPlanners.length; i++) {
+    const plannerDate = new Date(dailyPlanners[i].date)
+    console.log('DATE --->', currentDate)
+    console.log('PLANNER DATE -->', plannerDate)
+    plannerDate.setUTCHours(0, 0, 0, 0)
+    if (plannerDate.getTime() === currentDate.getTime()) {
+      return i
+    }
+  }
+
+  return 0
+}
+
+// SLIDE FUNCTIONALITY
+const goToPreviousSlide = () => {
+  setCurrentSlide(prevSlide =>
+    dailyPlanners.length > 1
+      ? prevSlide === 0
+        ? dailyPlanners.length - 1
+        : prevSlide - 1
+      : prevSlide
+  )
+}
+
+const goToNextSlide = () => {
+  setCurrentSlide(prevSlide =>
+    dailyPlanners.length > 1
+      ? prevSlide === dailyPlanners.length - 1
+        ? 0
+        : prevSlide + 1
+      : prevSlide
+  )
+}
+
 
   // UPDATE TODO
   const handleUpdateTodo = async updatedTodoData => {
@@ -74,7 +117,7 @@ function DailyPlanner () {
       console.log(response)
 
       // if (response.ok) {
-        dispatch(fetchDailyPlannersThunk())
+      dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
       // } else {
       //   throw new Error('Failed to update TODO')
       // }
@@ -98,46 +141,6 @@ function DailyPlanner () {
     }
   }
 
-  // DAILY PLANNER INDEX HELPER FUNCTION - to find + display today's date as 1st daily planner in list
-  function getCurrentDailyPlannerIndex () {
-    if (!dailyPlanners || dailyPlanners.length === 0) {
-      return 0
-    }
-
-    const currentDate = new Date()
-    currentDate.setUTCHours(0, 0, 0, 0)
-
-    for (let i = 0; i < dailyPlanners.length; i++) {
-      const plannerDate = new Date(dailyPlanners[i].date)
-      plannerDate.setUTCHours(0, 0, 0, 0)
-      if (plannerDate.getTime() === currentDate.getTime()) {
-        return i
-      }
-    }
-
-    return 0
-  }
-
-  // SLIDE FUNCTIONALITY
-  const goToPreviousSlide = () => {
-    setCurrentSlide(prevSlide =>
-      dailyPlanners.length > 1
-        ? prevSlide === 0
-          ? dailyPlanners.length - 1
-          : prevSlide - 1
-        : prevSlide
-    )
-  }
-
-  const goToNextSlide = () => {
-    setCurrentSlide(prevSlide =>
-      dailyPlanners.length > 1
-        ? prevSlide === dailyPlanners.length - 1
-          ? 0
-          : prevSlide + 1
-        : prevSlide
-    )
-  }
 
   // LOADING SYMBOL
   if (!dailyPlanners && !slots) {
@@ -146,6 +149,7 @@ function DailyPlanner () {
 
   // CURRENT DAILY PLANNER VARIABLE
   const currentDailyPlanner = dailyPlanners[currentSlide]
+  console.log('CURRENT PLANNER --->', currentDailyPlanner)
 
   // ASSIGN SLOT ID - associates a todo with a specific time
   const handleSlotClick = slotId => {
@@ -212,16 +216,15 @@ function DailyPlanner () {
                 value={(slot['todo'] && slot.todo.name) || ''}
                 readOnly
               />
-              <input
-                type='checkbox'
-                checked={slot.todo && slot.todo.completed}
-                onChange={() =>
-                  handleTodoCheckboxChange(
-                    slot.todo.id,
-                    slot.todo && slot.todo.completed
-                  )
-                }
-              />
+              {slot.todo && (
+                <input
+                  type='checkbox'
+                  checked={slot.todo.completed}
+                  onChange={() =>
+                    handleTodoCheckboxChange(slot.todo.id, slot.todo.completed)
+                  }
+                />
+              )}
 
               <OpenModalButton
                 modalComponent={
