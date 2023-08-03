@@ -19,6 +19,8 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
   const [reminder, setReminder] = useState(false)
   const [completed, setCompleted] = useState(false)
   const [goalId, setGoalId] = useState('')
+  console.log('GOAL ID --->'. goalId)
+
   const [errors, setErrors] = useState({})
   const [goals, setGoals] = useState([])
 
@@ -86,6 +88,12 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
     setReminder(isChecked)
   }
 
+  const handleGoalChange = e => {
+    const selectedGoalId = e.target.value
+    console.log('GOAL ID --->'. selectedGoalId)
+    setGoalId(selectedGoalId)
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <h2>Create Todo</h2>
@@ -138,11 +146,7 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
       </div>
       <div>
         <label>Goal:</label>
-        <select
-          name='goal_id'
-          value={goalId}
-          onChange={e => setGoalId(e.target.value)}
-        >
+        <select name='goal_id' value={goalId} onChange={handleGoalChange}>
           <option value=''>Select Goal</option>
           {/* Map over the goals and render each goal as an option */}
           {goals.map(goal => (

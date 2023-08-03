@@ -45,7 +45,8 @@ export const createNewTodo = todoData => async dispatch => {
         description,
         notes,
         reminder,
-        completed
+        completed,
+        goal_id: parseInt(goal_id)
       })
     })
 
@@ -93,14 +94,13 @@ export const updateExistingTodo = (todoId, todoData) => async dispatch => {
       throw new Error('Failed to update TODO')
     }
 
-    const updatedTodo = await response.json()
-
-    dispatch(updateTodo(updatedTodo))
+    return response.json() // Return the parsed JSON directly
   } catch (error) {
     console.error(error)
-    // Handle error as needed
+    throw error
   }
 }
+
 
 export const deleteExistingTodo = todoId => async dispatch => {
   try {

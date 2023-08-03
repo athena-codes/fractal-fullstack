@@ -78,28 +78,42 @@ export const fetchGoal = goalId => async dispatch => {
   }
 }
 
-export const updateExistingGoal = (goalId, goalData) => async dispatch => {
-  try {
-    const response = await fetch(`api/goals/${goalId}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(goalData)
-    })
+export const updateExistingGoal =
+  (goalId, goalData) => async (dispatch, getState) => {
+    try {
+      const response = await fetch(`api/goals/${goalId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(goalData)
+      })
 
-    if (!response.ok) {
-      throw new Error('Failed to update goal')
+      if (!response.ok) {
+        throw new Error('Failed to update goal')
+      }
+
+      const updatedGoal = await response.json()
+      console.log('UPDATED GOAL --->', updatedGoal)
+
+      if (updatedGoal) {
+        // Calculate the progress based on the number of completed todos for this goal
+        const todos = getState().todos.todos
+        const completedTodos = todos.filter(
+          todo => todo.goal_id === goalId && todo.completed
+        )
+        const totalTodos = todos.filter(todo => todo.goal_id === goalId).length
+        const progress = (completedTodos.length / totalTodos) * 100
+
+        // Update the progress field of the goal
+        updatedGoal.progress = parseFloat(progress.toFixed(2)) // Convert progress to a number
+
+        // Dispatch an action to update the goal in the store
+        dispatch(updateGoal(updatedGoal))
+      }
+    } catch (error) {
+      console.error(error)
+      // Handle error as needed
     }
-
-    const updatedGoal = await response.json()
-
-    if (updatedGoal) {
-      dispatch(updateGoal(updatedGoal))
-    }
-  } catch (error) {
-    console.error(error)
-    // Handle error as needed
   }
-}
 
 export const deleteExistingGoal = goalId => async dispatch => {
 try {
@@ -129,7 +143,7 @@ export const fetchAllGoals = () => async dispatch => {
     const goals = await response.json()
 
     if (goals) {
-      dispatch(getAllGoals(goals)) 
+      dispatch(getAllGoals(goals))
     }
   } catch (error) {
     console.error(error)

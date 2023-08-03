@@ -6,6 +6,7 @@ import {
   fetchDailyPlannerSlotsThunk
 } from '../../store/daily_planner'
 import { updateExistingTodo, deleteExistingTodo } from '../../store/todos'
+import { updateExistingGoal, fetchAllGoals } from '../../store/goals'
 import { useModal } from '../../context/Modal'
 import CreateTodoModal from '../ToDos/CreateTodoModal'
 import UpdateTodoModal from '../ToDos/UpdateTodoModal'
@@ -23,7 +24,6 @@ import './DailyPlanner.css'
 function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
   const slots = useSelector(state => state.daily_planner.slots.slots)
-  console.log('SLOTS --->', slots)
   const [currentSlide, setCurrentSlide] = useState(
     getCurrentDailyPlannerIndex()
   )
@@ -56,8 +56,6 @@ function DailyPlanner () {
       for (let i = 0; i < dailyPlanners.length; i++) {
         const plannerDate = new Date(dailyPlanners[i].date)
         // *** FIX DAILY PLANNER DATE NOT SHOWING TODAY'S DATE
-        console.log('DATE --->', currentDate)
-        console.log('PLANNER DATE -->', plannerDate)
         plannerDate.setUTCHours(0, 0, 0, 0)
         if (plannerDate.getTime() === currentDate.getTime()) {
           return i
@@ -111,23 +109,36 @@ function DailyPlanner () {
   }
 
   // CHECKBOX CHANGE HANDLER
-  const handleTodoCheckboxChange = async (todo, completed) => {
-    try {
-      const updatedTodoData = { completed: !completed }
-      console.log('UPDATED TODO --->', updatedTodoData)
+const handleTodoCheckboxChange = async (todo, completed) => {
+  try {
+    const updatedTodoData = { completed: !completed };
 
-      const response = await dispatch(updateExistingTodo(todo, updatedTodoData))
-      console.log(response)
+    const updatedTodo = await dispatch(
+      updateExistingTodo(todo, updatedTodoData)
+    );
+    console.log('UPDATED TODO --->', updatedTodo);
 
-      // if (response.ok) {
-      dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
-      // } else {
-      //   throw new Error('Failed to update TODO')
-      // }
-    } catch (error) {
-      console.error(error)
+    if (updatedTodo) {
+      // Check if the completed status changed and the todo has a goal_id
+      if (updatedTodo.completed !== completed && updatedTodo.goal_id) {
+        // Dispatch the action to update the goal progress
+        await dispatch(updateExistingGoal(updatedTodo.goal_id, {}));
+
+        // Fetch the updated goals after updating the progress
+        dispatch(fetchAllGoals());
+      }
+
+      // Fetch the updated slots for the current daily planner
+      dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id));
+    } else {
+      throw new Error('Failed to update TODO');
     }
+  } catch (error) {
+    console.error(error);
   }
+};
+
+
 
   // DELETE TODO
   const handleDeleteTodo = async slotId => {

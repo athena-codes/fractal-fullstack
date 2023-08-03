@@ -10,6 +10,7 @@ function DailyOverview () {
   const dispatch = useDispatch()
   const sessionUser = useSelector(state => state.session.user)
   const goals = useSelector(state => state.goals.goals)
+  console.log('GOALS --->', goals)
   const todos = useSelector(state => state.todos.todos)
   const reminderTodos = todos.filter(todo => todo.reminder)
 
