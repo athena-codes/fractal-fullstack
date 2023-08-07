@@ -113,6 +113,7 @@ function DailyPlanner () {
   const handleTodoCheckboxChange = async (todo, completed, currentProgress) => {
     try {
       const updatedTodoData = { completed: !completed }
+      console.log('TODOS COMPLETED STATUS --->', updatedTodoData)
 
       const updatedTodo = await dispatch(
         updateExistingTodo(todo, updatedTodoData)
@@ -127,13 +128,18 @@ function DailyPlanner () {
           const completedTodos = todos.filter(
             todo => todo.goal_id === updatedTodo.goal_id && todo.completed
           )
+
+          console.log('COMPLETED TODOS --->', completedTodos)
           const totalTodos = todos.filter(
             todo => todo.goal_id === updatedTodo.goal_id
           ).length
-          const calculatedProgress = (completedTodos.length / totalTodos) * 100
+          const calculatedProgress = completedTodos.length > 0 ? (completedTodos.length / totalTodos) * 100 : 5
+          console.log('CALCULATED PROGRESS --->', calculatedProgress)
+
 
           // Calculate the new progress value by considering the currentProgress and calculatedProgress
           const newProgress = currentProgress + calculatedProgress
+          console.log('NEW PROGRESS --->', newProgress)
 
           // Dispatch the action to update the goal progress
           await dispatch(
