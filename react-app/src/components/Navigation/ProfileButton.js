@@ -55,7 +55,7 @@ function ProfileButton ({ user }) {
       )}
       {user ? (
         <>
-          <p className='welcome-msg'>Welcome, {user.full_name}</p>
+          <p className='welcome-msg'>Welcome, {user.full_name}!</p>
         </>
       ) : (
         <>

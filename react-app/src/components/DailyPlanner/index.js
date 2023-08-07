@@ -132,11 +132,14 @@ function DailyPlanner () {
           const calculatedProgress = (completedTodos.length / totalTodos) * 100
 
           // Calculate the new progress value by considering the currentProgress and calculatedProgress
-          const newProgress = currentProgress + calculatedProgress
+          const newProgress =currentProgress + calculatedProgress
+          console.log('UPDATED TODO ====>', updatedTodo.goal)
+          const { title, end_date, timeframe } = updatedTodo.goal
+          console.log(title, end_date, timeframe)
 
           // Dispatch the action to update the goal progress
           await dispatch(
-            updateExistingGoal(updatedTodo.goal_id, { progress: newProgress })
+            updateExistingGoal(updatedTodo.goal_id, { title, end_date, timeframe, progress: Number(newProgress) })
           )
 
           // Fetch the updated goals after updating the progress
