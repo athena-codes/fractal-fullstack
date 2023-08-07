@@ -118,6 +118,7 @@ function DailyPlanner () {
         updateExistingTodo(todo, updatedTodoData)
       )
       console.log('UPDATED TODO --->', updatedTodo)
+      const { title, timeframe, description } = updatedTodo.goal
 
       if (updatedTodo) {
         // Check if the completed status changed and the todo has a goal_id
@@ -132,14 +133,11 @@ function DailyPlanner () {
           const calculatedProgress = (completedTodos.length / totalTodos) * 100
 
           // Calculate the new progress value by considering the currentProgress and calculatedProgress
-          const newProgress =currentProgress + calculatedProgress
-          console.log('UPDATED TODO ====>', updatedTodo.goal)
-          const { title, end_date, timeframe } = updatedTodo.goal
-          console.log(title, end_date, timeframe)
+          const newProgress = currentProgress + calculatedProgress
 
           // Dispatch the action to update the goal progress
           await dispatch(
-            updateExistingGoal(updatedTodo.goal_id, { title, end_date, timeframe, progress: Number(newProgress) })
+            updateExistingGoal(updatedTodo.goal_id, { title, timeframe, description, progress: newProgress })
           )
 
           // Fetch the updated goals after updating the progress
