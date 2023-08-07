@@ -11,6 +11,7 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons'
 function ProfileButton ({ user }) {
   const dispatch = useDispatch()
   const [showMenu, setShowMenu] = useState(false)
+  const [quote, setQuote] = useState(null)
   const ulRef = useRef()
 
   const openMenu = () => {
@@ -31,6 +32,24 @@ function ProfileButton ({ user }) {
 
     return () => document.removeEventListener('click', closeMenu)
   }, [showMenu])
+
+  useEffect(() => {
+    fetchRandomQuote()
+  }, [])
+
+  // FETCH QUOTE API CALL
+  const fetchRandomQuote = async () => {
+    try {
+      const response = await fetch('https://type.fit/api/quotes')
+      const data = await response.json()
+      if (data && data.length > 0) {
+        const randomIndex = Math.floor(Math.random() * data.length)
+        setQuote(data[randomIndex])
+      }
+    } catch (error) {
+      console.error('Error fetching random quote:', error)
+    }
+  }
 
   const handleLogout = e => {
     e.preventDefault()
@@ -54,14 +73,18 @@ function ProfileButton ({ user }) {
         </button>
       )}
       {user ? (
-        <>
+        <div className='welcome-quote'>
           <p className='welcome-msg'>Welcome, {user.full_name}!</p>
-        </>
+          {quote && (
+              <p className='quote'>"{quote.text}"</p>
+
+          )}
+        </div>
       ) : (
         <>
           <ul className={ulClassName} ref={ulRef}>
             <OpenModalButton
-            className='login-btn'
+              className='login-btn'
               buttonText='Log In'
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}

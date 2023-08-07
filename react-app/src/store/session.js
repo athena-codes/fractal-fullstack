@@ -89,6 +89,7 @@ export const signUp =
     }
   }
 
+
 export default function reducer (state = initialState, action) {
   switch (action.type) {
     case SET_USER:
