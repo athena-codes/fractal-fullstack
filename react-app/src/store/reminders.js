@@ -164,7 +164,7 @@ const remindersReducer = (state = initialState, action) => {
     case DELETE_REMINDER:
       return {
         ...state,
-        reminders: state.reminders.filter(r => r.id !== action.payload),
+        reminders: state.reminders.reminders.filter(r => r.id !== action.payload),
         reminder: action.payload === state.reminder?.id ? null : state.reminder // Clear the reminder property if needed
       }
     case GET_ALL_REMINDERS:

@@ -7,7 +7,8 @@ import { fetchAllGoals } from '../../store/goals'
 import { fetchAllTodos } from '../../store/todos'
 import {
   fetchAllReminders,
-  updateExistingReminder
+  updateExistingReminder,
+  deleteExistingReminder
 } from '../../store/reminders'
 import CreateReminderModal from '../Reminders/CreateReminderModal'
 import UpdateReminderModal from '../Reminders/UpdateReminderModal'
@@ -23,14 +24,8 @@ function DailyOverview () {
   const sessionUser = useSelector(state => state.session.user)
   const goals = useSelector(state => state.goals.goals)
   const todos = useSelector(state => state.todos.todos)
-  const reminderTodos = todos.filter(todo => todo.reminder)
-
-  const reminders = useSelector(state => [state.reminders.reminders])
-  console.log('REMIDNERS --->', reminders[0].reminders)
-
-  let remindersArray = reminders.reminders
-  console.log('REMIDNERS ARRAY --->', remindersArray)
-
+  const remindersRedux = useSelector(state => state.reminders.reminders)
+ console.log('REDUX REMINDERS --->', remindersRedux.reminders)
   const [selectedTodoId, setSelectedTodoId] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const { closeModal } = useModal()
@@ -72,7 +67,6 @@ function DailyOverview () {
 
       if (response.ok) {
         dispatch(fetchAllReminders())
-
       } else {
         throw new Error('Failed to update Reminder')
       }
@@ -83,7 +77,7 @@ function DailyOverview () {
     }
   }
 
-  if (!reminders) {
+  if (!remindersRedux) {
     return <div>Loading...</div>
   }
 
@@ -135,33 +129,44 @@ function DailyOverview () {
                     />
                     {isLoaded && (
                       <>
-                        { reminders.length === 0 ? (
+                        {remindersRedux.length === 0 ? (
                           <p className='no-reminders-message'>
                             No reminders yet!
                           </p>
                         ) : (
                           <ul className='reminders-list'>
-                            {reminders[0].reminders !== undefined && reminders[0].reminders.map(reminder => (
-                              <li
-                                className='reminders-list-item'
-                                key={reminder.id}
-                              >
-                                {reminder.todo_id}{' '}
-                                {/* {formatTime(reminder.todo.start_time)} - {formatTime(reminder.todo.end_time)} */}
-                                <OpenModalButton
-                                  modalComponent={
-                                    <UpdateReminderModal
-                                      reminderId={reminder.id}
-                                      currentTodoId={reminder.todo_id}
-                                      onSubmit={handleUpdateReminder}
-                                    />
-                                  }
-                                  buttonText={
-                                    <FontAwesomeIcon icon={faPenToSquare} />
-                                  }
-                                />
-                              </li>
-                            ))}
+                            {remindersRedux.reminders !== undefined &&
+                              remindersRedux.reminders.map(reminder => (
+                                <li
+                                  className='reminders-list-item'
+                                  key={reminder.id}
+                                >
+                                  {reminder.todo.name}{' '}
+                                  {/* {formatTime(reminder.todo.start_time)} - {formatTime(reminder.todo.end_time)} */}
+                                  <button
+                                    className='delete-reminder-button'
+                                    onClick={() =>
+                                      dispatch(
+                                        deleteExistingReminder(reminder.id)
+                                      )
+                                    }
+                                  >
+                                    Delete
+                                  </button>
+                                  <OpenModalButton
+                                    modalComponent={
+                                      <UpdateReminderModal
+                                        reminderId={reminder.id}
+                                        currentTodoId={reminder.todo_id}
+                                        onSubmit={handleUpdateReminder}
+                                      />
+                                    }
+                                    buttonText={
+                                      <FontAwesomeIcon icon={faPenToSquare} />
+                                    }
+                                  />
+                                </li>
+                              ))}
                           </ul>
                         )}
                       </>
