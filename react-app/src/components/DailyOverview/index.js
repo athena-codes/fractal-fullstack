@@ -56,7 +56,7 @@ function DailyOverview () {
                         className='progress-bar-fill'
                         style={{ width: `${goal.progress}%` }}
                       >
-                        {goal.progress}
+                   
                       </div>
                     </div>
                     {formatProgress(goal.progress)}%
