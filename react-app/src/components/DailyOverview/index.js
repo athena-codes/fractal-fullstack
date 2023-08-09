@@ -3,11 +3,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { fetchAllGoals } from '../../store/goals'
 import { fetchAllTodos } from '../../store/todos'
-import { fetchAllReminders } from '../../store/reminders'
+import { useModal } from '../../context/Modal'
+import { fetchAllReminders, updateExistingReminder } from '../../store/reminders'
 import CreateReminderModal from '../Reminders/CreateReminderModal'
+import UpdateReminderModal from '../Reminders/UpdateReminderModal'
 import OpenModalButton from '../../components/OpenModalButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSquarePlus } from '@fortawesome/free-solid-svg-icons'
+import { faSquarePlus, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
 import './DailyOverview.css'
 
@@ -15,14 +17,19 @@ function DailyOverview () {
   const dispatch = useDispatch()
   const sessionUser = useSelector(state => state.session.user)
   const goals = useSelector(state => state.goals.goals)
-  console.log('GOALS --->', goals)
   const todos = useSelector(state => state.todos.todos)
   const reminderTodos = todos.filter(todo => todo.reminder)
+
   const reminders = useSelector(state => state.reminders.reminders)
   console.log('REMIDNERS --->', reminders)
+
   let remindersArray = reminders.reminders
   console.log('REMIDNERS ARRAY --->', remindersArray)
+
+  const [selectedTodoId, setSelectedTodoId] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
+  const { closeModal } = useModal()
+
 
   useEffect(() => {
     Promise.all([
@@ -51,6 +58,22 @@ function DailyOverview () {
     const date = new Date(`2000-01-01T${timeString}`)
     return date.toLocaleTimeString([], { hour: 'numeric' })
   }
+
+  const handleUpdateReminder = async updatedReminderData => {
+  try {
+    await dispatch(updateExistingReminder(selectedTodoId, updatedReminderData))
+    closeModal()
+    dispatch(fetchAllReminders())
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+if (!reminders) {
+  return <div>Loading...</div>
+}
+
+
 
   return (
     <>
@@ -85,31 +108,46 @@ function DailyOverview () {
                   </ul>
                 )}
               </div>
+              { isLoaded && (
+                <>
+
               <div className='reminders-section'>
                 <div className='reminder-header-overview'>
-
                   <h2 className='reminders-title'>Reminders</h2>
                   <Link to='/daily-planner' className='see-all-link'>
                     See All
                   </Link>
                 </div>
-                  <OpenModalButton
-                    modalComponent={<CreateReminderModal />}
-                    buttonText={<FontAwesomeIcon icon={faSquarePlus} />}
-                  />
+                <OpenModalButton
+                  modalComponent={<CreateReminderModal />}
+                  buttonText={<FontAwesomeIcon icon={faSquarePlus} />}
+                />
+
                 {isLoaded && reminderTodos.length === 0 ? (
                   <p className='no-reminders-message'>No reminders yet!</p>
-                ) : (
-                  <ul className='reminders-list'>
-                    {remindersArray.map(reminder => (
+                  ) : (
+
+                    <ul className='reminders-list'>
+                    {remindersArray != undefined && remindersArray.map(reminder => (
                       <li className='reminders-list-item' key={reminder.id}>
-                        {reminder.todo.name}{' '}
-                        {/* {formatTime(todo.start_time)} - {formatTime(todo.end_time)} */}
+                        {reminder.todo_id}{' '}
+                        {/* {formatTime(reminder.todo.start_time)} - {formatTime(reminder.todo.end_time)} */}
+                        <OpenModalButton
+                          modalComponent={
+                          <UpdateReminderModal
+                            reminderId={reminder.id}
+                            currentTodoId={reminder.todo_id}
+                            onSubmit={handleUpdateReminder}
+                             />}
+                          buttonText={<FontAwesomeIcon icon={faPenToSquare} />}
+                        />
                       </li>
                     ))}
                   </ul>
                 )}
               </div>
+               </>
+              )}
               <div className='coming-soon-section'>
                 <h2>Coming Soon!</h2>
               </div>

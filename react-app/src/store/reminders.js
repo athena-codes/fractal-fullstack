@@ -153,7 +153,7 @@ const remindersReducer = (state = initialState, action) => {
     case UPDATE_REMINDER:
       return {
         ...state,
-        reminders: state.reminders.map(r =>
+        reminders: state.reminders.reminders.map(r =>
           r.id === action.payload.id ? action.payload : r
         ),
         reminder:
