@@ -76,9 +76,6 @@ const SignupFormModal = () => {
               value={fullName}
               onChange={e => setFullName(e.target.value)}
             />
-            <div>
-              <FontAwesomeIcon icon={faIdCard} />
-            </div>
             {errors.full_name && (
               <span className='error-message'>{errors.full_name}</span>
             )}
