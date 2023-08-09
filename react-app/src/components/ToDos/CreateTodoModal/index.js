@@ -67,7 +67,7 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
       priority: parseInt(priority),
       description,
       notes,
-      reminder,
+      // reminder,
       completed,
       goal_id: goalId ? goalId : null
     }
@@ -135,7 +135,7 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
         ></textarea>
       </div>
 
-      <div>
+      {/* <div>
         <label>Reminder:</label>
         <input
           name='reminder'
@@ -143,7 +143,7 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
           checked={reminder}
           onChange={handleReminderChange}
         />
-      </div>
+      </div> */}
       <div>
         <label>Goal:</label>
         <select name='goal_id' value={goalId} onChange={handleGoalChange}>

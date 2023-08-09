@@ -4,13 +4,15 @@ import session from './session'
 import goals from './goals'
 import daily_planner from './daily_planner'
 import todos from './todos'
+import reminders from './reminders'
 
 
 const rootReducer = combineReducers({
   session,
   goals,
   daily_planner,
-  todos
+  todos,
+  reminders
 });
 
 
