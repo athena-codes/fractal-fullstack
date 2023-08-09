@@ -20,6 +20,8 @@ const UpdateReminderModal = ({ reminderId, currentTodoId }) => {
     try {
       await dispatch(updateExistingReminder(reminderId, updatedReminderData))
       closeModal()
+      await dispatch(fetchAllReminders())
+      // window.location.reload()
 
     } catch (error) {
       console.error(error)
