@@ -31,7 +31,7 @@ class User(db.Model, UserMixin):
     daily_planners = db.relationship('DailyPlanner', back_populates='user', lazy=True)
     daily_planner_slots = db.relationship(
         'DailyPlannerSlot', back_populates='user', lazy=True)
-
+    notes = db.relationship('Note', back_populates='user', lazy=True)
 
     def __init__(self, full_name, username, email, password, profile_picture_url=None, dark_mode_enabled=False, s3=None):
         self.full_name = full_name
@@ -72,5 +72,6 @@ class User(db.Model, UserMixin):
             'updated_at': self.updated_at,
             'goals': [goal.to_dict() for goal in self.goals],
             'todos': [todo.to_dict() for todo in self.todos],
-            'reminders': [reminder.to_dict() for reminder in self.reminders]
+            'reminders': [reminder.to_dict() for reminder in self.reminders],
+            'notes': [note.to_dict() for note in self.notes]
         }

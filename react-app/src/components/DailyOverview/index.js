@@ -77,9 +77,9 @@ function DailyOverview () {
     }
   }
 
-  if (!remindersRedux) {
-    return <div>Loading...</div>
-  }
+  // if (!remindersRedux) {
+  //   return <div>Loading...</div>
+  // }
 
   return (
     <>

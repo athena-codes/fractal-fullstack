@@ -5,7 +5,7 @@ from .to_dos import seed_todos, undo_todos
 from .reminders import seed_reminders, undo_reminders
 from .daily_planners import seed_daily_planners, undo_daily_planners
 from .daily_planner_slots import seed_daily_planner_slots, undo_daily_planner_slots
-
+from .notes import seed_notes, undo_notes
 from app.models.db import db, environment, SCHEMA
 
 # Creates a seed group to hold our commands
@@ -23,12 +23,14 @@ def seed():
         undo_reminders()
         undo_daily_planners()
         undo_daily_planner_slots()
+        undo_notes()
     seed_users()
     seed_goals()
     seed_todos()
     seed_reminders()
     seed_daily_planners()
     seed_daily_planner_slots()
+    seed_notes()
 
 
 @seed_commands.command('undo')
@@ -39,3 +41,4 @@ def undo():
     undo_reminders()
     undo_daily_planners()
     undo_daily_planner_slots()
+    undo_notes()
