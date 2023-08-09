@@ -11,6 +11,7 @@ from .api.goal_routes import goal_routes
 from .api.todo_routes import todo_routes
 from .api.reminder_routes import reminder_routes
 from .api.daily_planner_routes import daily_planner_routes
+from .api.note_routes import note_routes
 from .seeds import seed_commands
 from .config import Config
 
@@ -37,7 +38,7 @@ app.register_blueprint(goal_routes, url_prefix='/api/goals')
 app.register_blueprint(todo_routes, url_prefix='/api/todos')
 app.register_blueprint(reminder_routes, url_prefix='/api/reminders')
 app.register_blueprint(daily_planner_routes, url_prefix='/api/daily-planner')
-
+app.register_blueprint(note_routes, url_prefix='/api/notes')
 
 db.init_app(app)
 Migrate(app, db)
