@@ -70,60 +70,76 @@ const SignupFormModal = () => {
           </ul>
           <label className='signup-form-label'>
             Full Name
-            <input
-              className='signup-form-input'
-              type='text'
-              value={fullName}
-              onChange={e => setFullName(e.target.value)}
-            />
+            <div className='input-icon-container'>
+              <input
+                className='signup-form-input'
+                type='text'
+                value={fullName}
+                onChange={e => setFullName(e.target.value)}
+              />
+              <FontAwesomeIcon icon={faIdCard} className='input-icon' />
+            </div>
             {errors.full_name && (
               <span className='error-message'>{errors.full_name}</span>
             )}
           </label>
+
           <label className='signup-form-label'>
             Email
-            <input
-              className='signup-form-input'
-              type='text'
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-            />
+            <div className='input-icon-container'>
+              <input
+                className='signup-form-input'
+                type='text'
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+              />
+              <FontAwesomeIcon icon={faEnvelope} className='input-icon' />
+            </div>
             {errors.email && (
               <span className='error-message'>{errors.email}</span>
             )}
           </label>
           <label className='signup-form-label'>
             Username
-            <input
-              className='signup-form-input'
-              type='text'
-              value={username}
-              onChange={e => setUsername(e.target.value)}
-            />
+            <div className='input-icon-container'>
+              <input
+                className='signup-form-input'
+                type='text'
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+              />
+              <FontAwesomeIcon icon={faUser} className='input-icon' />
+            </div>
             {errors.username && (
               <span className='error-message'>{errors.username}</span>
             )}
           </label>
           <label className='signup-form-label'>
             Password
-            <input
-              className='signup-form-input'
-              type='password'
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
+            <div className='input-icon-container'>
+              <input
+                className='signup-form-input'
+                type='password'
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+              />
+              <FontAwesomeIcon icon={faKey} className='input-icon' />
+            </div>
             {errors.password && (
               <span className='error-message'>{errors.password}</span>
             )}
           </label>
           <label className='signup-form-label'>
             Confirm Password
-            <input
-              className='signup-form-input'
-              type='password'
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-            />
+            <div className='input-icon-container'>
+              <input
+                className='signup-form-input'
+                type='password'
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+              />
+              <FontAwesomeIcon icon={faLock} className='input-icon' />
+            </div>
             {errors.confirmPassword && (
               <span className='error-message'>{errors.confirmPassword}</span>
             )}

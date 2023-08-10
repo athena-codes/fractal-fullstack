@@ -46,6 +46,31 @@
     animation: loading 1.2s infinite ease-in-out;
 }
 
+.input-icon-container {
+    position: relative;
+}
+
+.signup-form-input {
+    /* ... your existing input styles ... */
+    padding-right: 40px;
+    /* Add space for the icon */
+}
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #ccc;
+}
+
+.dropzone:hover {
+    cursor: pointer;
+    color: gray;
+    transform: scale(1.01);
+    transition: ease-in-out .1s;
+}
+/* ANIMATIONS */
 @keyframes loading {
     0% {
         transform: scale(1);
