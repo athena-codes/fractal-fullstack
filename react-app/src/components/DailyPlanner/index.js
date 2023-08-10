@@ -127,42 +127,43 @@ function DailyPlanner () {
       )
 
       if (updatedTodo.goal !== null) {
+        const { title, timeframe, description } = updatedTodo.goal
 
+        if (updatedTodo && updatedTodo.completed && updatedTodo.goal_id) {
+          // Calculate the progress for the specific goal
+          const completedTodos = todos.filter(
+            todo => todo.goal_id === updatedTodo.goal_id && todo.completed
+          )
 
-      const { title, timeframe, description } = updatedTodo.goal
+          const totalTodos = todos.filter(
+            todo => todo.goal_id === updatedTodo.goal_id
+          )
+          const goalTimeframe = updatedTodo.goal.timeframe || 1 // Default to 1 if not set
 
-      if (updatedTodo && updatedTodo.completed && updatedTodo.goal_id) {
-        // Calculate the progress for the specific goal
-        const completedTodos = todos.filter(
-          todo => todo.goal_id === updatedTodo.goal_id && todo.completed
-        )
+          // Calculate the progress more realistically based on completed todos and timeframe
+          const completedPercentage =
+            (completedTodos.length / totalTodos.length) * 100
+          const timeElapsedPercentage =
+            (1 - (goalTimeframe - 1) / goalTimeframe) * 100
+          const calculatedProgress = Math.min(
+            completedPercentage + timeElapsedPercentage,
+            100
+          )
 
-        const totalTodos = todos.filter(
-          todo => todo.goal_id === updatedTodo.goal_id
-        )
-        const goalTimeframe = updatedTodo.goal.timeframe || 1 // Default to 1 if not set
+          // Ensure progress max 100%
+          const newProgress = Math.min(
+            currentProgress + calculatedProgress,
+            100
+          )
 
-        // Calculate the progress more realistically based on completed todos and timeframe
-        const completedPercentage =
-          (completedTodos.length / totalTodos.length) * 100
-        const timeElapsedPercentage =
-          (1 - (goalTimeframe - 1) / goalTimeframe) * 100
-        const calculatedProgress = Math.min(
-          completedPercentage + timeElapsedPercentage,
-          100
-        )
-
-        // Ensure progress max 100%
-        const newProgress = Math.min(currentProgress + calculatedProgress, 100)
-
-        await dispatch(
-          updateExistingGoal(updatedTodo.goal_id, {
-            title,
-            timeframe,
-            description,
-            progress: parseInt(newProgress)
-          })
-        )
+          await dispatch(
+            updateExistingGoal(updatedTodo.goal_id, {
+              title,
+              timeframe,
+              description,
+              progress: parseInt(newProgress)
+            })
+          )
         }
         dispatch(fetchAllGoals())
       }
@@ -250,7 +251,7 @@ function DailyPlanner () {
             value={(slot['todo'] && slot.todo.name) || ''}
             readOnly
           />
-          {slot.todo &&  (
+          {slot.todo && (
             <input
               type='checkbox'
               checked={slot.todo.completed}
@@ -260,17 +261,19 @@ function DailyPlanner () {
             />
           )}
 
-          <OpenModalButton
-            modalComponent={
-              <CreateTodoModal
-                slotId={slot.id}
-                plannerId={currentDailyPlanner.id}
-              />
-            }
-            buttonText={<FontAwesomeIcon icon={faPlus} />}
-            handleSlotClick={handleSlotClick}
-            slotId={slot.id}
-          />
+          {!slot.todo && (
+            <OpenModalButton
+              modalComponent={
+                <CreateTodoModal
+                  slotId={slot.id}
+                  plannerId={currentDailyPlanner.id}
+                />
+              }
+              buttonText={<FontAwesomeIcon icon={faPlus} />}
+              handleSlotClick={handleSlotClick}
+              slotId={slot.id}
+            />
+          )}
           {slot.todo && (
             <>
               <OpenModalButton
