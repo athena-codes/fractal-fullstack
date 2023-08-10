@@ -59,12 +59,20 @@ export const fetchDailyPlannerSlotsThunk = dailyPlannerId => async dispatch => {
 
     const slots = await response.json()
 
-    dispatch(getDailyPlannerSlots(slots))
+    // Sort the slots by start time before dispatching
+    const sortedSlots = slots.slots.sort((a, b) =>
+      a.start_time.localeCompare(b.start_time)
+    )
+    console.log('SLOTS -->', slots)
+    console.log('SORTED SLOTS -->', sortedSlots)
+
+    dispatch(getDailyPlannerSlots({slots: sortedSlots}))
   } catch (error) {
     console.error(error)
     // Handle error as needed
   }
 }
+
 
 export const fetchDailyPlannerSlotByIdThunk =
   (dailyPlannerId, slotId) => async dispatch => {
