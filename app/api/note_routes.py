@@ -27,7 +27,6 @@ def create_note():
 
         return jsonify(note.to_dict()), 200
     else:
-        # Form validation failed
         errors = form.errors
         return jsonify(errors), 400
 
@@ -99,5 +98,5 @@ def get_all_notes():
         return jsonify({'message': 'No goals found'}), 404
 
     notes_data = [note.to_dict() for note in notes]
-    
+
     return jsonify(notes_data), 200

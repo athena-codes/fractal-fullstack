@@ -10,7 +10,12 @@ function CreateNoteForm () {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    const data = await dispatch(createNewNote(title, content))
+    const noteData = {
+        title: title,
+        content: content
+    }
+
+    const data = await dispatch(createNewNote(noteData))
 
     if (data && data.errors) {
       setErrors(data.errors)

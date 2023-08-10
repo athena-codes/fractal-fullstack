@@ -83,7 +83,7 @@ const GoalsOverview = () => {
   return (
 
     <>
-      <h2>Goals</h2>
+      <h2 className='goals-overview-heading'>Goals</h2>
       <div className='goals-overview'>
         {goals.length === 0 ? (
           <p>No goals yet. Create one now to start making progress toward a better you!</p>

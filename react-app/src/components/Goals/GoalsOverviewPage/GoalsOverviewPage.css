@@ -5,6 +5,10 @@
     left: -15;
 }
 
+.goals-overview-heading {
+    font-size: 2em;
+}
+
 .goals-list {
     display: flex;
     flex-direction: row;
