@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NavLink, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import ProfileButton from './ProfileButton'
@@ -21,12 +21,12 @@ function Navigation ({ isLoaded, user }) {
   const sessionUser = useSelector(state => state.session.user)
   const { closeModal } = useModal()
   const history = { useHistory }
-
   const dispatch = useDispatch()
 
-  const handleLogout = (e) => {
+
+  const handleLogout = async e => {
     e.preventDefault()
-    dispatch(logout())
+    await dispatch(logout())
     // history.push('/')
     window.location.href = '/'
   }
@@ -68,7 +68,10 @@ function Navigation ({ isLoaded, user }) {
               </li>
               <div className='logout-settings-nav-bar'>
                 <li className='navigation-item'>
-                  <button className='profile-icon' onClick={() => alert('Coming soon!')}>
+                  <button
+                    className='profile-icon'
+                    onClick={() => alert('Coming soon!')}
+                  >
                     <FontAwesomeIcon icon={faGear} />{' '}
                   </button>
                 </li>

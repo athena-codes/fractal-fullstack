@@ -10,9 +10,9 @@ import { faCircleUser } from '@fortawesome/free-solid-svg-icons'
 
 function ProfileButton ({ user }) {
   const dispatch = useDispatch()
+  const ulRef = useRef()
   const [showMenu, setShowMenu] = useState(false)
   const [quote, setQuote] = useState(null)
-  const ulRef = useRef()
 
   const openMenu = () => {
     if (showMenu) return
@@ -56,6 +56,13 @@ function ProfileButton ({ user }) {
     dispatch(logout())
   }
 
+  const scrollToTop = () => {
+    const modalContentWrapper = document.querySelector('.modal-content-wrapper')
+    if (modalContentWrapper) {
+      modalContentWrapper.scrollTop = -20
+    }
+  }
+
   const ulClassName = 'profile-dropdown' + (showMenu ? '' : ' hidden')
   const closeMenu = () => setShowMenu(false)
 
@@ -75,10 +82,7 @@ function ProfileButton ({ user }) {
       {user ? (
         <div className='welcome-quote'>
           <p className='welcome-msg'>Welcome, {user.full_name}!</p>
-          {quote && (
-              <p className='quote'>"{quote.text}"</p>
-
-          )}
+          {quote && <p className='quote'>"{quote.text}"</p>}
         </div>
       ) : (
         <>
@@ -93,7 +97,9 @@ function ProfileButton ({ user }) {
             <OpenModalButton
               buttonText='Sign Up'
               onItemClick={closeMenu}
-              modalComponent={<SignupFormModal />}
+              scrollToTop = { scrollToTop }
+
+              modalComponent={<SignupFormModal scrollToTop={scrollToTop} />}
             />
           </ul>
         </>

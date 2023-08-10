@@ -8,10 +8,11 @@
     font-weight: bolder;
 }
 
-.signup-form-scrollable {
-    height: 100vh;
-    overflow-y: auto;
+.modal-content-wrapper {
+    position: relative;
+    bottom: 60;
 }
+
 /* LOADING SYMBOL FOR SIGNUP */
 .loading-symbol {
     display: inline-block;
@@ -51,9 +52,7 @@
 }
 
 .signup-form-input {
-    /* ... your existing input styles ... */
     padding-right: 40px;
-    /* Add space for the icon */
 }
 
 .input-icon {
@@ -70,6 +69,7 @@
     transform: scale(1.01);
     transition: ease-in-out .1s;
 }
+
 /* ANIMATIONS */
 @keyframes loading {
     0% {

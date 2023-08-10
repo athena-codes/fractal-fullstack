@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useModal } from '../../context/Modal'
 import { signUp } from '../../store/session'
+import OpenModalButton from '../OpenModalButton'
+import LoginFormModal from '../LoginFormModal'
 import { Field, ErrorMessage } from 'formik'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -15,7 +17,7 @@ import {
 import Dropzone from 'react-dropzone'
 import './SignupForm.css'
 
-const SignupFormModal = () => {
+const SignupFormModal = ({ scrollToTop }) => {
   const dispatch = useDispatch()
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
@@ -24,8 +26,31 @@ const SignupFormModal = () => {
   const [fullName, setFullName] = useState('')
   const [profilePicture, setProfilePicture] = useState(null)
   const [errors, setErrors] = useState({})
-  const { closeModal } = useModal()
   const [isLoaded, setIsLoaded] = useState(false)
+  const { closeModal } = useModal()
+  const [showMenu, setShowMenu] = useState(false)
+  const modalContentRef = useRef(null)
+  const ulRef = useRef()
+
+
+  useEffect(() => {
+    // Call scrollToTop when the modal is opened
+    scrollToTop()
+  }, [scrollToTop])
+
+  useEffect(() => {
+    if (!showMenu) return
+
+    const closeMenu = e => {
+      if (!ulRef.current.contains(e.target)) {
+        setShowMenu(false)
+      }
+    }
+
+    document.addEventListener('click', closeMenu)
+
+    return () => document.removeEventListener('click', closeMenu)
+  }, [showMenu])
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -58,16 +83,19 @@ const SignupFormModal = () => {
     }
   }
 
+  const closeMenu = () => setShowMenu(false)
+
+
   return (
-    <>
-      <h1 className='signup-form-heading'>Sign Up</h1>
-      <div className='singup-form-scrollable'>
+    <div className='modal-content-wrapper' ref={modalContentRef}>
+      <div className='signup-form-scrollable'>
         <form className='signup-form' onSubmit={handleSubmit}>
           <ul className='signup-form-errors'>
             {/* {Object.entries(errors).map(([key, error]) => (
             <li key={key}>{key}{error}</li>
           ))} */}
           </ul>
+          <h1 className='signup-form-heading'>Sign Up</h1>
           <label className='signup-form-label'>
             Full Name
             <div className='input-icon-container'>
@@ -175,13 +203,20 @@ const SignupFormModal = () => {
           {isLoaded ? (
             <div className='loading-symbol'></div> // Display the loading symbol if isLoaded is true
           ) : (
-            <button className='signup-form-button' type='submit'>
-              Sign Up
-            </button>
+            <>
+              <button className='signup-form-button' type='submit'>
+                Sign Up
+              </button>
+              <OpenModalButton
+                className='login-btn'
+                buttonText='Already a member? Log in'
+                modalComponent={<LoginFormModal />}
+              />
+            </>
           )}
         </form>
       </div>
-    </>
+    </div>
   )
 }
 
