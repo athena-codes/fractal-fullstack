@@ -46,7 +46,7 @@ export const createNewTodo = todoData => async dispatch => {
         notes,
         reminder,
         completed,
-        goal_id: parseInt(goal_id)
+        goal_id: goal_id ? parseInt(goal_id) : 0
       })
     })
 

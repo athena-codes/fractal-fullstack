@@ -21,7 +21,8 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
   const [notes, setNotes] = useState('')
   const [reminder, setReminder] = useState(false)
   const [completed, setCompleted] = useState(false)
-  const [goalId, setGoalId] = useState('')
+  const [goalId, setGoalId] = useState(0)
+  console.log('GOAL ID --->', goalId)
   const [errors, setErrors] = useState({})
   const [goals, setGoals] = useState([])
   const allGoals = useSelector(state => state.goals.goals)
@@ -88,7 +89,7 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
     setGoalId(selectedGoalId)
 
     if (!selectedGoalId) {
-      setGoalId(null)
+      setGoalId(0)
     }
   }
 
