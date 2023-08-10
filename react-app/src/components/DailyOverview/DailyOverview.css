@@ -74,11 +74,15 @@
     padding-right: 5px;
 }
 
+.reminders-section {
+grid-column: 1 / span 2;
+}
 
 .reminders-list {
     list-style: square;
     text-decoration: none;
     margin-right: 20px;
+
 }
 
 .reminder-header-overview {
@@ -86,6 +90,14 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+.new-reminder-button {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5vh;
 }
 
 .coming-soon-section {
@@ -96,6 +108,7 @@
     font-style: italic;
     font-weight: bold;
     text-transform: uppercase;
+    grid-column: 1 / span 2;
 }
 
 .goals-title-overview {

@@ -14,7 +14,11 @@ import CreateReminderModal from '../Reminders/CreateReminderModal'
 import UpdateReminderModal from '../Reminders/UpdateReminderModal'
 import OpenModalButton from '../../components/OpenModalButton'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSquarePlus, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import {
+  faSquarePlus,
+  faPenToSquare,
+  faTrash
+} from '@fortawesome/free-solid-svg-icons'
 
 import './DailyOverview.css'
 
@@ -25,7 +29,6 @@ function DailyOverview () {
   const goals = useSelector(state => state.goals.goals)
   const todos = useSelector(state => state.todos.todos)
   const remindersRedux = useSelector(state => state.reminders.reminders)
- console.log('REDUX REMINDERS --->', remindersRedux.reminders)
   const [selectedTodoId, setSelectedTodoId] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
   const { closeModal } = useModal()
@@ -77,6 +80,15 @@ function DailyOverview () {
     }
   }
 
+  const handleDeleteReminder = async reminderId => {
+    try {
+      await dispatch(deleteExistingReminder(reminderId))
+      await dispatch(fetchAllReminders())
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   // if (!remindersRedux) {
   //   return <div>Loading...</div>
   // }
@@ -119,14 +131,16 @@ function DailyOverview () {
                   <div className='reminders-section'>
                     <div className='reminder-header-overview'>
                       <h2 className='reminders-title'>Reminders</h2>
-                      <Link to='/daily-planner' className='see-all-link'>
-                        See All
-                      </Link>
+                      <div className='new-reminder-button'>
+                        <OpenModalButton
+                          modalComponent={<CreateReminderModal />}
+                          buttonText={<FontAwesomeIcon icon={faSquarePlus} />}
+                        />
+                        <Link to='/daily-planner' className='see-all-link'>
+                          See All
+                        </Link>
+                      </div>
                     </div>
-                    <OpenModalButton
-                      modalComponent={<CreateReminderModal />}
-                      buttonText={<FontAwesomeIcon icon={faSquarePlus} />}
-                    />
                     {isLoaded && (
                       <>
                         {remindersRedux.length === 0 ? (
@@ -143,16 +157,6 @@ function DailyOverview () {
                                 >
                                   {reminder.todo.name}{' '}
                                   {/* {formatTime(reminder.todo.start_time)} - {formatTime(reminder.todo.end_time)} */}
-                                  <button
-                                    className='delete-reminder-button'
-                                    onClick={() =>
-                                      dispatch(
-                                        deleteExistingReminder(reminder.id)
-                                      )
-                                    }
-                                  >
-                                    Delete
-                                  </button>
                                   <OpenModalButton
                                     modalComponent={
                                       <UpdateReminderModal
@@ -165,6 +169,19 @@ function DailyOverview () {
                                       <FontAwesomeIcon icon={faPenToSquare} />
                                     }
                                   />
+                                  <button
+                                    className='delete-button'
+                                    onClick={() =>
+                                      handleDeleteReminder(reminder.id)
+                                    }
+                                  >
+                                    {
+                                      <FontAwesomeIcon
+                                        icon={faTrash}
+                                        className='delete'
+                                      />
+                                    }
+                                  </button>
                                 </li>
                               ))}
                           </ul>
