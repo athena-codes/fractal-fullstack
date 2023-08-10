@@ -110,6 +110,24 @@ export const deleteExistingNote = noteId => async dispatch => {
   }
 }
 
+export const fetchAllNotes = () => async dispatch => {
+  try {
+    const response = await fetch('/api/notes/')
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch notes')
+    }
+
+    const notes = await response.json()
+
+    dispatch(getAllNotes(notes))
+  } catch (error) {
+    console.error(error)
+    // Handle error as needed
+  }
+}
+
+
 // Reducer
 const initialState = {
   notes: [],

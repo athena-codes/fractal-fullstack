@@ -9,7 +9,8 @@ import {
   faSquarePlus,
   faList,
   faGear,
-  faBullseye
+  faBullseye,
+  faNoteSticky
 } from '@fortawesome/free-solid-svg-icons'
 import { logout } from '../../store/session'
 import { useModal } from '../../context/Modal'
@@ -22,7 +23,6 @@ function Navigation ({ isLoaded, user }) {
   const { closeModal } = useModal()
   const history = { useHistory }
   const dispatch = useDispatch()
-
 
   const handleLogout = async e => {
     e.preventDefault()
@@ -60,10 +60,15 @@ function Navigation ({ isLoaded, user }) {
                   <FontAwesomeIcon icon={faBullseye} />{' '}
                 </NavLink>
               </li>
-
               <li className='navigation-item'>
                 <NavLink exact to='/daily-planner' className='navigation-link'>
                   <FontAwesomeIcon icon={faList} />{' '}
+                </NavLink>
+              </li>
+
+              <li className='navigation-item'>
+                <NavLink exact to='/notes' className='navigation-link'>
+                  <FontAwesomeIcon icon={faNoteSticky} />{' '}
                 </NavLink>
               </li>
               <div className='logout-settings-nav-bar'>

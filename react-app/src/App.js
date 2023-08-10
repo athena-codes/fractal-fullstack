@@ -5,6 +5,7 @@ import SignupFormPage from './components/SignupFormPage'
 import LoginFormPage from './components/LoginFormPage'
 import GoalsOverview from './components/Goals/GoalsOverviewPage'
 import DailyPlanner from './components/DailyPlanner'
+import NotesOverview from './components/Notes/NotesOverview'
 // import DailyOverview from './components/DailyOverview'
 import MainContent from './components/MainContent'
 import { authenticate } from './store/session'
@@ -40,6 +41,9 @@ function App () {
               </Route>
               <Route path='/daily-planner'>
                 <DailyPlanner />
+              </Route>
+              <Route path='/notes'>
+                <NotesOverview />
               </Route>
             </Switch>
           </div>

@@ -5,6 +5,7 @@ import goals from './goals'
 import daily_planner from './daily_planner'
 import todos from './todos'
 import reminders from './reminders'
+import notes from './notes'
 
 
 const rootReducer = combineReducers({
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   goals,
   daily_planner,
   todos,
-  reminders
+  reminders,
+  notes
 });
 
 

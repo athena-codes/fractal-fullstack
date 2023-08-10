@@ -94,6 +94,10 @@ def delete_note(note_id):
 def get_all_notes():
     user_id = current_user.id
     notes = Note.query.filter_by(user_id=user_id).all()
-    notes_data = [note.to_dict() for note in notes]
 
+    if not notes:
+        return jsonify({'message': 'No goals found'}), 404
+
+    notes_data = [note.to_dict() for note in notes]
+    
     return jsonify(notes_data), 200
