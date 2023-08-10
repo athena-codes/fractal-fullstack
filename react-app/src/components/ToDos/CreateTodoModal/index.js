@@ -12,6 +12,9 @@ import {
 import './CreateTodoModal.css'
 
 const CreateTodoModal = ({ slotId, plannerId }) => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+  const { closeModal } = useModal()
   const [name, setName] = useState('')
   const [priority, setPriority] = useState('')
   const [description, setDescription] = useState('')
@@ -19,22 +22,14 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
   const [reminder, setReminder] = useState(false)
   const [completed, setCompleted] = useState(false)
   const [goalId, setGoalId] = useState('')
-  console.log('GOAL ID --->'. goalId)
-
   const [errors, setErrors] = useState({})
   const [goals, setGoals] = useState([])
-
-  const { closeModal } = useModal()
-  const dispatch = useDispatch()
-  const history = useHistory()
+  const allGoals = useSelector(state => state.goals.goals)
 
   // Fetch the list of goals from the backend using the thunk
   useEffect(() => {
     dispatch(fetchAllGoals())
   }, [dispatch])
-
-  // Get the list of goals from the Redux store using useSelector
-  const allGoals = useSelector(state => state.goals.goals) // Update the reducer name accordingly
 
   // Update the local state with the goals fetched from the Redux store
   useEffect(() => {
@@ -69,7 +64,7 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
       notes,
       // reminder,
       completed,
-      goal_id: goalId ? goalId : null
+      goal_id: goalId ? goalId : 0
     }
 
     const newTodo = await dispatch(createNewTodo(todoData))
@@ -90,8 +85,11 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
 
   const handleGoalChange = e => {
     const selectedGoalId = e.target.value
-    console.log('GOAL ID --->'. selectedGoalId)
     setGoalId(selectedGoalId)
+
+    if (!selectedGoalId) {
+      setGoalId(null)
+    }
   }
 
   return (
@@ -147,7 +145,7 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
       <div>
         <label>Goal:</label>
         <select name='goal_id' value={goalId} onChange={handleGoalChange}>
-          <option value=''>Select Goal</option>
+          <option value={goalId}>Select Goal</option>
           {/* Map over the goals and render each goal as an option */}
           {goals.map(goal => (
             <option key={goal.id} value={goal.id}>

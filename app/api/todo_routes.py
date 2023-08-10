@@ -16,11 +16,10 @@ def create_todo():
     form = TodoForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
-    user_id = current_user.id
 
     if form.validate_on_submit():
-        user_id=user_id
-        goal_id=form.goal_id.data
+        user_id= current_user.id
+        goal_id= form.goal_id.data
         name=form.name.data
         priority=form.priority.data
         description=form.description.data
@@ -28,6 +27,8 @@ def create_todo():
         reminder = bool(form.reminder.data)
         completed=form.completed.data
 
+    if not form.goal_id.data:
+        goal_id = 0
 
         todo = Todo(user_id=user_id, goal_id=goal_id, name=name,priority=priority,description=description,
                     notes=notes, reminder=reminder, completed=completed)

@@ -30,7 +30,6 @@ const CreateReminderModal = () => {
     }
 
     dispatch(createNewReminder(reminderData))
-    console.log('REMINDER', reminderData)
     closeModal()
   }
 

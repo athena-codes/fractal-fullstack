@@ -60,7 +60,6 @@ export const createNewTodo = todoData => async dispatch => {
     dispatch(createTodo(todo))
     return todo
   } catch (error) {
-    console.error(error)
     // Handle error as needed
   }
 }

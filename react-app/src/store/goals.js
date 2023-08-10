@@ -108,7 +108,6 @@ export const updateExistingGoal =
       }
 
       const updatedGoal = await response.json()
-      console.log('UPDATED GOAL --->', updatedGoal)
 
       // Calculate the progress based on the number of completed todos for this goal
       const todos = getState().todos.todos

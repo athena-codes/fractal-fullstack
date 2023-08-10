@@ -5,7 +5,11 @@ import {
   fetchDailyPlannersThunk,
   fetchDailyPlannerSlotsThunk
 } from '../../store/daily_planner'
-import { updateExistingTodo, deleteExistingTodo, fetchAllTodos } from '../../store/todos'
+import {
+  updateExistingTodo,
+  deleteExistingTodo,
+  fetchAllTodos
+} from '../../store/todos'
 import { updateExistingGoal, fetchAllGoals } from '../../store/goals'
 import { useModal } from '../../context/Modal'
 import CreateTodoModal from '../ToDos/CreateTodoModal'
@@ -25,8 +29,6 @@ function DailyPlanner () {
   const dailyPlanners = useSelector(state => state.daily_planner.dailyPlanner)
   const slots = useSelector(state => state.daily_planner.slots.slots)
   const todos = useSelector(state => state.todos.todos)
-  console.log('TODOS', todos)
-
   const [currentSlide, setCurrentSlide] = useState(
     getCurrentDailyPlannerIndex()
   )
@@ -40,9 +42,8 @@ function DailyPlanner () {
   }, [dispatch])
 
   useEffect(() => {
-  dispatch(fetchAllTodos())
-}, [dispatch])
-
+    dispatch(fetchAllTodos())
+  }, [dispatch])
 
   // SET SLIDES FOR DAILY PLANNER SLIDESHOW
   useEffect(() => {
@@ -117,70 +118,60 @@ function DailyPlanner () {
   }
 
   // CHECKBOX CHANGE HANDLER
-const handleTodoCheckboxChange = async (todo, completed, currentProgress) => {
-  try {
-    const updatedTodoData = { completed: !completed }
-    console.log('TODOS COMPLETED STATUS --->', updatedTodoData)
+  const handleTodoCheckboxChange = async (todo, completed, currentProgress) => {
+    try {
+      const updatedTodoData = { completed: !completed }
 
-    const updatedTodo = await dispatch(
-      updateExistingTodo(todo, updatedTodoData)
-    )
-    console.log('UPDATED TODO --->', updatedTodo)
-    const { title, timeframe, description } = updatedTodo.goal
-
-    if (updatedTodo && updatedTodo.completed && updatedTodo.goal_id) {
-      // Calculate the progress for the specific goal
-      const completedTodos = todos.filter(
-        todo => todo.goal_id === updatedTodo.goal_id && todo.completed
+      const updatedTodo = await dispatch(
+        updateExistingTodo(todo, updatedTodoData)
       )
 
-      const totalTodos = todos.filter(
-        todo => todo.goal_id === updatedTodo.goal_id
-      )
+      if (updatedTodo.goal !== null) {
 
-      console.log('TOTAL TODOS --->', totalTodos)
-      console.log('COMPLETED TODOS --->', completedTodos)
 
-      const goalTimeframe = updatedTodo.goal.timeframe || 1 // Default to 1 if not set
+      const { title, timeframe, description } = updatedTodo.goal
 
-      // Calculate the progress more realistically based on completed todos and timeframe
-      const completedPercentage =
-        (completedTodos.length / totalTodos.length) * 100
-      const timeElapsedPercentage =
-        (1 - (goalTimeframe - 1) / goalTimeframe) * 100
-      const calculatedProgress = Math.min(
-        completedPercentage + timeElapsedPercentage,
-        100
-      )
+      if (updatedTodo && updatedTodo.completed && updatedTodo.goal_id) {
+        // Calculate the progress for the specific goal
+        const completedTodos = todos.filter(
+          todo => todo.goal_id === updatedTodo.goal_id && todo.completed
+        )
 
-      // Ensure progress is capped at 100%
-      const newProgress = Math.min(currentProgress + calculatedProgress, 100)
+        const totalTodos = todos.filter(
+          todo => todo.goal_id === updatedTodo.goal_id
+        )
+        const goalTimeframe = updatedTodo.goal.timeframe || 1 // Default to 1 if not set
 
-      console.log('GOAL TIMEFRAME -->', goalTimeframe)
-      console.log('progress -->', newProgress)
+        // Calculate the progress more realistically based on completed todos and timeframe
+        const completedPercentage =
+          (completedTodos.length / totalTodos.length) * 100
+        const timeElapsedPercentage =
+          (1 - (goalTimeframe - 1) / goalTimeframe) * 100
+        const calculatedProgress = Math.min(
+          completedPercentage + timeElapsedPercentage,
+          100
+        )
 
-      // Dispatch the action to update the goal progress
-      await dispatch(
-        updateExistingGoal(updatedTodo.goal_id, {
-          title,
-          timeframe,
-          description,
-          progress: parseInt(newProgress)
-        })
-      )
+        // Ensure progress max 100%
+        const newProgress = Math.min(currentProgress + calculatedProgress, 100)
 
-      // Fetch the updated goals after updating the progress
-      dispatch(fetchAllGoals())
+        await dispatch(
+          updateExistingGoal(updatedTodo.goal_id, {
+            title,
+            timeframe,
+            description,
+            progress: parseInt(newProgress)
+          })
+        )
+        }
+        dispatch(fetchAllGoals())
+      }
+
+      dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
+    } catch (error) {
+      console.error(error)
     }
-
-    // Fetch the updated slots for the current daily planner
-    dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
-  } catch (error) {
-    console.error(error)
   }
-}
-
-
 
   // DELETE TODO
   const handleDeleteTodo = async slotId => {
@@ -259,7 +250,7 @@ const handleTodoCheckboxChange = async (todo, completed, currentProgress) => {
             value={(slot['todo'] && slot.todo.name) || ''}
             readOnly
           />
-          {slot.todo && (
+          {slot.todo &&  (
             <input
               type='checkbox'
               checked={slot.todo.completed}
