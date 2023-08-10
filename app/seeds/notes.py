@@ -20,7 +20,7 @@ def seed_notes():
 
     for _ in range(10):
         note = Note(
-            user_id=2,
+            user_id=1,
             title=random.choice(note_titles),
             content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam at fermentum est.",
         )

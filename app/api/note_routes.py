@@ -31,6 +31,7 @@ def create_note():
         errors = form.errors
         return jsonify(errors), 400
 
+
 # Get details of specific note
 @note_routes.route('/<note_id>', methods=['GET'])
 @login_required
@@ -44,6 +45,8 @@ def get_note(note_id):
         return jsonify({'message': 'Unauthorized'}), 401
 
     return jsonify(note.to_dict()), 200
+
+
 
 # Update a specific note
 @note_routes.route('/<note_id>', methods=['PUT'])
@@ -65,6 +68,7 @@ def update_note(note_id):
 
     return jsonify(note.to_dict()), 200
 
+
 # Delete a note
 @note_routes.route('/<note_id>', methods=['DELETE'])
 @login_required
@@ -82,6 +86,7 @@ def delete_note(note_id):
     db.session.commit()
 
     return jsonify({'message': 'Note deleted successfully'}), 200
+
 
 # Get all notes for the current user
 @note_routes.route('/', methods=['GET'])
