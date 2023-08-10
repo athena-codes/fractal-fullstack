@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import notesReducer, {
   fetchAllNotes,
-  updateExistingNote
+  updateExistingNote,
+  deleteExistingNote
 } from '../../../store/notes'
 import { NavLink } from 'react-router-dom'
 import { useModal } from '../../../context/Modal'
 import OpenModalButton from '../../OpenModalButton'
 import UpdateNoteModal from '../UpdateNoteModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faNotesMedical, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import {
+  faNotesMedical,
+  faPenToSquare,
+  faTrash
+} from '@fortawesome/free-solid-svg-icons'
 
 import './NotesOverview.css'
 
@@ -28,6 +33,14 @@ function NotesOverview () {
       await dispatch(updateExistingNote(selectedNoteId, updatedNoteData))
       closeModal()
       dispatch(fetchAllNotes())
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleDeleteNote = async noteId => {
+    try {
+      await dispatch(deleteExistingNote(noteId))
     } catch (error) {
       console.error(error)
     }
@@ -61,6 +74,13 @@ function NotesOverview () {
               }
               onModalClose={() => setSelectedNoteId(null)}
             />
+            <button
+              onClick={() => handleDeleteNote(note.id)}
+              className='delete-button'
+            >
+              {<FontAwesomeIcon icon={faTrash} className='delete' />}
+            </button>
+
             <p className='note-content'>{note.content}</p>
           </div>
         ))}
