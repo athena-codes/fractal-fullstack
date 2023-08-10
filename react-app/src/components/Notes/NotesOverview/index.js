@@ -1,19 +1,37 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchAllNotes } from '../../../store/notes'
+import notesReducer, {
+  fetchAllNotes,
+  updateExistingNote
+} from '../../../store/notes'
 import { NavLink } from 'react-router-dom'
+import { useModal } from '../../../context/Modal'
+import OpenModalButton from '../../OpenModalButton'
+import UpdateNoteModal from '../UpdateNoteModal'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faNotesMedical } from '@fortawesome/free-solid-svg-icons'
+import { faNotesMedical, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 
 import './NotesOverview.css'
 
 function NotesOverview () {
   const dispatch = useDispatch()
+  const { closeModal } = useModal()
   const notes = useSelector(state => state.notes.notes)
+  const [selectedNoteId, setSelectedNoteId] = useState(null)
 
   useEffect(() => {
     dispatch(fetchAllNotes())
   }, [dispatch])
+
+  const handleUpdateNote = async updatedNoteData => {
+    try {
+      await dispatch(updateExistingNote(selectedNoteId, updatedNoteData))
+      closeModal()
+      dispatch(fetchAllNotes())
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <>
@@ -28,6 +46,21 @@ function NotesOverview () {
         {notes.map(note => (
           <div key={note.id} className='note-card'>
             <h3 className='note-title'>{note.title}</h3>
+            <OpenModalButton
+              modalComponent={
+                <UpdateNoteModal
+                  noteId={note.id}
+                  title={note.title}
+                  content={note.content}
+                  onSubmit={handleUpdateNote}
+                  onClose={() => setSelectedNoteId(null)}
+                />
+              }
+              buttonText={
+                <FontAwesomeIcon icon={faPenToSquare} className='update' />
+              }
+              onModalClose={() => setSelectedNoteId(null)}
+            />
             <p className='note-content'>{note.content}</p>
           </div>
         ))}
