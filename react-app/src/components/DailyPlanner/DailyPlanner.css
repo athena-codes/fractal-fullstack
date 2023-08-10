@@ -18,6 +18,10 @@
 
 }
 
+.daily-planner-heading {
+    margin-top: 14vh;
+}
+
 .subheading {
     display: flex;
     align-items: center;

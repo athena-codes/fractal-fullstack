@@ -58,29 +58,33 @@ function NotesOverview () {
       <div className='notes-overview'>
         {notes.map(note => (
           <div key={note.id} className='note-card'>
-            <h3 className='note-title'>{note.title}</h3>
-            <OpenModalButton
-              modalComponent={
-                <UpdateNoteModal
-                  noteId={note.id}
-                  title={note.title}
-                  content={note.content}
-                  onSubmit={handleUpdateNote}
-                  onClose={() => setSelectedNoteId(null)}
-                />
-              }
-              buttonText={
-                <FontAwesomeIcon icon={faPenToSquare} className='update' />
-              }
-              onModalClose={() => setSelectedNoteId(null)}
-            />
-            <button
-              onClick={() => handleDeleteNote(note.id)}
-              className='delete-button'
-            >
-              {<FontAwesomeIcon icon={faTrash} className='delete' />}
-            </button>
+            <div className='notes-title-update-delete-buttons'>
+              <h3 className='note-title'>{note.title}</h3>
 
+              <div className='notes-update-delete-buttons'>
+                <OpenModalButton
+                  modalComponent={
+                    <UpdateNoteModal
+                      noteId={note.id}
+                      title={note.title}
+                      content={note.content}
+                      onSubmit={handleUpdateNote}
+                      onClose={() => setSelectedNoteId(null)}
+                    />
+                  }
+                  buttonText={
+                    <FontAwesomeIcon icon={faPenToSquare} className='update-note' />
+                  }
+                  onModalClose={() => setSelectedNoteId(null)}
+                />
+                <button
+                  onClick={() => handleDeleteNote(note.id)}
+                  className='delete-button'
+                >
+                  {<FontAwesomeIcon icon={faTrash} className='delete' />}
+                </button>
+              </div>
+            </div>
             <p className='note-content'>{note.content}</p>
           </div>
         ))}

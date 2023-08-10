@@ -313,7 +313,7 @@ const handleTodoCheckboxChange = async (todo, completed, currentProgress) => {
 
   return (
     <div>
-      <h1>Daily Planner</h1>
+      <h1 className='daily-planner-heading'>Daily Planner</h1>
       <div className='subheading'>
         <p>To Do | {formatDate(currentDailyPlanner.date)}</p>
         <div className='slideshow-controls'>

@@ -4,6 +4,10 @@
     grid-gap: 20px;
 }
 
+.daily-overview-heading {
+    margin-top: 10vh;
+}
+
 .goals-section-overview,
 .reminders-section,
 .coming-soon-section {

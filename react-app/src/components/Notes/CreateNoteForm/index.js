@@ -14,9 +14,29 @@ function CreateNoteForm () {
 
   const handleSubmit = async e => {
     e.preventDefault()
+
+    const errors = {}
+
+    if (title.trim() === '') {
+      errors.title = 'Please provide a title for your note!'
+    } else if (title.length > 40) {
+      errors.title = 'Note title cannot exceed 40 characters'
+    }
+
+    if (content.trim() === '') {
+      errors.content = 'Please provide a content for your note!'
+    } else if (content.length > 255) {
+      errors.content = 'Note content cannot exceed 255 characters'
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors)
+      return
+    }
+
     const noteData = {
-        title: title,
-        content: content
+      title: title,
+      content: content
     }
 
     const data = await dispatch(createNewNote(noteData))
@@ -33,29 +53,30 @@ function CreateNoteForm () {
     <div className='create-note-form'>
       <h1 className='new-note-heading'>Create a New Note</h1>
       <form onSubmit={handleSubmit}>
-        <ul className='note-form-errors'>
-          {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
-          ))}
-        </ul>
         <label>
           <input
-          className='title-input-notes'
+            className='title-input-notes'
             type='text'
             value={title}
             onChange={e => setTitle(e.target.value)}
             placeholder='Note Title'
           />
+          {errors.title && <p className='error-message-goal'>{errors.title}</p>}
         </label>
         <label>
           <textarea
-          className = 'content-input-notes'
+            className='content-input-notes'
             value={content}
             onChange={e => setContent(e.target.value)}
             placeholder='Write your note here!'
           />
+          {errors.content && (
+            <p className='error-message-goal'>{errors.content}</p>
+          )}
         </label>
-        <button className='notes-submit-button' type='submit'>Submit</button>
+        <button className='notes-submit-button' type='submit'>
+          Submit
+        </button>
       </form>
     </div>
   )

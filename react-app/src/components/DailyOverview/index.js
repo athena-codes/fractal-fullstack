@@ -87,7 +87,7 @@ function DailyOverview () {
         <>
           {sessionUser && (
             <div className='daily-overview'>
-              <h1>Daily Overview</h1>
+              <h1 className='daily-overview-heading'>Daily Overview</h1>
               <div className='goals-section-overview'>
                 <div className='goals-header-overview'>
                   <h2 className='goals-title-overview'>Goal Progress</h2>

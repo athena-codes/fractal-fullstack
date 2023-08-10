@@ -11,6 +11,12 @@
     margin-top: 5vh;
 }
 
+.notes-title-update-delete-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .notes-overview {
     display: flex;
     flex-direction: column;
@@ -49,4 +55,9 @@
 .note-card:hover {
     transform: scale(1.02);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.new-note-button:hover {
+    transform: scale(1.1);
+    transition: ease-in-out .2s;
 }
