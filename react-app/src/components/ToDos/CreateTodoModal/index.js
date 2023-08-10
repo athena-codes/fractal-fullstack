@@ -145,7 +145,7 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
       <div>
         <label>Goal:</label>
         <select name='goal_id' value={goalId} onChange={handleGoalChange}>
-          <option value={goalId}>Select Goal</option>
+          <option value={''}>Select Goal</option>
           {/* Map over the goals and render each goal as an option */}
           {goals.map(goal => (
             <option key={goal.id} value={goal.id}>
