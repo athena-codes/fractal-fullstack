@@ -10,4 +10,4 @@ class TodoForm(FlaskForm):
     notes = TextAreaField('Notes')
     reminder = BooleanField('Reminder')
     completed = BooleanField('Completed')
-    goal_id = IntegerField('Goal ID')
+    goal_id = StringField('Goal ID')

@@ -21,7 +21,7 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
   const [notes, setNotes] = useState('')
   const [reminder, setReminder] = useState(false)
   const [completed, setCompleted] = useState(false)
-  const [goalId, setGoalId] = useState(0)
+  const [goalId, setGoalId] = useState('')
   console.log('GOAL ID --->', goalId)
   const [errors, setErrors] = useState({})
   const [goals, setGoals] = useState([])
@@ -65,7 +65,7 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
       notes,
       // reminder,
       completed,
-      goal_id: goalId ? goalId : 0
+      goal_id: goalId ? parseInt(goalId) : null
     }
 
     const newTodo = await dispatch(createNewTodo(todoData))
@@ -86,10 +86,10 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
 
   const handleGoalChange = e => {
     const selectedGoalId = e.target.value
-    setGoalId(selectedGoalId)
+    setGoalId(parseInt(selectedGoalId))
 
     if (!selectedGoalId) {
-      setGoalId(0)
+      setGoalId(null)
     }
   }
 

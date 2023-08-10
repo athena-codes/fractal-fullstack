@@ -27,8 +27,8 @@ def create_todo():
         reminder = bool(form.reminder.data)
         completed=form.completed.data
 
-    # if not form.goal_id.data:
-    #     goal_id = 0
+    # if form.goal_id.data:
+    #     goal_id = int(goal_id)
 
         todo = Todo(user_id=user_id, goal_id=goal_id, name=name,priority=priority,description=description,
                     notes=notes, reminder=reminder, completed=completed)
