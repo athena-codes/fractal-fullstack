@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateExistingGoal } from '../../../store/goals'
 import { useModal } from '../../../context/Modal'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 
 const UpdateGoalModal = ({
   title,
@@ -17,16 +19,32 @@ const UpdateGoalModal = ({
   const [updatedEndDate, setUpdatedEndDate] = useState(
     new Date(endDate).toISOString().split('T')[0]
   )
+  console.log('UPDATED END DATE', updatedEndDate)
   const [updatedTimeframe, setUpdatedTimeframe] = useState(timeframe)
+  const [errors, setErrors] = useState({})
 
   // HANDLE FORM SUBMISSTION
   const handleSubmit = async e => {
     e.preventDefault()
 
+    const errors = {}
+
+    if (!updatedTitle) {
+      errors.title = 'Please provide a title for your goal!'
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors)
+      return
+    }
+
+    const formattedEndDate = new Date(updatedEndDate).toISOString().split('T')[0]
+
+
     const updatedGoalData = {
       title: updatedTitle,
       description: updatedDescription,
-      end_date: updatedEndDate,
+      end_date: formattedEndDate,
       timeframe: parseInt(updatedTimeframe)
     }
 
@@ -41,6 +59,7 @@ const UpdateGoalModal = ({
   // HANDLE END DATE CHANGE + SET TIMEFRAME
   const handleEndDateChange = e => {
     const selectedEndDate = e.target.value
+    console.log('SELECTED END DATE', selectedEndDate)
     setUpdatedEndDate(selectedEndDate)
 
     const today = new Date().setHours(0, 0, 0, 0)
@@ -57,40 +76,73 @@ const UpdateGoalModal = ({
     <div>
       <h2>Update Goal</h2>
       <form onSubmit={handleSubmit}>
-        <label htmlFor='title'>Title</label>
-        <input
-          type='text'
-          id='title'
-          value={updatedTitle}
-          onChange={e => setUpdatedTitle(e.target.value)}
-        />
+        {errors.title && <p className='error-message-goal'>{errors.title}</p>}
 
-        <label htmlFor='description'>Description</label>
-        <textarea
-          id='description'
-          value={updatedDescription}
-          onChange={e => setUpdatedDescription(e.target.value)}
-        ></textarea>
+        <div className='new-goal-input-label'>
+          <label htmlFor='title' className='label-new-goal'>
+            Title
+          </label>
+          <div className='error-message-div'>
+            <input
+              type='text'
+              id='title'
+              value={updatedTitle}
+              onChange={e => setUpdatedTitle(e.target.value)}
+              className='input-create-goal-title'
+            />
+          </div>
+        </div>
 
-        <label htmlFor='endDate'>End Date</label>
-        <input
-          type='date'
-          id='endDate'
-          value={updatedEndDate}
-          onChange={handleEndDateChange}
-        />
+        <div className='new-goal-input-label'>
+          <label htmlFor='endDate' className='label-new-goal'>
+            End Date
+          </label>
+          <div className='error-message-div'>
+            <input
+              type='date'
+              id='endDate'
+              value={updatedEndDate}
+              onChange={handleEndDateChange}
+              className='input-create-goal-end-date'
+            />
+          </div>
+        </div>
 
-        <label htmlFor='timeframe'>Timeframe (days)</label>
-        <input type='text' id='timeframe' value={updatedTimeframe} readOnly />
+        <div className='new-goal-input-label'>
+          <label htmlFor='timeframe' className='label-new-goal'>
+            Timeframe (days)
+          </label>
+          <input
+            type='text'
+            id='timeframe'
+            value={updatedTimeframe}
+            readOnly
+            className='input-create-goal-timeframe'
+          />
+        </div>
+        <div className='new-goal-input-label'>
+          <label htmlFor='description' className='label-new-goal'>
+            Description
+          </label>
+          <textarea
+            id='description'
+            value={updatedDescription}
+            onChange={e => setUpdatedDescription(e.target.value)}
+            className='input-create-goal-description'
+          ></textarea>
+        </div>
 
-        <button type='submit'>Save</button>
-        <button type='button' onClick={closeModal}>
-          Cancel
+        <button type='submit' className='goal-submit-btn'>
+          {
+            <FontAwesomeIcon
+              icon={faPaperPlane}
+              className='submit-paper-plane'
+            />
+          }
         </button>
       </form>
     </div>
   )
 }
 
-
-export default UpdateGoalModal;
+export default UpdateGoalModal

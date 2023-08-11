@@ -48,6 +48,13 @@ function DailyOverview () {
       })
   }, [dispatch])
 
+  // TODAY'S DATE
+  const currentDate = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
+
   // FORMAT PROGRESS PERCENTAGE
   function formatProgress (progress) {
     const formattedProgress = parseFloat(progress).toFixed(2)
@@ -93,115 +100,119 @@ function DailyOverview () {
   //   return <div>Loading...</div>
   // }
 
- return (
-  <>
-    {isLoaded && (
-      <>
-        {sessionUser && (
-          <div className='daily-overview'>
-            <h1 className='daily-overview-heading'>Daily Overview</h1>
-            <div className='goals-section-overview'>
-              <div className='goals-header-overview'>
-                <h2 className='goals-title-overview'>Goal Progress</h2>
-                <Link to='/goals' className='see-all-link'>
-                  See All
-                </Link>
+  return (
+    <>
+      {isLoaded && (
+        <>
+          {sessionUser && (
+            <div className='daily-overview'>
+              <div className='daily-overview-heading-date'>
+                <h1 className='daily-overview-heading'>Daily Overview</h1>
+                <p className='current-date'>{currentDate}</p>
               </div>
-              {goals.length === 0 ? (
-                <p className='no-goals-message'>No goals yet!</p>
-              ) : (
-                <ul className='goal-list-overview'>
-                  {goals.map(goal => (
-                    <li className='goal-progress-section' key={goal.id}>
-                      <div className='goal-name'>{goal.title}</div>
-                      <div className='progress-bar'>
-                        <div
-                          className='progress-bar-fill'
-                          style={{ width: `${goal.progress}%` }}
-                        ></div>
+
+              <div className='goals-section-overview'>
+                <div className='goals-header-overview'>
+                  <h2 className='goals-title-overview'>Goal Progress</h2>
+                  <Link to='/goals' className='see-all-link'>
+                    See All
+                  </Link>
+                </div>
+                {goals.length === 0 ? (
+                  <p className='no-goals-message'>No goals yet!</p>
+                ) : (
+                  <ul className='goal-list-overview'>
+                    {goals.map(goal => (
+                      <li className='goal-progress-section' key={goal.id}>
+                        <div className='goal-name'>{goal.title}</div>
+                        <div className='progress-bar'>
+                          <div
+                            className='progress-bar-fill'
+                            style={{ width: `${goal.progress}%` }}
+                          ></div>
+                        </div>
+                        {formatProgress(goal.progress)}%
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+              {isLoaded && (
+                <>
+                  <div className='reminders-section'>
+                    <div className='reminder-header-overview'>
+                      <div className='reminder-title-button'>
+                        <h2 className='reminders-title'>Reminders</h2>
+
+                        <div className='new-reminder-button'>
+                          <OpenModalButton
+                            modalComponent={<CreateReminderModal />}
+                            buttonText={<FontAwesomeIcon icon={faSquarePlus} />}
+                          />
+                        </div>
                       </div>
-                      {formatProgress(goal.progress)}%
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-            {isLoaded && (
-              <>
-                <div className='reminders-section'>
-                  <div className='reminder-header-overview'>
-                    <h2 className='reminders-title'>Reminders</h2>
-                    <div className='new-reminder-button'>
-                      <OpenModalButton
-                        modalComponent={<CreateReminderModal />}
-                        buttonText={<FontAwesomeIcon icon={faSquarePlus} />}
-                      />
                       <Link to='/daily-planner' className='see-all-link'>
                         See All
                       </Link>
                     </div>
-                  </div>
-                  {isLoaded && (
-                    <div className='reminders-list'>
-                      {remindersRedux.length === 0 ? (
-                        <p className='no-reminders-message'>
-                          No reminders yet!
-                        </p>
-                      ) : (
-                        remindersRedux.reminders !== undefined &&
-                        remindersRedux.reminders.map(reminder => (
-                          <div className='reminder-card' key={reminder.id}>
-                            <div className='reminder-content'>
-                              <p className='reminder-name'>
-                                {reminder.todo.name}
-                              </p>
-                              {/* Add other reminder content here */}
-                            </div>
-                            <div className='reminder-actions'>
-                              <OpenModalButton
-                                modalComponent={
-                                  <UpdateReminderModal
-                                    reminderId={reminder.id}
-                                    currentTodoId={reminder.todo_id}
-                                    onSubmit={handleUpdateReminder}
-                                  />
-                                }
-                                buttonText={
-                                  <FontAwesomeIcon
-                                    icon={faPenToSquare}
-                                  />
-                                }
-                              />
-                              <button
-                                className='delete-button'
-                                onClick={() =>
-                                  handleDeleteReminder(reminder.id)
-                                }
-                              >
-                                <FontAwesomeIcon
-                                  icon={faTrash}
-                                  className='delete'
+                    {isLoaded && (
+                      <div className='reminders-list'>
+                        {remindersRedux.length === 0 ? (
+                          <p className='no-reminders-message'>
+                            No reminders yet!
+                          </p>
+                        ) : (
+                          remindersRedux.reminders !== undefined &&
+                          remindersRedux.reminders.map(reminder => (
+                            <div className='reminder-card' key={reminder.id}>
+                              <div className='reminder-content'>
+                                <p className='reminder-name'>
+                                  {reminder.todo.name}
+                                </p>
+                                {/* Add other reminder content here */}
+                              </div>
+                              <div className='reminder-actions'>
+                                <OpenModalButton
+                                  modalComponent={
+                                    <UpdateReminderModal
+                                      reminderId={reminder.id}
+                                      currentTodoId={reminder.todo_id}
+                                      onSubmit={handleUpdateReminder}
+                                    />
+                                  }
+                                  buttonText={
+                                    <FontAwesomeIcon icon={faPenToSquare} />
+                                  }
                                 />
-                              </button>
+                                <button
+                                  className='delete-button'
+                                  onClick={() =>
+                                    handleDeleteReminder(reminder.id)
+                                  }
+                                >
+                                  <FontAwesomeIcon
+                                    icon={faTrash}
+                                    className='delete'
+                                  />
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        ))
-                      )}
-                    </div>
-                  )}
-                </div>
-              </>
-            )}
-            <div className='coming-soon-section'>
-              <h2>Coming Soon!</h2>
+                          ))
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
+              <div className='coming-soon-section'>
+                <h2>Coming Soon!</h2>
+              </div>
             </div>
-          </div>
-        )}
-      </>
-    )}
-  </>
-);
-
+          )}
+        </>
+      )}
+    </>
+  )
 }
 
 export default DailyOverview

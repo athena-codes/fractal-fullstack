@@ -134,12 +134,16 @@ grid-column: 1 / span 2;
     align-items: center;
 }
 
-.new-reminder-button {
+.reminder-title-button {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     margin-top: 5vh;
+}
+
+.new-reminder-button {
+    margin-left: 10px;
 }
 
 .coming-soon-section {
