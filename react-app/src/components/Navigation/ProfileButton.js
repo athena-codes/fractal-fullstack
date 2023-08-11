@@ -64,6 +64,7 @@ function ProfileButton ({ user }) {
   }
 
   const ulClassName = 'profile-dropdown' + (showMenu ? '' : ' hidden')
+  const ulClassName2 = 'profile-icon' + (!showMenu ? '' :  ' open')
   const closeMenu = () => setShowMenu(false)
 
   return (
@@ -75,7 +76,7 @@ function ProfileButton ({ user }) {
           alt='Profile'
         />
       ) : (
-        <button className='profile-icon' onClick={openMenu}>
+        <button className={ulClassName2} onClick={openMenu}>
           <FontAwesomeIcon icon={faCircleUser} />
         </button>
       )}

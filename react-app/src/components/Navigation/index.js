@@ -33,13 +33,13 @@ function Navigation ({ isLoaded, user }) {
 
   return (
     <div className='navigation'>
-      <div className='navigation-container-profile'>
+  
         {isLoaded && (
           <li className={`profile-right-nav${user ? '' : ' flex-column'}`}>
             <ProfileButton user={sessionUser} />
           </li>
         )}
-      </div>
+
       <div className='left-side-bar'>
         <ul className='navigation-container'>
           {isLoaded && sessionUser && (
