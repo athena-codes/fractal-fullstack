@@ -1,0 +1,37 @@
+.error-message-todo {
+    color: red;
+    font-weight: bolder;
+    font-size: 12px;
+}
+
+.label-update-note {
+    margin-right: 10px;
+}
+
+.update-note-input-label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.input-update-note-title {
+    width: 100%;
+    border-radius: 20px;
+    border: .5px solid rgba(0, 0, 0, 0.39);
+    padding: 5px;
+}
+
+.input-update-note-content {
+    width: 100%;
+    border-radius: 20px;
+    border: .5px solid rgba(0, 0, 0, 0.39);
+    padding: 5px;
+}
+
+
+.note-submit-btn {
+    position: relative;
+    left: 20vw;
+    margin-top: 5px;
+    width: 21%;
+}
