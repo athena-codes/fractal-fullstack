@@ -1,6 +1,9 @@
-.notes-heading {
-    margin-top: 10vh;
-    font-size: 2em;
+.notes-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* height: 100vh; */
 }
 
 .notes-heading-new-note {
@@ -8,9 +11,16 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
     margin-top: 5vh;
 }
 
+.notes-heading {
+    margin-top: 10vh;
+    font-size: 2em;
+
+
+}
 .notes-title-update-delete-buttons {
     display: flex;
     flex-direction: row;

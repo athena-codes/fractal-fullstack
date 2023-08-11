@@ -47,7 +47,7 @@ function NotesOverview () {
   }
 
   return (
-    <>
+    <div className='notes-container'>
       <div className='notes-heading-new-note'>
         <h2 className='notes-heading'>Your Notes</h2>
         <NavLink exact to='/new-note' className='navigation-link'>
@@ -89,7 +89,7 @@ function NotesOverview () {
           </div>
         ))}
       </div>
-    </>
+    </div>
   )
 }
 

@@ -10,6 +10,7 @@ import {
   updateExistingReminder,
   deleteExistingReminder
 } from '../../store/reminders'
+import { createNewNote } from '../../store/notes'
 import CreateReminderModal from '../Reminders/CreateReminderModal'
 import UpdateReminderModal from '../Reminders/UpdateReminderModal'
 import OpenModalButton from '../../components/OpenModalButton'
@@ -17,7 +18,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faSquarePlus,
   faPenToSquare,
-  faTrash
+  faTrash,
+  faPaperPlane
 } from '@fortawesome/free-solid-svg-icons'
 
 import './DailyOverview.css'
@@ -31,6 +33,10 @@ function DailyOverview () {
   const remindersRedux = useSelector(state => state.reminders.reminders)
   const [selectedTodoId, setSelectedTodoId] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [noteErrors, setNoteErrors] = useState([])
+
   const { closeModal } = useModal()
 
   useEffect(() => {
@@ -120,6 +126,42 @@ function DailyOverview () {
         return 'High'
       default:
         return ''
+    }
+  }
+
+  const handleCreateNote = async e => {
+    e.preventDefault()
+
+    const errors = {}
+
+    if (title.trim() === '') {
+      errors.title = 'Please provide a title for your note!'
+    } else if (title.length > 40) {
+      errors.title = 'Note title cannot exceed 40 characters'
+    }
+
+    if (content.trim() === '') {
+      errors.content = 'Please provide content for your note!'
+    } else if (content.length > 255) {
+      errors.content = 'Note content cannot exceed 255 characters'
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setNoteErrors(errors)
+      return
+    }
+
+    const noteData = {
+      title: title,
+      content: content
+    }
+
+    const data = await dispatch(createNewNote(noteData))
+
+    if (data && data.errors) {
+      setNoteErrors(data.errors)
+    } else {
+      history.push('/notes')
     }
   }
 
@@ -236,9 +278,7 @@ function DailyOverview () {
                                         : 'high'
                                     }`}
                                   >
-                                    {convertPriority(
-                                      reminder.todo.priority
-                                    )}
+                                    {convertPriority(reminder.todo.priority)}
                                   </div>
                                 )}
                               </div>
@@ -248,11 +288,48 @@ function DailyOverview () {
                       </div>
                     )}
                   </div>
+                  <div className='create-note-section'>
+                    <h2>Create a New Note</h2>
+                    <form onSubmit={handleCreateNote}>
+                      <label>
+                        <input
+                          className='title-input-notes'
+                          type='text'
+                          value={title}
+                          onChange={e => setTitle(e.target.value)}
+                          placeholder='Note Title'
+                        />
+                        {noteErrors.title && (
+                          <p className='error-message-goal'>
+                            {noteErrors.title}
+                          </p>
+                        )}
+                      </label>
+                      <label>
+                        <textarea
+                          className='content-input-notes'
+                          value={content}
+                          onChange={e => setContent(e.target.value)}
+                          placeholder='Write your note here!'
+                        />
+                        {noteErrors.content && (
+                          <p className='error-message-goal'>
+                            {noteErrors.content}
+                          </p>
+                        )}
+                      </label>
+                      <div>
+                        <button className='notes-submit-button' type='submit'>
+                          <FontAwesomeIcon
+                            icon={faPaperPlane}
+                            className='submit-paper-plane'
+                          />
+                        </button>
+                      </div>
+                    </form>
+                  </div>
                 </>
               )}
-              <div className='coming-soon-section'>
-                <h2>Coming Soon!</h2>
-              </div>
             </div>
           )}
         </>

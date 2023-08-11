@@ -19,7 +19,8 @@
 
 .goals-section-overview,
 .reminders-section,
-.coming-soon-section {
+.coming-soon-section,
+.create-note-section {
     background-color: #f5f5f5;
     border-radius: 8px;
     padding: 20px;
@@ -83,9 +84,9 @@
     padding-right: 5px;
 }
 
-.reminders-section {
+/* .reminders-section {
 grid-column: 1 / span 2;
-}
+} */
 
 .reminders-list {
     list-style: square;
