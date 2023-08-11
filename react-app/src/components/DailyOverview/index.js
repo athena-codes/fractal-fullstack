@@ -109,6 +109,20 @@ function DailyOverview () {
     }
   }
 
+  // CONVERT PRIORTITY
+  function convertPriority (priority) {
+    switch (priority) {
+      case 1:
+        return 'Low'
+      case 2:
+        return 'Medium'
+      case 3:
+        return 'High'
+      default:
+        return ''
+    }
+  }
+
   // if (!remindersRedux) {
   //   return <div>Loading...</div>
   // }
@@ -122,11 +136,10 @@ function DailyOverview () {
               <div className='daily-overview-heading-date'>
                 <h1 className='daily-overview-heading'>Daily Overview</h1>
                 <div className='daily-overview-date-time'>
-
-                <p className='current-date'>{currentDate}</p>
-                <p className='current-time'>
-                  {currentTime.toLocaleTimeString()}
-                </p>
+                  <p className='current-date'>{currentDate}</p>
+                  <p className='current-time'>
+                    {currentTime.toLocaleTimeString()}
+                  </p>
                 </div>
               </div>
 
@@ -213,6 +226,21 @@ function DailyOverview () {
                                     className='delete'
                                   />
                                 </button>
+                                {reminder.todo && (
+                                  <div
+                                    className={`priority ${
+                                      reminder.todo.priority === 1
+                                        ? 'low'
+                                        : reminder.todo.priority === 2
+                                        ? 'medium'
+                                        : 'high'
+                                    }`}
+                                  >
+                                    {convertPriority(
+                                      reminder.todo.priority
+                                    )}
+                                  </div>
+                                )}
                               </div>
                             </div>
                           ))

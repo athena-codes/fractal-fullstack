@@ -237,6 +237,20 @@ function DailyPlanner () {
     return date.toLocaleTimeString([], { hour: 'numeric' })
   }
 
+  // CONVERT PRIORITY
+  const convertPriority = priority => {
+    switch (priority) {
+      case 1:
+        return 'Low'
+      case 2:
+        return 'Medium'
+      case 3:
+        return 'High'
+      default:
+        return ''
+    }
+  }
+
   // CONDITIONALLY RENDER THE TIME SLOTS
   let timeSlots = <div>Loading ...</div>
 
@@ -257,15 +271,16 @@ function DailyPlanner () {
             readOnly
           />
           {slot.todo && (
-          <div
-            className={`custom-checkbox ${slot.todo && slot.todo.completed ? 'checked' : ''}`}
-            onClick={() =>
-              handleTodoCheckboxChange(slot.todo.id, slot.todo.completed, 0)
-            }
-          >
-            <div className='checkmark'></div>
-          </div>
-
+            <div
+              className={`custom-checkbox ${
+                slot.todo && slot.todo.completed ? 'checked' : ''
+              }`}
+              onClick={() =>
+                handleTodoCheckboxChange(slot.todo.id, slot.todo.completed, 0)
+              }
+            >
+              <div className='checkmark'></div>
+            </div>
           )}
 
           {!slot.todo && (
@@ -306,6 +321,19 @@ function DailyPlanner () {
               >
                 {<FontAwesomeIcon icon={faTrash} className='delete' />}
               </button>
+              {slot.todo && (
+                <div
+                  className={`priority ${
+                    slot.todo.priority === 1
+                      ? 'low'
+                      : slot.todo.priority === 2
+                      ? 'medium'
+                      : 'high'
+                  }`}
+                >
+                  {convertPriority(slot.todo.priority)}
+                </div>
+              )}
             </>
           )}
         </div>

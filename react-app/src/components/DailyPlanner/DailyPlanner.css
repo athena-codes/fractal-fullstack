@@ -86,6 +86,33 @@
     animation: shake 0.5s infinite;
 }
 
+/* Add this CSS code to your existing styles */
+
+/* Priority Styles */
+.priority {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 2px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.priority.low {
+    background-color: #ffd9d9;
+    color: #e74c3c;
+}
+
+.priority.medium {
+    background-color: #e0d9ff;
+    color: #8e44ad;
+}
+
+.priority.high {
+    background-color: #d2f2c3;
+    color: #27ae60;
+}
+
 /* CHECKBOX */
 .checkbox-container {
     display: flex;
