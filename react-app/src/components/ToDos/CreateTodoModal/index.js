@@ -11,7 +11,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 
-
 import './CreateTodoModal.css'
 
 const CreateTodoModal = ({ slotId, plannerId }) => {
@@ -99,6 +98,7 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
     <form onSubmit={handleSubmit}>
       <h2>Add a New Todo</h2>
 
+      {errors.name && <p className='error-message-todo'>{errors.name}</p>}
       <div className='new-todo-input-label'>
         <label className='label-new-todo'>Name</label>
         <input
@@ -109,34 +109,33 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
           placeholder='Name'
           className='input-create-todo-name'
         />
-        {errors.name && <p className='error-message-todo'>{errors.name}</p>}
       </div>
 
-      <div className = 'new-todo-input-label'>
-        <label className = 'label-new-todo'>Priority</label>
+      {errors.priority && (
+        <p className='error-message-todo'>{errors.priority}</p>
+      )}
+      <div className='new-todo-input-label'>
+        <label className='label-new-todo'>Priority</label>
         <select
           name='priority'
           value={priority}
           onChange={e => setPriority(e.target.value)}
-          className = 'input-create-todo-priority'
+          className='input-create-todo-priority'
         >
           <option value=''>Select Priority</option>
           <option value='1'>Low</option>
           <option value='2'>Medium</option>
           <option value='3'>High</option>
         </select>
-        {errors.priority && (
-          <p className='error-message-todo'>{errors.priority}</p>
-        )}
       </div>
 
-      <div className = 'new-todo-input-label'>
-        <label className = 'label-new-todo'>Notes</label>
+      <div className='new-todo-input-label'>
+        <label className='label-new-todo'>Notes</label>
         <textarea
           name='notes'
           value={notes}
           onChange={e => setNotes(e.target.value)}
-          className = 'input-create-todo-notes'
+          className='input-create-todo-notes'
         ></textarea>
       </div>
 
@@ -149,14 +148,15 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
           onChange={handleReminderChange}
         />
       </div> */}
-      <div className = 'new-todo-input-label'>
-        <label className = 'label-new-todo'>Goal</label>
+      <div className='new-todo-input-label'>
+        <label className='label-new-todo'>Goal</label>
         <select
-        name='goal_id'
-        value={goalId}
-        onChange={handleGoalChange}
-        className = 'input-create-todo-goal'>
-          <option value={''} >Select Goal</option>
+          name='goal_id'
+          value={goalId}
+          onChange={handleGoalChange}
+          className='input-create-todo-goal'
+        >
+          <option value={''}>Select Goal</option>
           {goals.map(goal => (
             <option key={goal.id} value={goal.id}>
               {goal.title}
@@ -166,10 +166,14 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
       </div>
 
       <div>
-       <button className='todo-submit-btn' type='submit'>
-  {<FontAwesomeIcon icon={faPaperPlane} className='submit-paper-plane' />}
-</button>
-
+        <button className='todo-submit-btn' type='submit'>
+          {
+            <FontAwesomeIcon
+              icon={faPaperPlane}
+              className='submit-paper-plane'
+            />
+          }
+        </button>
       </div>
     </form>
   )

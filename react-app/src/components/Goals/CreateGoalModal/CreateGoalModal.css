@@ -11,6 +11,11 @@
     font-size: 12px;
 }
 
+.error-message-div {
+    display: flex;
+    flex-direction: column;
+}
+
 .new-goal-form {
     width: 90%;
 }
