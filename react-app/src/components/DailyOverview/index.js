@@ -55,6 +55,19 @@ function DailyOverview () {
     day: 'numeric'
   })
 
+  // UPDATING TIME
+  const [currentTime, setCurrentTime] = useState(new Date())
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date())
+    }, 1000)
+
+    return () => {
+      clearInterval(intervalId)
+    }
+  }, [])
+
   // FORMAT PROGRESS PERCENTAGE
   function formatProgress (progress) {
     const formattedProgress = parseFloat(progress).toFixed(2)
@@ -108,7 +121,13 @@ function DailyOverview () {
             <div className='daily-overview'>
               <div className='daily-overview-heading-date'>
                 <h1 className='daily-overview-heading'>Daily Overview</h1>
+                <div className='daily-overview-date-time'>
+
                 <p className='current-date'>{currentDate}</p>
+                <p className='current-time'>
+                  {currentTime.toLocaleTimeString()}
+                </p>
+                </div>
               </div>
 
               <div className='goals-section-overview'>

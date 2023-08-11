@@ -8,6 +8,15 @@
     margin-top: 10vh;
 }
 
+.daily-overview-date-time {
+    display: flex;
+    flex-direction: row;
+}
+
+.current-date {
+    margin-right: 10px;
+}
+
 .goals-section-overview,
 .reminders-section,
 .coming-soon-section {
