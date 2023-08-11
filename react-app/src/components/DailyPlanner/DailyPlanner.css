@@ -125,6 +125,7 @@
     display: block;
 }
 
+/* KEYFRAMES */
 @keyframes shake {
     0% {
         transform: translateX(0);
@@ -161,4 +162,63 @@
     100% {
         transform: translateX(0);
     }
+}
+
+/* MEDIA QUERIES */
+
+@media screen and (max-width: 768px) {
+    .daily-planner {
+        margin: 20px;
+        margin-right: 10px;
+    }
+
+    .daily-planner-heading {
+        margin-top: 10vh;
+    }
+
+    .subheading {
+        width: 90%;
+    }
+
+    .time {
+        font-size: 10px;
+        margin-right: 5px;
+    }
+
+    .time-slot-field {
+        width: 80vh;
+    }
+
+    .custom-checkbox {
+        width: 16px;
+        height: 16px;
+        margin-left: 3px;
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+    .daily-planner-heading {
+        margin-top: 8vh;
+    }
+
+    .subheading {
+        width: 95%;
+    }
+
+    .time {
+        font-size: 8px;
+        margin-right: 3px;
+    }
+
+    .time-slot-field {
+        width: 60vh;
+    }
+
+    .custom-checkbox {
+        width: 14px;
+        height: 14px;
+        margin-left: 2px;
+    }
+
 }

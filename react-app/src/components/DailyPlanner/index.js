@@ -265,7 +265,7 @@ function DailyPlanner () {
           >
             <div className='checkmark'></div>
           </div>
-        
+
           )}
 
           {!slot.todo && (
@@ -315,7 +315,7 @@ function DailyPlanner () {
   return (
     <>
       {isLoaded && (
-        <div>
+        <div className='daily-planner'>
           <h1 className='daily-planner-heading'>Daily Planner</h1>
           <div className='subheading'>
             <p>To Do | {formatDate(currentDailyPlanner.date)}</p>

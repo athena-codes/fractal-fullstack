@@ -169,7 +169,6 @@ function DailyOverview () {
                                 <p className='reminder-name'>
                                   {reminder.todo.name}
                                 </p>
-                                {/* Add other reminder content here */}
                               </div>
                               <div className='reminder-actions'>
                                 <OpenModalButton
