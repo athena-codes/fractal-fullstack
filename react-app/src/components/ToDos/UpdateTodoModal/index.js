@@ -7,11 +7,16 @@ import {
 } from '../../../store/daily_planner'
 import { useModal } from '../../../context/Modal'
 
+import '../CreateTodoModal/CreateTodoModal.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+
 const UpdateTodoModal = ({ todoId, name, priority, notes, reminder }) => {
   const [updatedName, setUpdatedName] = useState(name)
   const [updatedPriority, setUpdatedPriority] = useState(priority)
   const [updatedNotes, setUpdatedNotes] = useState(notes)
   const [updatedReminder, setUpdatedReminder] = useState(reminder)
+  const [errors, setErrors] = useState({})
   //   const [description, setDescription] = useState(initialData.description)
   //   const [completed, setCompleted] = useState(initialData.completed)
   //   const [goalId, setGoalId] = useState(initialData.goal_id)
@@ -20,6 +25,21 @@ const UpdateTodoModal = ({ todoId, name, priority, notes, reminder }) => {
 
   const handleSubmit = async e => {
     e.preventDefault()
+
+    const errors = {}
+
+    if (!updatedName) {
+      errors.name = 'Please provide a name for your to-do!'
+    }
+
+    if (!updatedPriority) {
+      errors.priority = 'Please specify to-do priority!'
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors)
+      return
+    }
 
     const updatedTodoData = {
       name: updatedName,
@@ -40,25 +60,29 @@ const UpdateTodoModal = ({ todoId, name, priority, notes, reminder }) => {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Update Todo</h2>
+      {errors.name && <p className='error-message-todo'>{errors.name}</p>}
 
-      <div>
-        <label>Name:</label>
+      <div className='new-todo-input-label'>
+        <label className='label-new-todo'>Name</label>
         <input
           name='name'
           type='text'
           value={updatedName}
           onChange={e => setUpdatedName(e.target.value)}
-          required
+          className='input-create-todo-name'
         />
       </div>
+      {errors.priority && (
+        <p className='error-message-todo'>{errors.priority}</p>
+      )}
 
-      <div>
-        <label>Priority:</label>
+      <div className='new-todo-input-label'>
+        <label className='label-new-todo'>Priority</label>
         <select
           name='priority'
           value={updatedPriority}
           onChange={e => setUpdatedPriority(e.target.value)}
-          required
+          className='input-create-todo-priority'
         >
           <option value=''>Select Priority</option>
           <option value='1'>Low</option>
@@ -76,16 +100,17 @@ const UpdateTodoModal = ({ todoId, name, priority, notes, reminder }) => {
         ></textarea>
       </div> */}
 
-      <div>
-        <label>Notes:</label>
+      <div className='new-todo-input-label'>
+        <label className='label-new-todo'>Notes</label>
         <textarea
           name='notes'
           value={updatedNotes}
           onChange={e => setUpdatedNotes(e.target.value)}
+          className='input-create-todo-notes'
         ></textarea>
       </div>
 
-      <div>
+      {/* <div>
         <label>Reminder:</label>
         <input
           name='reminder'
@@ -93,7 +118,7 @@ const UpdateTodoModal = ({ todoId, name, priority, notes, reminder }) => {
           checked={updatedReminder}
           onChange={e => setUpdatedReminder(e.target.checked)}
         />
-      </div>
+      </div> */}
 
       {/* <div>
         <label>Completed:</label>
@@ -116,7 +141,14 @@ const UpdateTodoModal = ({ todoId, name, priority, notes, reminder }) => {
       </div> */}
 
       <div>
-        <button type='submit'>Update</button>
+        <button className='todo-submit-btn' type='submit'>
+          {
+            <FontAwesomeIcon
+              icon={faPaperPlane}
+              className='submit-paper-plane'
+            />
+          }
+        </button>
       </div>
     </form>
   )
