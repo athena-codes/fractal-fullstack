@@ -3,6 +3,9 @@ import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { useModal } from '../../../context/Modal'
 import { createNewGoal } from '../../../store/goals'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+
 
 import './CreateGoalModal.css'
 
@@ -72,55 +75,65 @@ const CreateGoalModal = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Create Goal</h2>
+    <form className='new-goal-form' onSubmit={handleSubmit}>
+      <h2>Add a New Goal</h2>
 
-      <div>
-        <label>Title:</label>
+      <div className='new-goal-input-label'>
+        <label className='label-new-goal'>Title</label>
         <input
           name='title'
           type='text'
           value={title}
           onChange={e => setTitle(e.target.value)}
+          placeholder='Title'
+          className='input-create-goal-title'
         />
         {errors.title && <p className='error-message-goal'>{errors.title}</p>}
       </div>
 
-      <div>
-        <label>Description:</label>
-        <textarea
-          name='description'
-          value={description}
-          onChange={e => setDescription(e.target.value)}
-        ></textarea>
-      </div>
-
-      <div>
-        <label>End Date:</label>
+      <div className='new-goal-input-label'>
+        <label className = 'label-new-goal'>End Date</label>
         <input
           name='end_date'
           type='date'
           value={endDate}
           onChange={handleEndDateChange}
+          className='input-create-goal-end-date'
         />
         {errors.endDate && (
           <p className='error-message-goal'>{errors.endDate}</p>
         )}
       </div>
 
+      <div className='new-goal-input-label'>
+        <label className = 'label-new-goal'>Timeframe </label>
+        <input
+          name='timeframe'
+          type='text'
+          value={timeframe}
+          placeholder='Auto-Filled'
+          className='input-create-goal-timeframe'
+          readOnly
+        />
+      </div>
       <div>
-        <label>Timeframe:</label>
-        <input name='timeframe' type='text' value={timeframe} readOnly />
+        <label className = 'label-new-goal'>Description</label>
+        <input
+          name='description'
+          value={description}
+          onChange={e => setDescription(e.target.value)}
+          className='input-create-goal-description'
+        ></input>
       </div>
 
-      <div className='submit-cancel-btns'>
+      {/* <div className='submit-cancel-btns'>
+        </div> */}
         <button className='goal-submit-btn' type='submit'>
-          Create
+         {<FontAwesomeIcon icon={faPaperPlane} className='submit-paper-plane'/>}
         </button>
-        <button className='goal-cancel-btn' type='button' onClick={closeModal}>
+        {/* <button className='goal-cancel-btn' type='button' onClick={closeModal}>
           Cancel
-        </button>
-      </div>
+        </button> */}
     </form>
   )
 }

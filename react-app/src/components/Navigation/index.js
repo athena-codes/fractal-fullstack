@@ -33,7 +33,7 @@ function Navigation ({ isLoaded, user }) {
 
   return (
     <div className='navigation'>
-  
+
         {isLoaded && (
           <li className={`profile-right-nav${user ? '' : ' flex-column'}`}>
             <ProfileButton user={sessionUser} />
@@ -74,14 +74,14 @@ function Navigation ({ isLoaded, user }) {
               <div className='logout-settings-nav-bar'>
                 <li className='navigation-item'>
                   <button
-                    className='profile-icon'
+                    className='modal-btn'
                     onClick={() => alert('Coming soon!')}
                   >
                     <FontAwesomeIcon icon={faGear} />{' '}
                   </button>
                 </li>
                 <li className='navigation-item nav-logout'>
-                  <button className='profile-icon' onClick={handleLogout}>
+                  <button className='modal-btn' onClick={handleLogout}>
                     <FontAwesomeIcon icon={faArrowRightFromBracket} />{' '}
                   </button>
                 </li>

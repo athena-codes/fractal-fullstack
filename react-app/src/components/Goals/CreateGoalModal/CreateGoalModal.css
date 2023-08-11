@@ -1,7 +1,7 @@
 .submit-cancel-btns {
     display: flex;
     flex: row;
-    justify-content: space-between;
+    align-items: flex-end;
     padding: 20px;
 }
 
@@ -9,4 +9,61 @@
     color: red;
     font-weight: bolder;
     font-size: 12px;
+}
+
+.new-goal-form {
+    width: 90%;
+}
+
+.label-new-goal {
+    margin-right: 10px;
+}
+
+.new-goal-input-label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.input-create-goal-title {
+    width: 100%;
+    border-radius: 20px;
+    border: .5px solid rgba(0, 0, 0, 0.39);
+    padding: 5px;
+}
+
+
+.input-create-goal-end-date {
+    width: 50%;
+    border-radius: 20px;
+    border: .5px solid rgba(0, 0, 0, 0.39);
+    padding: 5px;
+}
+
+.input-create-goal-timeframe {
+    width: 40%;
+    border-radius: 20px;
+    border: .5px solid rgba(0, 0, 0, 0.39);
+    padding: 5px;
+}
+
+.input-create-goal-description {
+    height: 120px;
+    width: 100%;
+    padding: 8px;
+    /* resize: vertical; */
+    border-radius: 10px;
+    border: .5px solid rgba(0, 0, 0, 0.39);
+    font-size: 16px;
+    background-color: transparent;
+}
+
+.goal-submit-btn {
+    position: relative;
+    left: 22vw;
+    width: 21%;
+}
+
+.submit-paper-plane {
+    font-size: 18px;
 }

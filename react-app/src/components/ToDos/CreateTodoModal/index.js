@@ -8,6 +8,9 @@ import {
   assignTodoToSlotThunk,
   fetchDailyPlannersThunk
 } from '../../../store/daily_planner'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+
 
 import './CreateTodoModal.css'
 
@@ -22,7 +25,6 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
   const [reminder, setReminder] = useState(false)
   const [completed, setCompleted] = useState(false)
   const [goalId, setGoalId] = useState('')
-  console.log('GOAL ID --->', goalId)
   const [errors, setErrors] = useState({})
   const [goals, setGoals] = useState([])
   const allGoals = useSelector(state => state.goals.goals)
@@ -95,25 +97,28 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Create Todo</h2>
+      <h2>Add a New Todo</h2>
 
-      <div>
-        <label>Name:</label>
+      <div className='new-todo-input-label'>
+        <label className='label-new-todo'>Name</label>
         <input
           name='name'
           type='text'
           value={name}
           onChange={e => setName(e.target.value)}
+          placeholder='Name'
+          className='input-create-todo-name'
         />
         {errors.name && <p className='error-message-todo'>{errors.name}</p>}
       </div>
 
-      <div>
-        <label>Priority:</label>
+      <div className = 'new-todo-input-label'>
+        <label className = 'label-new-todo'>Priority</label>
         <select
           name='priority'
           value={priority}
           onChange={e => setPriority(e.target.value)}
+          className = 'input-create-todo-priority'
         >
           <option value=''>Select Priority</option>
           <option value='1'>Low</option>
@@ -125,12 +130,13 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
         )}
       </div>
 
-      <div>
-        <label>Notes:</label>
+      <div className = 'new-todo-input-label'>
+        <label className = 'label-new-todo'>Notes</label>
         <textarea
           name='notes'
           value={notes}
           onChange={e => setNotes(e.target.value)}
+          className = 'input-create-todo-notes'
         ></textarea>
       </div>
 
@@ -143,22 +149,27 @@ const CreateTodoModal = ({ slotId, plannerId }) => {
           onChange={handleReminderChange}
         />
       </div> */}
-      <div>
-        <label>Goal:</label>
-        <select name='goal_id' value={goalId} onChange={handleGoalChange}>
-          <option value={''}>Select Goal</option>
-          {/* Map over the goals and render each goal as an option */}
+      <div className = 'new-todo-input-label'>
+        <label className = 'label-new-todo'>Goal</label>
+        <select
+        name='goal_id'
+        value={goalId}
+        onChange={handleGoalChange}
+        className = 'input-create-todo-goal'>
+          <option value={''} >Select Goal</option>
           {goals.map(goal => (
             <option key={goal.id} value={goal.id}>
               {goal.title}
             </option>
           ))}
         </select>
-        {/* Add any error handling for the goal dropdown if needed */}
       </div>
 
       <div>
-        <button type='submit'>Create</button>
+       <button className='todo-submit-btn' type='submit'>
+  {<FontAwesomeIcon icon={faPaperPlane} className='submit-paper-plane' />}
+</button>
+
       </div>
     </form>
   )

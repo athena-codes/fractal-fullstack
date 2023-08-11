@@ -33,6 +33,7 @@ function DailyPlanner () {
     getCurrentDailyPlannerIndex()
   )
   const [slotId, setSlotId] = useState('')
+  const [isLoaded, setIsLoaded] = useState(false)
   const { closeModal } = useModal()
   const dispatch = useDispatch()
 
@@ -50,6 +51,7 @@ function DailyPlanner () {
     if (dailyPlanners && dailyPlanners.length > 0) {
       dispatch(fetchDailyPlannerSlotsThunk(dailyPlanners[currentSlide].id))
     }
+    setIsLoaded(true)
   }, [dailyPlanners, currentSlide, dispatch])
 
   // DAILY PLANNER INDEX HELPER FUNCTION - to find + display today's date as 1st daily planner in list
@@ -237,6 +239,7 @@ function DailyPlanner () {
 
   // CONDITIONALLY RENDER THE TIME SLOTS
   let timeSlots = <div>Loading ...</div>
+
   if (slots) {
     timeSlots = slots
       .filter(slot => slot.daily_planner_id === currentDailyPlanner.id)
@@ -304,8 +307,10 @@ function DailyPlanner () {
         </div>
       ))
   }
-
+  
   return (
+    <>
+    { isLoaded &&
     <div>
       <h1 className='daily-planner-heading'>Daily Planner</h1>
       <div className='subheading'>
@@ -321,6 +326,8 @@ function DailyPlanner () {
       </div>
       <div className='time-slots-start-end'>{timeSlots}</div>
     </div>
+}
+</>
   )
 }
 
