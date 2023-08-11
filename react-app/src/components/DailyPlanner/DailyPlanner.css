@@ -48,6 +48,11 @@
     margin-bottom: 10px;
 }
 
+.time-slot-field.completed {
+    background-color: #8bc34a;
+    color: #ffffff;
+}
+
 .time-slot p {
     margin-right: 10px;
 }
@@ -62,7 +67,6 @@
 }
 
 .time-slot-field:focus {
-    background-color: rgba(224, 224, 224, 0.8);
     outline: none;
     cursor: default;
 }
@@ -79,6 +83,46 @@
 
 .delete-button:hover {
     animation: shake 0.5s infinite;
+}
+
+/* CHECKBOX */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.custom-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #555555;
+    border-radius: 4px;
+    display: inline-block;
+    position: relative;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.custom-checkbox.checked {
+    border-color: #8bc34a;
+    /* Green color for checked state */
+}
+
+.custom-checkbox .checkmark {
+    position: absolute;
+    top: 2px;
+    left: 6px;
+    width: 4px;
+    height: 8px;
+    border: solid #555555;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    display: none;
+}
+
+.custom-checkbox.checked .checkmark {
+    display: block;
 }
 
 @keyframes shake {

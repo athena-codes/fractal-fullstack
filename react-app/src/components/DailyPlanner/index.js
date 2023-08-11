@@ -249,19 +249,23 @@ function DailyPlanner () {
             {formatTime(slot.start_time)} - {formatTime(slot.end_time)}
           </p>
           <input
-            className='time-slot-field'
+            className={`time-slot-field ${
+              slot.todo && slot.todo.completed ? 'completed' : ''
+            }`}
             type='text'
             value={(slot['todo'] && slot.todo.name) || ''}
             readOnly
           />
           {slot.todo && (
-            <input
-              type='checkbox'
-              checked={slot.todo.completed}
-              onChange={() =>
-                handleTodoCheckboxChange(slot.todo.id, slot.todo.completed, 0)
-              }
-            />
+          <div
+            className={`custom-checkbox ${slot.todo && slot.todo.completed ? 'checked' : ''}`}
+            onClick={() =>
+              handleTodoCheckboxChange(slot.todo.id, slot.todo.completed, 0)
+            }
+          >
+            <div className='checkmark'></div>
+          </div>
+        
           )}
 
           {!slot.todo && (
@@ -307,27 +311,27 @@ function DailyPlanner () {
         </div>
       ))
   }
-  
+
   return (
     <>
-    { isLoaded &&
-    <div>
-      <h1 className='daily-planner-heading'>Daily Planner</h1>
-      <div className='subheading'>
-        <p>To Do | {formatDate(currentDailyPlanner.date)}</p>
-        <div className='slideshow-controls'>
-          <button className='slideshow-button' onClick={goToPreviousSlide}>
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </button>
-          <button className='slideshow-button' onClick={goToNextSlide}>
-            <FontAwesomeIcon icon={faChevronRight} />
-          </button>
+      {isLoaded && (
+        <div>
+          <h1 className='daily-planner-heading'>Daily Planner</h1>
+          <div className='subheading'>
+            <p>To Do | {formatDate(currentDailyPlanner.date)}</p>
+            <div className='slideshow-controls'>
+              <button className='slideshow-button' onClick={goToPreviousSlide}>
+                <FontAwesomeIcon icon={faChevronLeft} />
+              </button>
+              <button className='slideshow-button' onClick={goToNextSlide}>
+                <FontAwesomeIcon icon={faChevronRight} />
+              </button>
+            </div>
+          </div>
+          <div className='time-slots-start-end'>{timeSlots}</div>
         </div>
-      </div>
-      <div className='time-slots-start-end'>{timeSlots}</div>
-    </div>
-}
-</>
+      )}
+    </>
   )
 }
 
