@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { createNewNote } from '../../../store/notes'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 
 import './CreateNoteForm.css'
 
@@ -74,9 +76,14 @@ function CreateNoteForm () {
             <p className='error-message-goal'>{errors.content}</p>
           )}
         </label>
-        <button className='notes-submit-button' type='submit'>
-          Submit
-        </button>
+        <div>
+          <button className='notes-submit-button' type='submit'>
+            <FontAwesomeIcon
+              icon={faPaperPlane}
+              className='submit-paper-plane'
+            />
+          </button>
+        </div>
       </form>
     </div>
   )
