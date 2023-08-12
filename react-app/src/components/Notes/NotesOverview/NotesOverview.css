@@ -71,3 +71,23 @@
     transform: scale(1.1);
     transition: ease-in-out .2s;
 }
+
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(0px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.notes-container,
+.notes-overview,
+.notes-heading {
+    animation: fadeIn 0.5s ease forwards;
+}
