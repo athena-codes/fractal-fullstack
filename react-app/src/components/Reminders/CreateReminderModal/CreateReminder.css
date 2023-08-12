@@ -31,9 +31,10 @@
 }
 
 
-.reminders-submit-btn {
+.reminder-submit-btn {
     position: relative;
     left: 10vw;
+    margin-left: 100px;
     /* width: 21%; */
 }
 

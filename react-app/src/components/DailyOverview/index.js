@@ -8,7 +8,8 @@ import { fetchAllTodos } from '../../store/todos'
 import {
   fetchAllReminders,
   updateExistingReminder,
-  deleteExistingReminder
+  deleteExistingReminder,
+  createNewReminder
 } from '../../store/reminders'
 import { createNewNote } from '../../store/notes'
 import CreateReminderModal from '../Reminders/CreateReminderModal'
@@ -33,8 +34,10 @@ function DailyOverview () {
   const goals = useSelector(state => state.goals.goals)
   const todos = useSelector(state => state.todos.todos)
   const remindersRedux = useSelector(state => state.reminders.reminders)
+  console.log('REMINDERS -->', remindersRedux)
   const [selectedTodoId, setSelectedTodoId] = useState(null)
   const [isLoaded, setIsLoaded] = useState(false)
+  const [todoId, setTodoId] = useState('')
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [noteErrors, setNoteErrors] = useState([])
@@ -87,6 +90,29 @@ function DailyOverview () {
   const formatTime = timeString => {
     const date = new Date(`2000-01-01T${timeString}`)
     return date.toLocaleTimeString([], { hour: 'numeric' })
+  }
+
+  const handleCreateReminder = async e => {
+    e.preventDefault()
+    try {
+      window.location.reload()
+
+      const reminderData = {
+        todo_id: todoId
+      }
+
+      const response = await dispatch(createNewReminder(reminderData))
+
+      if (response.ok) {
+        dispatch(fetchAllReminders())
+      } else {
+        throw new Error('Failed to update Reminder')
+      }
+      closeModal()
+      // history.push('/')
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   const handleUpdateReminder = async updatedReminderData => {
@@ -229,7 +255,11 @@ function DailyOverview () {
 
                         <div className='new-reminder-button'>
                           <OpenModalButton
-                            modalComponent={<CreateReminderModal />}
+                            modalComponent={
+                              <CreateReminderModal
+                                onSubmit={handleCreateReminder}
+                              />
+                            }
                             buttonText={<FontAwesomeIcon icon={faSquarePlus} />}
                           />
                         </div>
@@ -247,7 +277,15 @@ function DailyOverview () {
                         ) : (
                           remindersRedux.reminders !== undefined &&
                           remindersRedux.reminders.map(reminder => (
-                            <div className='reminder-card' key={reminder.id}>
+                            <div
+                              className={
+                                reminder.todo.priority
+                                  ? 'reminder-card ' +
+                                    convertPriority(reminder.todo.priority)
+                                  : 'reminder-card'
+                              }
+                              key={reminder.id}
+                            >
                               <div className='reminder-content'>
                                 <p className='reminder-name'>
                                   {reminder.todo.name}

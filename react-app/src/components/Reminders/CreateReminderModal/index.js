@@ -40,35 +40,26 @@ const CreateReminderModal = () => {
   }
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <h2>Add a Reminder</h2>
+    <form onSubmit={handleSubmit}>
+      <h2>Add a New Reminder</h2>
+      {errors.todoId && <p className='error-message'>{errors.todoId}</p>}
 
-        {errors.todoId && <p className='error-message'>{errors.todoId}</p>}
-        <div className='new-reminder-input-label'>
-          <label className='label-new-reminder'>
-            Select a todo to set a reminder for
-          </label>
-          <select name='todoId' value={todoId} onChange={handleTodoChange}>
-            <option value=''>Select Todo</option>
-            {todos.map(todo => (
-              <option
-                key={todo.id}
-                value={todo.id}
-                className='input-create-reminder-todo'
-              >
-                {todo.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      </form>
-      <div  className='reminder-submit'>
-      <button className='reminders-submit-button' type='submit'>
-        Create Reminder
-      </button>
+      <div>
+        <label>Select a todo to create a reminder for!</label>
+        <select name='todoId' value={todoId} onChange={handleTodoChange}>
+          <option value=''>Select Todo</option>
+          {todos.map(todo => (
+            <option key={todo.id} value={todo.id}>
+              {todo.name}
+            </option>
+          ))}
+        </select>
       </div>
-    </>
+
+      <button className='reminder-submit-btn' type='submit'>
+        Submit
+      </button>
+    </form>
   )
 }
 

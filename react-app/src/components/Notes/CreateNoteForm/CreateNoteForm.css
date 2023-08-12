@@ -55,3 +55,27 @@ label {
     margin-top: 10px;
     margin-left: 40vw;
 }
+
+button[type='submit']:hover {
+    transform: scale(1.05);
+    transition: ease-in-out .2s;
+
+}
+
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(0px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.create-note-form {
+    animation: fadeIn 0.5s ease forwards;
+}

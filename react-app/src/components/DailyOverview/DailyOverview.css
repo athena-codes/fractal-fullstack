@@ -75,6 +75,10 @@
     align-items: center;
     margin-bottom: 10px;
     color: #555;
+    box-sizing: border-box;
+    border-radius: 20px;
+    background-color: #8b4dff60;
+    padding: 8px;
 }
 
 .goal-name {
@@ -103,9 +107,9 @@
     padding-right: 5px;
 }
 
-/* .reminders-section {
-grid-column: 1 / span 2;
-} */
+.reminders-section {
+grid-column: 1/ span 1;
+}
 
 .reminders-list {
     list-style: square;
@@ -123,15 +127,29 @@ grid-column: 1 / span 2;
 }
 
 .reminder-card {
-    background-color: #ffffff7c;
+    background-color: #45e49122;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     padding: 15px;
     position: relative;
-    width: 300px;
+    width: 160px;
+}
+
+.reminder-card.Low {
+    background-color: #e4924522;
+}
+
+.reminder-card.Medium {
+    background-color: #9745e422;
+}
+
+
+.reminder-card.High {
+    background-color: #45e49122;
 }
 
 .reminder-content {
