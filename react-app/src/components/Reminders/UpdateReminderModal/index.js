@@ -1,7 +1,14 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useModal } from '../../../context/Modal'
-import { updateExistingReminder, fetchAllReminders } from '../../../store/reminders'
+import {
+  updateExistingReminder,
+  fetchAllReminders
+} from '../../../store/reminders'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+
+import './UpdateReminder.css'
 
 const UpdateReminderModal = ({ reminderId, currentTodoId }) => {
   const dispatch = useDispatch()
@@ -22,7 +29,6 @@ const UpdateReminderModal = ({ reminderId, currentTodoId }) => {
       closeModal()
       await dispatch(fetchAllReminders())
       // window.location.reload()
-
     } catch (error) {
       console.error(error)
     }
@@ -37,20 +43,35 @@ const UpdateReminderModal = ({ reminderId, currentTodoId }) => {
     <div>
       <h2>Update Reminder</h2>
       <form onSubmit={handleSubmit}>
-        <label htmlFor='todoId'>Todo:</label>
-        <select name='todoId' value={updatedTodoId} onChange={handleTodoChange}>
-          <option value=''>Select Todo</option>
-          {todos.map(todo => (
-            <option key={todo.id} value={todo.id}>
-              {todo.name}
-            </option>
-          ))}
-        </select>
-
-        <button type='submit'>Save</button>
-        <button type='button' onClick={closeModal}>
-          Cancel
-        </button>
+        <div className='update-reminder-input-label'>
+          <label className='label-update-reminder' htmlFor='todoId'>
+            Select a todo to set a reminder for
+          </label>
+          <select
+            name='todoId'
+            value={updatedTodoId}
+            onChange={handleTodoChange}
+          >
+            <option value=''>Select Todo</option>
+            {todos.map(todo => (
+              <option
+                className='input-update-reminder'
+                key={todo.id}
+                value={todo.id}
+              >
+                {todo.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <button className='note-submit-btn' type='submit'>
+            <FontAwesomeIcon
+              icon={faPaperPlane}
+              className='submit-paper-plane'
+            />
+          </button>
+        </div>
       </form>
     </div>
   )

@@ -13,8 +13,27 @@
     flex-direction: row;
 }
 
+.daily-overview-date {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.daily-overview-time {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .current-date {
     margin-right: 10px;
+    margin-left: 10px;
+}
+
+.current-time {
+    margin-left: 10px;
 }
 
 .goals-section-overview,

@@ -19,7 +19,9 @@ import {
   faSquarePlus,
   faPenToSquare,
   faTrash,
-  faPaperPlane
+  faPaperPlane,
+  faCalendar,
+  faClock
 } from '@fortawesome/free-solid-svg-icons'
 
 import './DailyOverview.css'
@@ -178,10 +180,17 @@ function DailyOverview () {
               <div className='daily-overview-heading-date'>
                 <h1 className='daily-overview-heading'>Daily Overview</h1>
                 <div className='daily-overview-date-time'>
-                  <p className='current-date'>{currentDate}</p>
-                  <p className='current-time'>
-                    {currentTime.toLocaleTimeString()}
-                  </p>
+                  <div className='daily-overview-date'>
+                    {<FontAwesomeIcon icon={faCalendar} />}
+                    <p className='current-date'>{currentDate}</p>
+                  </div>
+                  <div className='daily-overview-time'>
+                    {<FontAwesomeIcon icon={faClock} />}
+
+                    <p className='current-time'>
+                      {currentTime.toLocaleTimeString()}
+                    </p>
+                  </div>
                 </div>
               </div>
 

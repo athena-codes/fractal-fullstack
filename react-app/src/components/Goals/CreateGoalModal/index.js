@@ -122,12 +122,13 @@ const CreateGoalModal = () => {
       </div>
       <div>
         <label className='label-new-goal'>Description</label>
-        <input
+        <textarea
           name='description'
           value={description}
           onChange={e => setDescription(e.target.value)}
           className='input-create-goal-description'
-        ></input>
+          placeholder='Write a description for your goal here..'
+        ></textarea>
       </div>
 
       {/* <div className='submit-cancel-btns'>

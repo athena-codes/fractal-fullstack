@@ -1,0 +1,47 @@
+.submit-cancel-btns {
+    display: flex;
+    flex: row;
+    align-items: flex-end;
+    padding: 20px;
+}
+
+.error-message-goal {
+    color: red;
+    font-weight: bolder;
+    font-size: 12px;
+}
+
+.error-message-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.update-reminder-form {
+    width: 90%;
+}
+
+.label-update-reminder {
+    margin-right: 10px;
+}
+
+/* .update-reminder-input-label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+} */
+
+
+.reminders-submit-btn {
+    position: relative;
+    left: 10vw;
+    /* width: 21%; */
+}
+
+.reminders-submit {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.submit-paper-plane {
+    font-size: 18px;
+}

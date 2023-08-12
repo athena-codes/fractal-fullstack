@@ -29,4 +29,4 @@ def password_matches(form, field):
 
 class LoginForm(FlaskForm):
     credential = StringField('Username/Email', validators=[DataRequired('Username or email is required.'), user_exists])
-    password = PasswordField('Password', validators=[DataRequired('Password is required'), password_matches])
+    password = PasswordField('Password', validators=[DataRequired('Password is required.'), password_matches])
