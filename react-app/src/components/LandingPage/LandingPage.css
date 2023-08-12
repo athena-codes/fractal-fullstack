@@ -34,6 +34,7 @@
     border-radius: 0;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-decoration: none;
 }
 
 .landing-page-button:hover {
@@ -41,4 +42,9 @@
     border: 1px solid black;
     transform: translateY(1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+a:visited {
+    color: black;
+    text-decoration: none;
 }

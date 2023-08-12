@@ -64,7 +64,7 @@ function ProfileButton ({ user }) {
   }
 
   const ulClassName = 'profile-dropdown' + (showMenu ? '' : ' hidden')
-  const ulClassName2 = 'profile-icon' + (!showMenu ? '' :  ' open')
+  const ulClassName2 = 'profile-icon' + (!showMenu ? '' : ' open')
   const closeMenu = () => setShowMenu(false)
 
   return (
@@ -98,9 +98,7 @@ function ProfileButton ({ user }) {
             <OpenModalButton
               buttonText='Sign Up'
               onItemClick={closeMenu}
-              scrollToTop = { scrollToTop }
-
-              modalComponent={<SignupFormModal scrollToTop={scrollToTop} />}
+              modalComponent={<SignupFormModal  />}
             />
           </ul>
         </>

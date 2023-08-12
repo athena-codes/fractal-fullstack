@@ -36,7 +36,7 @@ function LoginFormModal () {
           ))} */}
         </ul>
         <label className='login-form'>
-          Username/Email
+          Username or Email
           <input
             className='login-form'
             type='text'

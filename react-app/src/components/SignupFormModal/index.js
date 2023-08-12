@@ -34,11 +34,6 @@ const SignupFormModal = ({ scrollToTop }) => {
 
 
   useEffect(() => {
-    // Call scrollToTop when the modal is opened
-    scrollToTop()
-  }, [scrollToTop])
-
-  useEffect(() => {
     if (!showMenu) return
 
     const closeMenu = e => {

@@ -7,6 +7,7 @@ import GoalsOverview from './components/Goals/GoalsOverviewPage'
 import DailyPlanner from './components/DailyPlanner'
 import NotesOverview from './components/Notes/NotesOverview'
 import CreateNoteForm from './components/Notes/CreateNoteForm'
+import AboutMe from './components/AboutMe'
 // import DailyOverview from './components/DailyOverview'
 import MainContent from './components/MainContent'
 import { authenticate } from './store/session'
@@ -48,6 +49,9 @@ function App () {
               </Route>
               <Route path='/new-note'>
                 <CreateNoteForm />
+              </Route>
+              <Route path='/about-me'>
+                <AboutMe />
               </Route>
             </Switch>
           </div>

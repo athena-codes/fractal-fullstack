@@ -3,3 +3,8 @@
     font-weight: bolder;
     font-size: 12px;
 }
+
+.demo-btn:hover {
+    transform: scale(1.05);
+    transition: ease-in-out .2s;
+}

@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './LandingPage.css'
+import { NavLink } from 'react-router-dom'
+import OpenModalButton from '../OpenModalButton'
+import SignupFormModal from '../SignupFormModal'
+
 import fractalGif from '../../assets/gifs/FRACTAL.mp4'
 
 function LandingPage () {
+  const [showMenu, setShowMenu] = useState(false)
+
+  const closeMenu = () => setShowMenu(false)
+
   return (
     <div className='landing-page'>
       <video className='landing-page-gif' autoPlay loop muted>
@@ -18,18 +26,20 @@ function LandingPage () {
         </p>
       </div>
       <div className='landing-page-buttons'>
-        <button
-          className='landing-page-button'
-          onClick={() => alert('Coming soon!')}
-        >
-          About
-        </button>
-        <button
-          className='landing-page-button'
-          onClick={() => alert('Coming soon!')}
-        >
-          Get Started!
-        </button>
+        <div className='landing-page-button'>
+          <NavLink to='/about-me' className='modal-btn'>
+            About Me
+          </NavLink>
+        </div>
+
+        <div className='landing-page-button'>
+          <OpenModalButton
+            buttonText='Get Started!'
+
+            onItemClick={closeMenu}
+            modalComponent={<SignupFormModal />}
+          />
+        </div>
       </div>
     </div>
   )

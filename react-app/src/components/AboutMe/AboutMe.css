@@ -1,0 +1,114 @@
+.about-me-container {
+
+    padding: 20px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+
+}
+
+.about-me-title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    grid-column: 1 / span 2;
+}
+
+.projects-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    grid-column: 1 / span 1;
+    border: 1px solid #d1d1d1;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    padding: 10px;
+    flex-grow: 1;
+    ;
+}
+
+.about-me-profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.profile-blurb-box {
+    border: 1px solid #d1d1d1;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.profile-blurb {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.contact-info-box {
+    border: 1px solid #d1d1d1;
+    background-color: #f7f7f7;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    grid-column: 2 / span 1;
+}
+
+.contact-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.contact-location,
+.contact-email {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.social-links {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.social-link {
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 8px 16px;
+    color: white;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.social-link:hover {
+    transform: scale(1.1);
+    transition: ease-in-out .2s;
+}
+
+.return-button {
+    margin-top: 20px;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border: 1px solid #d1d1d1;
+    border-radius: 5px;
+    color: #333;
+    transition: background-color 0.3s ease;
+    margin-left: 80vw;
+}
+
+.return-button:hover {
+    transform: scale(1.1);
+    transition: ease-in-out .2s;
+}
