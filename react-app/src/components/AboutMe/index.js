@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 import aboutMePic from '../../components/images/about-me-pic.jpeg'
+import mockBnb from '../../components/images/portfolio/mockbnb.png'
 import './AboutMe.css'
 
 const AboutMe = () => {
@@ -87,7 +88,10 @@ const AboutMe = () => {
                       <div className='item-wrap'>
                         <div className='overlay'>
                           <div className='portfolio-item-meta'>
-                            <h5>{item.name}</h5>
+                            <h2>{item.name}</h2>
+                            <p className='item-desc'>{item.description}</p>
+                            {/* <img className='site-img' src={mockBnb}>
+                            </img> */}
                           </div>
                         </div>
                       </div>
@@ -99,7 +103,7 @@ const AboutMe = () => {
         </div>
         <div className='contact-info-box'>
           <div className='contact-info'>
-            <h2>Conact Me!</h2>
+            <h2>Contact Me!</h2>
             <p className='contact-name'>Athena Chiarello</p>
             <p className='contact-location'>Boston, MA</p>
             <p className='contact-email'>athenarose964@gmail.com</p>

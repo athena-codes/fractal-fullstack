@@ -337,6 +337,8 @@ function DailyOverview () {
                   </div>
                   <div className='create-note-section'>
                     <h2>Create a New Note</h2>
+                    <h6> Navigate to notes tab to view and edit all current notes.</h6>
+
                     <form onSubmit={handleCreateNote}>
                       <label>
                         <input

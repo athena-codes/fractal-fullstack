@@ -1,7 +1,5 @@
 .about-me-container {
-
     padding: 20px;
-
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
@@ -20,6 +18,10 @@
     grid-column: 1 / span 2;
 }
 
+.item-desc {
+    text-decoration: none;
+}
+
 .projects-box {
     display: flex;
     flex-direction: column;
@@ -31,7 +33,7 @@
     border-radius: 10px;
     padding: 10px;
     flex-grow: 1;
-    ;
+
 }
 
 .about-me-profile-picture {
@@ -90,6 +92,12 @@
     border-radius: 5px;
     transition: background-color 0.3s ease;
 }
+
+.site-img {
+    width: 120px;
+    height: 120px;
+}
+
 
 .social-link:hover {
     transform: scale(1.1);
